@@ -15,75 +15,78 @@ import lombok.Data;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserDto {
 	@MappedBy
-	private Long id;
+	private int idUser;
 	@MappedBy
-	private String pseudo;
+	private String nomUser;
 	@MappedBy
-	private String urlImage;
+	private String prenomUser;
 	@MappedBy
-	private String password;
+	private String mailUser;
 	@MappedBy
-	private String email;
+	private String passwordUser;
 	@MappedBy
-	private int nbFollow;
+	private String usernameUser;
 	@MappedBy
-	private int nbFollower;
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getPseudo() {
-		return pseudo;
-	}
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-	}
-	public String getUrlImage() {
-		return urlImage;
-	}
-	public void setUrlImage(String urlImage) {
-		this.urlImage = urlImage;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public int getNbFollow() {
-		return nbFollow;
-	}
-	public void setNbFollow(int nbFollow) {
-		this.nbFollow = nbFollow;
-	}
-	public int getNbFollower() {
-		return nbFollower;
-	}
-	public void setNbFollower(int nbFollower) {
-		this.nbFollower = nbFollower;
-	}
-	@Override
-	public String toString() {
-		return "UserDto [id=" + id + ", pseudo=" + pseudo + ", urlImage=" + urlImage + ", username=" + password
-				+ ", email=" + email + ", nbFollow=" + nbFollow + ", nbFollower=" + nbFollower + "]";
-	}
-	public UserDto(Long id, String pseudo, String urlImage, String password, String email, int nbFollow,
-			int nbFollower) {
+	private String villeUser;
+	
+	public UserDto(int idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
+			String usernameUser, String villeUser) {
 		super();
-		this.id = id;
-		this.pseudo = pseudo;
-		this.urlImage = urlImage;
-		this.password = password;
-		this.email = email;
-		this.nbFollow = nbFollow;
-		this.nbFollower = nbFollower;
+		this.idUser = idUser;
+		this.nomUser = nomUser;
+		this.prenomUser = prenomUser;
+		this.mailUser = mailUser;
+		this.passwordUser = passwordUser;
+		this.usernameUser = usernameUser;
+		this.villeUser = villeUser;
 	}
+	
+	public UserDto() {
+		super();
+	}
+	
+	
+	public int getIdUser() {
+		return idUser;
+	}
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
+	}
+	public String getNomUser() {
+		return nomUser;
+	}
+	public void setNomUser(String nomUser) {
+		this.nomUser = nomUser;
+	}
+	public String getPrenomUser() {
+		return prenomUser;
+	}
+	public void setPrenomUser(String prenomUser) {
+		this.prenomUser = prenomUser;
+	}
+	public String getMailUser() {
+		return mailUser;
+	}
+	public void setMailUser(String mailUser) {
+		this.mailUser = mailUser;
+	}
+	public String getPasswordUser() {
+		return passwordUser;
+	}
+	public void setPasswordUser(String passwordUser) {
+		this.passwordUser = passwordUser;
+	}
+	public String getUsernameUser() {
+		return usernameUser;
+	}
+	public void setUsernameUser(String usernameUser) {
+		this.usernameUser = usernameUser;
+	}
+	public String getVilleUser() {
+		return villeUser;
+	}
+	public void setVilleUser(String villeUser) {
+		this.villeUser = villeUser;
+	}
+
 }

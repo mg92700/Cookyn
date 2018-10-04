@@ -7,7 +7,5 @@ import com.general.model.User;
 
 public interface UserDao extends JpaRepository<User, Long> {
 
-	User findByPseudo(String pseudo);
-	User findByEmail(String email);
 
 }
