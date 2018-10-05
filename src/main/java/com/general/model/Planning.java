@@ -28,7 +28,7 @@ public class Planning{
 	@ManyToOne
 	@JoinColumn(name="idRecette")
 	private Recette recette;
-	@Column(nullable = false)
+	@Column
 	private Date datePlanning;
 	
 	public Planning(int idPlanning, String descriptionEtape, User user, Recette recette, Date datePlanning) {

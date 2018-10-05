@@ -25,7 +25,7 @@ public class Note implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idRecette")
 	private Recette recette;
-	@Column(nullable = false)
+	@Column
 	private int note;
 		
 	public Note(User user, Recette recette, int note) {

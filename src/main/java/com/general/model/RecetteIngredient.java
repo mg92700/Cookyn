@@ -28,7 +28,7 @@ public class RecetteIngredient implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idUnite")
 	private Unite unite;
-	@Column(nullable = false)
+	@Column
 	private float quantite;
 	
 	

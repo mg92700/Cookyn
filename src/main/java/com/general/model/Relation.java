@@ -26,7 +26,7 @@ public class Relation{
 	@ManyToOne
 	@JoinColumn(name="idFriend")
 	private User friend;
-	@Column(nullable = false)
+	@Column
 	private Date dateRelation;
 	
 	public Relation(int idRelation, User user, User friend, Date dateRelation) {

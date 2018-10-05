@@ -43,4 +43,14 @@ public class EtapeController {
 		List<Etape> etapes = etapeDao.findAllByrecette(recette);
 		return etapes;
 	}
+	
+	@RequestMapping(value = "/AjoutEtapes", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<Etape> AjoutEtapes(@RequestBody List<Etape> etapes)
+	{
+		for (Etape etape : etapes) {
+			etapeDao.saveAndFlush(etape);
+		}
+		return etapes;
+	}
 }

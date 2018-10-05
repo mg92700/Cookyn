@@ -18,7 +18,7 @@ public class Etape{
 	@Id
 	@GeneratedValue
 	private int idEtape;
-	@Column(nullable = false)
+	@Column
 	private String descriptionEtape;
 	@ManyToOne
 	@JoinColumn(name="idRecette")

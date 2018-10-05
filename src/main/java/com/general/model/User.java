@@ -16,17 +16,17 @@ public class User{
 	@Id
 	@GeneratedValue
 	private int idUser;
-	@Column(nullable = false)
+	@Column
 	private String nomUser;
-	@Column(nullable = false)
+	@Column
 	private String prenomUser;
-	@Column(nullable = false)
+	@Column
 	private String mailUser;
-	@Column(nullable = false)
+	@Column
 	private String passwordUser;
-	@Column(nullable = false)
+	@Column
 	private String usernameUser;
-	@Column(nullable = false)
+	@Column
 	private String villeUser;
 	
 	public User(int idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,

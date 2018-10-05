@@ -16,7 +16,7 @@ public class Unite{
 	@Id
 	@GeneratedValue
 	private int idUnite;
-	@Column(nullable = false)
+	@Column
 	private String libelleUnite;
 	
 	public Unite(int idUnite, String libelleUnite) {
