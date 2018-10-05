@@ -20,18 +20,18 @@ public class Recette{
 	@Id
 	@GeneratedValue
 	private int idRecette;
-	@Column(nullable = false)
+	@Column
 	private String catRecette;
-	@Column(nullable = false)
+	@Column
 	private String libelleRecette;
-	@Column(nullable = false)
+	@Column
 	private int tempPrepaRecette;
-	@Column(nullable = false)
+	@Column
 	private String diffRecette;
 	@ManyToOne
 	@JoinColumn(name="creeparUser")
 	private User user;
-	@Column(nullable = false)
+	@Column
 	private Blob photoRecette;
 	
 	public Recette(int idRecette, String catRecette, String libelleRecette, int tempPrepaRecette, String diffRecette,
