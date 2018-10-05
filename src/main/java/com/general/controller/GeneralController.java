@@ -40,6 +40,14 @@ public class GeneralController {
 		return users;
 	}
 	
+	@RequestMapping(value = "/Usernom", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<User> listUsersNom()
+	{
+		List<User> users = userDao.findAllWhereNom("elberkaouinajib");
+		return users;
+	}
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public String test()
