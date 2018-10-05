@@ -17,7 +17,7 @@ import com.general.service.CryptageService;
 
 @Controller
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/user")
 public class UserController {
 	
 	@Autowired
