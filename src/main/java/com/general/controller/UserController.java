@@ -72,11 +72,26 @@ public class UserController {
 		User test=user;
 		if(user!=null)
 		{
-			User createedUser = userDao.saveAndFlush(user);
-			return createedUser;
+			
+			if(userDao.findAllWhereNom(user.getNomUser()).size()==0)
+			{
+				if(userDao.findAllWhereMail(user.getMailUser()).size()==0)
+				{
+				User createedUser = userDao.saveAndFlush(user);
+				return createedUser;
+				}
+				else
+					return null;
+				
+			}
+			else
+				return null;
 		}
-		else
+		else 
+		{
 			return null;
+		}
 	}
+	
 
 }
