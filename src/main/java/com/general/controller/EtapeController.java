@@ -1,5 +1,6 @@
 package com.general.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jtransfo.JTransfo;
@@ -12,9 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.EtapeDao;
+import com.general.dao.RecetteDao;
+import com.general.dao.RecetteIngredientDao;
 import com.general.dao.UserDao;
+import com.general.dto.RecetteDto;
 import com.general.model.Etape;
+import com.general.model.Ingredient;
 import com.general.model.Recette;
+import com.general.model.RecetteIngredient;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
@@ -32,6 +38,10 @@ public class EtapeController {
 	
 	@Autowired
 	EtapeDao etapeDao;
+	@Autowired
+	RecetteDao recetteDao;
+	@Autowired
+	RecetteIngredientDao recetteIngredientDao;
 	
 	@Autowired 
 	CryptageService cryptageService;
@@ -53,4 +63,5 @@ public class EtapeController {
 		}
 		return etapes;
 	}
+
 }

@@ -12,6 +12,8 @@ public interface RecetteDao extends JpaRepository<Recette, Long> {
 	@Query("SELECT r FROM Recette r WHERE r.libelleRecette = ?1")
 	List<Recette> findAllWhereNom(String name);
 	
+	Recette findByidRecette(int idRecette);
+	
 	List<Recette> findBylibelleRecette(String libelleRecette);
 	
 	

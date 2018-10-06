@@ -1,4 +1,5 @@
 package com.general.controller;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jtransfo.JTransfo;
@@ -10,8 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.general.dao.EtapeDao;
 import com.general.dao.RecetteDao;
+import com.general.dao.RecetteIngredientDao;
+import com.general.dto.RecetteDto;
+import com.general.model.Etape;
+import com.general.model.Ingredient;
 import com.general.model.Recette;
+import com.general.model.RecetteIngredient;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
 
@@ -27,7 +34,11 @@ public class RecetteController {
 	JTransfo JTransfo;
 	
 	@Autowired
+	EtapeDao etapeDao;
+	@Autowired
 	RecetteDao recetteDao;
+	@Autowired
+	RecetteIngredientDao recetteIngredientDao;
 	
 	@Autowired 
 	CryptageService cryptageService;
@@ -55,7 +66,23 @@ public class RecetteController {
 		List<Recette> recettes = recetteDao.findBylibelleRecette(recette.getLibelleRecette());
 		return recettes;
 	}
-	
+	@RequestMapping(value = "/ByIdRecetteAll", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public RecetteDto RcetteByIdAll(int idRecette)
+	{
+		Recette r= recetteDao.findByidRecette(idRecette);
+		List<Etape> etapes=etapeDao.findAllByrecette(r);
+		List<RecetteIngredient> ri=recetteIngredientDao.findAllByrecette(r);
+		List<Ingredient> ingredients=new ArrayList<Ingredient>();
+		for (RecetteIngredient recetteIngredient : ri) {
+			ingredients.add(recetteIngredient.getIngredient());
+		}
+		RecetteDto recette=new RecetteDto();
+		recette.setRecette(r);
+		recette.setIngredients(ingredients);
+		recette.setEtapes(etapes);
+		return recette;
+	}
 	
 
 }
