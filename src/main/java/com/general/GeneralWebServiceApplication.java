@@ -9,11 +9,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableJpaRepositories("com.general.dao")
 @EntityScan("com.general.model")
 @ComponentScan("com.general")
+@EnableScheduling
 public class GeneralWebServiceApplication {
 
 	public static void main(String[] args) {

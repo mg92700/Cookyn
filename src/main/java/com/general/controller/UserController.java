@@ -14,6 +14,7 @@ import com.general.dao.UserDao;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
+import com.general.service.Status;
 
 @Controller
 @RestController
@@ -25,6 +26,9 @@ public class UserController {
 	
 	@Autowired
 	JTransfo JTransfo;
+	
+	@Autowired
+	Status status;
 	
 	@Autowired
 	UserDao userDao;
