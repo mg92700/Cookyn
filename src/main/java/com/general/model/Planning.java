@@ -20,8 +20,6 @@ public class Planning{
 	@Id
 	@GeneratedValue
 	private int idPlanning;
-	@Column(nullable = false)
-	private String descriptionEtape;
 	@ManyToOne
 	@JoinColumn(name="idUser")
 	private User user;
@@ -31,10 +29,9 @@ public class Planning{
 	@Column
 	private Date datePlanning;
 	
-	public Planning(int idPlanning, String descriptionEtape, User user, Recette recette, Date datePlanning) {
+	public Planning(int idPlanning, User user, Recette recette, Date datePlanning) {
 		super();
 		this.idPlanning = idPlanning;
-		this.descriptionEtape = descriptionEtape;
 		this.user = user;
 		this.recette = recette;
 		this.datePlanning = datePlanning;
@@ -47,12 +44,6 @@ public class Planning{
 	}
 	public void setIdPlanning(int idPlanning) {
 		this.idPlanning = idPlanning;
-	}
-	public String getDescriptionEtape() {
-		return descriptionEtape;
-	}
-	public void setDescriptionEtape(String descriptionEtape) {
-		this.descriptionEtape = descriptionEtape;
 	}
 	public User getUser() {
 		return user;
