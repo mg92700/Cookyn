@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.IngredientDao;
 import com.general.dao.UserDao;
+import com.general.model.Favoris;
 import com.general.model.Ingredient;
 import com.general.model.User;
 import com.general.service.ApiService;
@@ -66,7 +67,11 @@ public class IngredientController {
 		else
 			return null;
 	}
-	
-	
-	
+	@RequestMapping(value = "/UpdateIngredient", method = RequestMethod.PUT,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Ingredient UpdateIngredient(@RequestBody Ingredient ingredient)
+	{
+		ingredient=ingredientDao.saveAndFlush(ingredient);
+		return ingredient;
+	}
 }

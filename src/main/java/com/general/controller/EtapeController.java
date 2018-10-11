@@ -54,14 +54,22 @@ public class EtapeController {
 		return etapes;
 	}
 	
-	@RequestMapping(value = "/AjoutEtapes", method = RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value = "/AddEtapes", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Etape> AjoutEtapes(@RequestBody List<Etape> etapes)
+	public List<Etape> AddEtapes(@RequestBody List<Etape> etapes)
 	{
 		for (Etape etape : etapes) {
 			etapeDao.saveAndFlush(etape);
 		}
 		return etapes;
+	}
+	
+	@RequestMapping(value = "/UpdateEtape", method = RequestMethod.PUT,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Etape UpdateEtape(@RequestBody Etape etape)
+	{
+			etapeDao.saveAndFlush(etape);
+			return etape;
 	}
 
 }

@@ -17,6 +17,6 @@ public class ScheduledTasks {
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
-        log.info("c'est mouhsin le bosse du java depuis le {}", dateFormat.format(new Date()));
+        //log.info("c'est mouhsin le bosse du java depuis le {}", dateFormat.format(new Date()));
     }
 }

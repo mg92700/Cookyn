@@ -19,6 +19,7 @@ import com.general.dao.RecetteIngredientDao;
 import com.general.dao.UserDao;
 import com.general.dto.RecetteDto;
 import com.general.model.Etape;
+import com.general.model.Favoris;
 import com.general.model.Ingredient;
 import com.general.model.Note;
 import com.general.model.Recette;
@@ -62,6 +63,23 @@ public class NoteController {
 	{
 		List<Note> notes = noteDao.findAllByuser(user);
 		return notes;
+	}
+	
+	@RequestMapping(value = "/AddNote", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Note AddNote(@RequestBody Note note)
+	{
+		noteDao.AddNote(note.getUser().getIdUser(),note.getRecette().getIdRecette(),note.getNote());
+		return note;
+	}
+	
+	@RequestMapping(value = "/UpdateNote", method = RequestMethod.PUT,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Note UpdateNote(@RequestBody Note note)
+	{
+		User user=note.getUser();
+		note=noteDao.saveAndFlush(note);
+		return note;
 	}
 	
 

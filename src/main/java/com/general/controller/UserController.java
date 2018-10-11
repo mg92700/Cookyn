@@ -18,7 +18,7 @@ import com.general.service.Status;
 
 @Controller
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/User")
 public class UserController {
 	
 	@Autowired
@@ -36,7 +36,7 @@ public class UserController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/listUsers", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/ListUsers", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<User> listUsers()
 	{
@@ -65,6 +65,14 @@ public class UserController {
 	public User UsersByUsername(String username)
 	{
 		User users = userDao.findByusernameUser(username);
+		return users;
+	}
+	
+	@RequestMapping(value = "/UpdateUser", method = RequestMethod.PUT,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public User UpdateUser(@RequestBody User user)
+	{
+		User users = userDao.saveAndFlush(user);
 		return users;
 	}
 	
