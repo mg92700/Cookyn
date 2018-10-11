@@ -17,8 +17,10 @@ import com.general.dao.RecetteIngredientDao;
 import com.general.dto.RecetteDto;
 import com.general.model.Etape;
 import com.general.model.Ingredient;
+import com.general.model.Note;
 import com.general.model.Recette;
 import com.general.model.RecetteIngredient;
+import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
 
@@ -82,6 +84,31 @@ public class RecetteController {
 		recette.setIngredients(ingredients);
 		recette.setEtapes(etapes);
 		return recette;
+	}
+	
+	
+	@RequestMapping(value = "/AddRecette", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Recette AddRecette(@RequestBody Recette ir)
+	{
+		
+		if(ir!=null)
+		{
+			Recette addir = recetteDao.saveAndFlush(ir);
+			return addir;
+		}
+		else
+			return null;
+	}
+	
+	
+	@RequestMapping(value = "/UpdateRecette", method = RequestMethod.PUT,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Recette UpdateNote(@RequestBody Recette re)
+	{
+
+		re=recetteDao.saveAndFlush(re);
+		return re;
 	}
 	
 
