@@ -6,6 +6,7 @@ import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,7 +46,7 @@ public class RecetteController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/listRecette", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/ListRecette", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<Recette> listRecette()
 	{
@@ -68,9 +69,9 @@ public class RecetteController {
 		List<Recette> recettes = recetteDao.findBylibelleRecette(recette.getLibelleRecette());
 		return recettes;
 	}
-	@RequestMapping(value = "/ByIdRecetteAll", method = RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value = "/ByIdRecetteAll/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public RecetteDto RcetteByIdAll(int idRecette)
+	public RecetteDto RcetteByIdAll(@PathVariable int idRecette)
 	{
 		Recette r= recetteDao.findByidRecette(idRecette);
 		List<Etape> etapes=etapeDao.findAllByrecette(r);

@@ -80,29 +80,18 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping(value = "/CreateUser", method = RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value = "/CreateOrUpdateUser", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public User CreateUser(@RequestBody User user)
 	{
 		User test = user;
 		if(user!=null)
 		{
-			if(userDao.findAllWhereNom(user.getNomUser()).size()==0)
+			if((userDao.findAllWhereNom(user.getNomUser()).size()==0 && userDao.findAllWhereMail(user.getMailUser()).size()==0) || (user.getIdUser() != null))
 			{
-				if(userDao.findAllWhereMail(user.getMailUser()).size()==0)
-				{
 				User createedUser = userDao.saveAndFlush(user);
 				return createedUser;
-				}
-				else
-					return null;
-			}
-			else
-				return null;
-		}
-		else 
-		{
-			return null;
-		}
+			} else return null;
+		} else return null;
 	}
 }
