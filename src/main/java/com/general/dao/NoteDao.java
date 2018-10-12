@@ -18,6 +18,9 @@ import com.general.model.User;
 public interface NoteDao extends JpaRepository<Note, Long> {
 
 	List<Note> findAllByuser(User user);
+	
+//	List<Note> findAllByidUser(int idUser);
+
 
     @Query(value = "insert into Note (user,recette,note) VALUES (:user,:recette,:note)", nativeQuery = true)
     @Transactional
