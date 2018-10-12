@@ -16,6 +16,7 @@ import com.general.dao.NoteDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.RecetteIngredientDao;
 import com.general.model.Note;
+import com.general.model.Recette;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
@@ -47,6 +48,16 @@ public class NoteController {
 	public List<Note> ListNotes()
 	{
 		List<Note> notes = noteDao.findAll();
+		return notes;
+	}
+	
+	@RequestMapping(value = "/ListNotesByRecette/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<Note> ListNotesByRecette(@PathVariable int idRecette)
+	{
+		Recette recette=new Recette();
+		recette.setIdRecette(idRecette);
+		List<Note> notes = noteDao.findAllByrecette(recette);
 		return notes;
 	}
 	
