@@ -5,9 +5,11 @@ import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.UserDao;
@@ -18,7 +20,7 @@ import com.general.service.Status;
 
 @Controller
 @RestController
-@RequestMapping(value = "/User")
+@RequestMapping(value = "/user")
 public class UserController {
 	
 	@Autowired
@@ -36,7 +38,7 @@ public class UserController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/ListUsers", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/listUsers", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<User> listUsers()
 	{
@@ -68,11 +70,12 @@ public class UserController {
 		return users;
 	}
 	
-	@RequestMapping(value = "/UpdateUser", method = RequestMethod.PUT,headers="Accept=application/json")
+	
+	@RequestMapping(value = "/getUserById/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public User UpdateUser(@RequestBody User user)
+	public User getUserById(@PathVariable int idUser)
 	{
-		User users = userDao.saveAndFlush(user);
+		User users = userDao.findUserByIdUser(idUser);
 		return users;
 	}
 	
@@ -81,10 +84,9 @@ public class UserController {
 	@CrossOrigin(origins = "*")
 	public User CreateUser(@RequestBody User user)
 	{
-		User test=user;
+		User test = user;
 		if(user!=null)
 		{
-			
 			if(userDao.findAllWhereNom(user.getNomUser()).size()==0)
 			{
 				if(userDao.findAllWhereMail(user.getMailUser()).size()==0)
@@ -94,7 +96,6 @@ public class UserController {
 				}
 				else
 					return null;
-				
 			}
 			else
 				return null;
@@ -104,6 +105,4 @@ public class UserController {
 			return null;
 		}
 	}
-	
-
 }
