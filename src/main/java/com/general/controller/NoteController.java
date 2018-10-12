@@ -50,7 +50,7 @@ public class NoteController {
 		return notes;
 	}
 	
-	@RequestMapping(value = "/listNotesByUser/{id}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/listNotesByUserId/{id}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<Note> ListNotesByUser(@PathVariable int id)
 	{

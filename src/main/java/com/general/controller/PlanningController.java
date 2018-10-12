@@ -6,6 +6,7 @@ import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,10 +47,13 @@ public class PlanningController {
 	}
 	
 	
-	@RequestMapping(value = "/PlanningByUser", method = RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value = "/PlanningByUserId/{id}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Planning> listCatIngredient(@RequestBody User user)
+	public List<Planning> listCatIngredient(@PathVariable int id)
 	{
+		User user = new User();
+		user.setIdUser(id);
+		
 		List<Planning> plannings = planningDao.findAllByuser(user);
 		return plannings;
 	}
