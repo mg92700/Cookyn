@@ -13,16 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.IngredientDao;
-import com.general.dao.UserDao;
-import com.general.model.Favoris;
 import com.general.model.Ingredient;
-import com.general.model.User;
+import com.general.model.Recette;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
 
 @Controller
 @RestController
-@RequestMapping(value = "/ingredient")
+@RequestMapping(value = "/Ingredient")
 
 public class IngredientController {
 
@@ -37,6 +35,24 @@ public class IngredientController {
 	
 	@Autowired 
 	CryptageService cryptageService;
+	
+	@RequestMapping(value = "/listIngredients", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<Ingredient> listIngredients()
+	{
+		List<Ingredient> ingredients = ingredientDao.findAll();
+		return ingredients;
+	}
+	
+	@RequestMapping(value = "/listIngredientsByRecette/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<Ingredient> listIngredientsByRecette(@PathVariable int idRecette)
+	{
+		Recette recette = new Recette();
+		recette.setIdRecette(idRecette);
+		List<Ingredient> ingredients = ingredientDao.findAllByrecette(idRecette);
+		return ingredients;
+	}
 	
 	@RequestMapping(value = "/listIngredientLibelle/{name}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
