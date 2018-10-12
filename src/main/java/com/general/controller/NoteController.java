@@ -52,7 +52,7 @@ public class NoteController {
 	
 	@RequestMapping(value = "/listNotesByUserId/{id}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Note> ListNotesByUser(@PathVariable int id)
+	public List<Note> ListNotesByUserId(@PathVariable int id)
 	{
 		User user = new User();
 		user.setIdUser(id);

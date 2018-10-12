@@ -6,6 +6,7 @@ import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,11 +50,11 @@ public class UniteController {
 		return unite;
 	}
 	
-	@RequestMapping(value = "/Unitelibelle", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/Unitelibelle/{name}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Unite> listUniteLibelle()
+	public List<Unite> listUniteLibelle(@PathVariable String name)
 	{
-		List<Unite> unite = uniteDao.findAllWhereNom("gr");
+		List<Unite> unite = uniteDao.findAllWhereNom(name);
 		return unite;
 	}
 	
