@@ -3,7 +3,9 @@ package com.general.model;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -12,56 +14,81 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+
 @SuppressWarnings("serial")
 @Entity
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@IdClass(Note.class)
 public class Note implements Serializable {
 	
 	@Id
+	@GeneratedValue
+	private int idNote;
+	
 	@ManyToOne	
 	@JoinColumn(name="idUser")
 	private User user;
-	@Id
 	@ManyToOne
 	@JoinColumn(name="idRecette")
 	private Recette recette;
 	@Column
 	private int note;
-		
-	public Note(User user, Recette recette, int note) {
+	
+	public Note(int idNote, User user, Recette recette, int note) {
 		super();
+		this.idNote = idNote;
 		this.user = user;
 		this.recette = recette;
 		this.note = note;
 	}
-	
-	
+
+
 	public Note() {
 		super();
 	}
-	
-	
+
+
+	public int getIdNote() {
+		return idNote;
+	}
+
+
+	public void setIdNote(int idNote) {
+		this.idNote = idNote;
+	}
+
+
 	public User getUser() {
 		return user;
 	}
+
+
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+
 	public Recette getRecette() {
 		return recette;
 	}
+
+
 	public void setRecette(Recette recette) {
 		this.recette = recette;
 	}
+
+
 	public int getNote() {
 		return note;
 	}
+
+
 	public void setNote(int note) {
 		this.note = note;
 	}
 	
+	
+
 	
 	
 }

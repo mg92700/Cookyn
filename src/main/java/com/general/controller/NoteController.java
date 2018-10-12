@@ -28,6 +28,7 @@ import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
 
+
 @Controller
 @RestController
 @RequestMapping(value = "/Note")
@@ -69,7 +70,7 @@ public class NoteController {
 	@CrossOrigin(origins = "*")
 	public Note AddNote(@RequestBody Note note)
 	{
-		noteDao.AddNote(note.getUser().getIdUser(),note.getRecette().getIdRecette(),note.getNote());
+		note=noteDao.saveAndFlush(note);
 		return note;
 	}
 	
@@ -77,7 +78,6 @@ public class NoteController {
 	@CrossOrigin(origins = "*")
 	public Note UpdateNote(@RequestBody Note note)
 	{
-		User user=note.getUser();
 		note=noteDao.saveAndFlush(note);
 		return note;
 	}
