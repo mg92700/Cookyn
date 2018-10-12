@@ -38,7 +38,7 @@ public class FavorisController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/listFavorisByUser/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/ListFavorisByUser/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<Favoris> listFavorisByUser(@PathVariable int idUser)
 	{

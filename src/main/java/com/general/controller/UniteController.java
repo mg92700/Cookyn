@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.UniteDao;
-import com.general.dao.UserDao;
-import com.general.model.Ingredient;
 import com.general.model.Unite;
-import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
 import com.general.service.Status;
@@ -42,22 +39,29 @@ public class UniteController {
 	@Autowired 
 	CryptageService cryptageService;
 	
-	@RequestMapping(value = "/listUnite", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/ListUnites", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Unite> listUnite()
+	public List<Unite> ListUnites()
 	{
 		List<Unite> unite = uniteDao.findAll();
 		return unite;
 	}
 	
-	@RequestMapping(value = "/Unitelibelle/{name}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/UniteByLibelle/{libelleUnite}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Unite> listUniteLibelle(@PathVariable String name)
+	public Unite UniteByLibelle(@PathVariable String libelleUnite)
 	{
-		List<Unite> unite = uniteDao.findAllWhereNom(name);
+		Unite unite = uniteDao.findBylibelleUnite(libelleUnite);
 		return unite;
 	}
 	
+	@RequestMapping(value = "/UniteById/{idUnite}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Unite UniteById(@PathVariable int idUnite)
+	{
+		Unite unite = uniteDao.findByidUnite(idUnite);
+		return unite;
+	}
 	
 	@RequestMapping(value = "/AddUnite", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")

@@ -36,7 +36,7 @@ public class IngredientController {
 	@Autowired 
 	CryptageService cryptageService;
 	
-	@RequestMapping(value = "/listIngredients", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/ListIngredients", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<Ingredient> listIngredients()
 	{
@@ -54,7 +54,7 @@ public class IngredientController {
 		return ingredients;
 	}
 	
-	@RequestMapping(value = "/listIngredientLibelle/{name}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/ListIngredientLibelle/{name}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<Ingredient> listIngredientLibelle(@PathVariable String name)
 	{

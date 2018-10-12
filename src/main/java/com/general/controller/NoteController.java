@@ -42,7 +42,7 @@ public class NoteController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/listNotes", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/ListNotes", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<Note> ListNotes()
 	{
@@ -50,7 +50,7 @@ public class NoteController {
 		return notes;
 	}
 	
-	@RequestMapping(value = "/listNotesByUserId/{id}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/ListNotesByUserId/{id}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<Note> ListNotesByUserId(@PathVariable int id)
 	{
