@@ -6,10 +6,10 @@ import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.EtapeDao;
@@ -43,7 +43,7 @@ public class EtapeController {
 
 	@RequestMapping(value = "/listEtapes/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Etape> ListEtapes(@RequestParam int idRecette)
+	public List<Etape> ListEtapes(@PathVariable int idRecette)
 	{
 		Recette recette=new Recette();
 		recette.setIdRecette(idRecette);
