@@ -46,7 +46,7 @@ public class RecetteController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/listRecette", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/ListRecette", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<Recette> listRecette()
 	{

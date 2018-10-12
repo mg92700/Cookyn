@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.general.dao.IngredientDao;
 import com.general.dao.PlanningDao;
-import com.general.dao.UserDao;
-import com.general.model.Ingredient;
 import com.general.model.Planning;
 import com.general.model.User;
 import com.general.service.ApiService;
@@ -39,22 +36,13 @@ public class PlanningController {
 	@Autowired 
 	CryptageService cryptageService;
 	
-	@RequestMapping(value = "/PlanningById", method = RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value = "/ListPlanningsByUser:{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Planning> listIngredientLibelle()
+	public List<Planning> ListPlanningsByUser(@PathVariable int idUser)
 	{
-		return null;
-	}
-	
-	
-	@RequestMapping(value = "/PlanningByUserId/{id}", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public List<Planning> listCatIngredient(@PathVariable int id)
-	{
-		User user = new User();
-		user.setIdUser(id);
-		
-		List<Planning> plannings = planningDao.findAllByuser(user);
+		User user =new User();
+		user.setIdUser(idUser);
+		List<Planning> plannings=planningDao.findAllByuser(user);
 		return plannings;
 	}
 	
