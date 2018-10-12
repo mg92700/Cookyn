@@ -104,11 +104,11 @@ public class RecetteController {
 	
 	@RequestMapping(value = "/UpdateRecette", method = RequestMethod.PUT,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Recette UpdateNote(@RequestBody Recette re)
+	public Recette UpdateNote(@RequestBody Recette rec)
 	{
 
-		re=recetteDao.saveAndFlush(re);
-		return re;
+		rec=recetteDao.saveAndFlush(rec);
+		return rec;
 	}
 	
 

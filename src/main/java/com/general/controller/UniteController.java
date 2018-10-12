@@ -73,4 +73,14 @@ public class UniteController {
 	}
 	
 	
+	@RequestMapping(value = "/UpdateUnite", method = RequestMethod.PUT,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Unite UpdateUnite(@RequestBody Unite uni)
+	{
+		uni=uniteDao.saveAndFlush(uni);
+		return uni;
+	}
+	
+	
+	
 }

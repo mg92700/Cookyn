@@ -68,6 +68,12 @@ public class PlanningController {
 			return null;
 	}
 	
-	
+	@RequestMapping(value = "/UpdatePlanning", method = RequestMethod.PUT,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Planning UpdatePlanning(@RequestBody Planning pl)
+	{
+		pl=planningDao.saveAndFlush(pl);
+		return pl;
+	}
 	
 }
