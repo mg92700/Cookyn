@@ -18,10 +18,8 @@ import com.general.dao.RecetteIngredientDao;
 import com.general.dto.RecetteDto;
 import com.general.model.Etape;
 import com.general.model.Ingredient;
-import com.general.model.Note;
 import com.general.model.Recette;
 import com.general.model.RecetteIngredient;
-import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
 
