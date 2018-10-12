@@ -9,12 +9,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.general.model.Note;
+import com.general.model.Recette;
 import com.general.model.User;
 
 
 public interface NoteDao extends JpaRepository<Note, Long> {
 
 	List<Note> findAllByuser(User user);
+	List<Note> findAllByrecette(Recette recette);
 	
 //	List<Note> findAllByidUser(int idUser);
 
