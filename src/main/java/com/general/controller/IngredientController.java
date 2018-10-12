@@ -6,6 +6,7 @@ import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +22,7 @@ import com.general.service.CryptageService;
 
 @Controller
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/ingredient")
 
 public class IngredientController {
 
@@ -37,20 +38,20 @@ public class IngredientController {
 	@Autowired 
 	CryptageService cryptageService;
 	
-	@RequestMapping(value = "/Ingredientlibelle", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/listIngredientLibelle/{name}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Ingredient> listIngredientLibelle()
+	public List<Ingredient> listIngredientLibelle(@PathVariable String name)
 	{
-		List<Ingredient> ingredients = ingredientDao.findAllWhereNom("pomme");
+		List<Ingredient> ingredients = ingredientDao.findAllWhereNom(name);
 		return ingredients;
 	}
 	
 	
-	@RequestMapping(value = "/CatIngredient", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/CatIngredient/{name}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Ingredient> listCatIngredient()
+	public List<Ingredient> listCatIngredient(@PathVariable String name)
 	{
-		List<Ingredient> ingredients = ingredientDao.findAllWhereCat("fruit");
+		List<Ingredient> ingredients = ingredientDao.findAllWhereCat(name);
 		return ingredients;
 	}
 	
