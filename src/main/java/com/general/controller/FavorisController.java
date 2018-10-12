@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.FavorisDao;
 import com.general.dao.UserDao;
-import com.general.model.Etape;
 import com.general.model.Favoris;
 import com.general.model.User;
 import com.general.service.ApiService;
@@ -38,10 +38,12 @@ public class FavorisController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/listFavorisByUser", method = RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value = "/listFavorisByUser/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Favoris> listFavorisByUser(@RequestBody User user)
+	public List<Favoris> listFavorisByUser(@RequestParam int idUser)
 	{
+		User user=new User();
+		user.setIdUser(idUser);
 		List<Favoris> favoris = favorisDao.findAllByuser(user);
 		return favoris;
 	}
