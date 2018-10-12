@@ -34,7 +34,6 @@ public class Ingredient{
 		super();
 	}
 	
-	
 	public int getIdIngredient() {
 		return idIngredient;
 	}
