@@ -15,7 +15,7 @@ public class User{
 	
 	@Id
 	@GeneratedValue
-	private int idUser;
+	private Integer idUser;
 	@Column
 	private String nomUser;
 	@Column
@@ -29,7 +29,7 @@ public class User{
 	@Column
 	private String villeUser;
 	
-	public User(int idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
+	public User(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
 			String usernameUser, String villeUser) {
 		super();
 		this.idUser = idUser;
@@ -45,13 +45,14 @@ public class User{
 		super();
 	}
 	
-	
-	public int getIdUser() {
+	public Integer getIdUser() {
 		return idUser;
 	}
-	public void setIdUser(int idUser) {
+
+	public void setIdUser(Integer idUser) {
 		this.idUser = idUser;
 	}
+
 	public String getNomUser() {
 		return nomUser;
 	}
