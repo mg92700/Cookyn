@@ -44,7 +44,7 @@ public class FavorisController {
 	{
 		User user=new User();
 		user.setIdUser(idUser);
-		List<Favoris> favoris = favorisDao.findAllByuser(user);
+		List<Favoris> favoris = favorisDao.findAllByUser(user);
 		return favoris;
 	}
 	

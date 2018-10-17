@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jtransfo.DomainClass;
 import org.jtransfo.MappedBy;
+import org.jtransfo.NotMapped;
 
 import lombok.Data;
 
@@ -15,7 +16,7 @@ import lombok.Data;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserDto {
 	@MappedBy
-	private int idUser;
+	private Integer idUser;
 	@MappedBy
 	private String nomUser;
 	@MappedBy
@@ -28,28 +29,21 @@ public class UserDto {
 	private String usernameUser;
 	@MappedBy
 	private String villeUser;
+	@NotMapped
+	private String newPassword;
+	@NotMapped
+	private int nbRecetteCreate;
+	@NotMapped
+	private int nbRecetteFav;
+	@NotMapped
+	private int nbFollower;
+	@NotMapped 
+	private int nbFollowing;
 	
-	public UserDto(int idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
-			String usernameUser, String villeUser) {
-		super();
-		this.idUser = idUser;
-		this.nomUser = nomUser;
-		this.prenomUser = prenomUser;
-		this.mailUser = mailUser;
-		this.passwordUser = passwordUser;
-		this.usernameUser = usernameUser;
-		this.villeUser = villeUser;
-	}
-	
-	public UserDto() {
-		super();
-	}
-	
-	
-	public int getIdUser() {
+	public Integer getIdUser() {
 		return idUser;
 	}
-	public void setIdUser(int idUser) {
+	public void setIdUser(Integer idUser) {
 		this.idUser = idUser;
 	}
 	public String getNomUser() {
@@ -88,5 +82,54 @@ public class UserDto {
 	public void setVilleUser(String villeUser) {
 		this.villeUser = villeUser;
 	}
-
+	public String getNewPassword() {
+		return newPassword;
+	}
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+	public int getNbRecetteCreate() {
+		return nbRecetteCreate;
+	}
+	public void setNbRecetteCreate(int nbRecetteCreate) {
+		this.nbRecetteCreate = nbRecetteCreate;
+	}
+	public int getNbRecetteFav() {
+		return nbRecetteFav;
+	}
+	public void setNbRecetteFav(int nbRecetteFav) {
+		this.nbRecetteFav = nbRecetteFav;
+	}
+	public int getNbFollower() {
+		return nbFollower;
+	}
+	public void setNbFollower(int nbFollower) {
+		this.nbFollower = nbFollower;
+	}
+	public int getNbFollowing() {
+		return nbFollowing;
+	}
+	public void setNbFollowing(int nbFollowing) {
+		this.nbFollowing = nbFollowing;
+	}
+	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
+			String usernameUser, String villeUser, String newPassword, int nbRecetteCreate, int nbRecetteFav,
+			int nbFollower, int nbFollowing) {
+		super();
+		this.idUser = idUser;
+		this.nomUser = nomUser;
+		this.prenomUser = prenomUser;
+		this.mailUser = mailUser;
+		this.passwordUser = passwordUser;
+		this.usernameUser = usernameUser;
+		this.villeUser = villeUser;
+		this.newPassword = newPassword;
+		this.nbRecetteCreate = nbRecetteCreate;
+		this.nbRecetteFav = nbRecetteFav;
+		this.nbFollower = nbFollower;
+		this.nbFollowing = nbFollowing;
+	}
+	public UserDto() {
+		super();
+	}
 }

@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.IngredientDao;
-import com.general.dao.UserDao;
-import com.general.model.Favoris;
 import com.general.model.Ingredient;
-import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
 

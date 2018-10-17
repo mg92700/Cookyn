@@ -64,14 +64,14 @@ public class RecetteController {
 	@CrossOrigin(origins = "*")
 	public List<Recette> RecettesByLibelleRecette(@RequestBody Recette recette)
 	{
-		List<Recette> recettes = recetteDao.findBylibelleRecette(recette.getLibelleRecette());
+		List<Recette> recettes = recetteDao.findAllByLibelleRecette(recette.getLibelleRecette());
 		return recettes;
 	}
 	@RequestMapping(value = "/ByIdRecetteAll/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public RecetteDto RcetteByIdAll(@PathVariable int idRecette)
 	{
-		Recette r= recetteDao.findByidRecette(idRecette);
+		Recette r= recetteDao.findByIdRecette(idRecette);
 		List<Etape> etapes=etapeDao.findAllByrecette(r);
 		List<RecetteIngredient> ri=recetteIngredientDao.findAllByrecette(r);
 		List<Ingredient> ingredients=new ArrayList<Ingredient>();

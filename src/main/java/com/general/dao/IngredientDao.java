@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.general.model.Ingredient;
-import com.general.model.User;
 
 public interface IngredientDao extends JpaRepository<Ingredient, Long> {
     

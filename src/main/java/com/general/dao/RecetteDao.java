@@ -6,15 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.general.model.Recette;
+import com.general.model.User;
 
 public interface RecetteDao extends JpaRepository<Recette, Long> {
 
 	@Query("SELECT r FROM Recette r WHERE r.libelleRecette = ?1")
 	List<Recette> findAllWhereNom(String name);
 	
-	Recette findByidRecette(int idRecette);
+	Recette findByIdRecette(int idRecette);
 	
-	List<Recette> findBylibelleRecette(String libelleRecette);
-	
+	List<Recette> findAllByLibelleRecette(String libelleRecette);
+
+	List<Recette> findAllByUser(User user);
+
 	
 }

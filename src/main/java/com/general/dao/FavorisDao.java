@@ -10,5 +10,5 @@ import com.general.model.User;
 
 public interface FavorisDao extends JpaRepository<Favoris, Long> {
 	
-	List<Favoris> findAllByuser(User user);	
+	List<Favoris> findAllByUser(User user);	
 }

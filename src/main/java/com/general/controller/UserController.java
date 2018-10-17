@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.general.dao.FavorisDao;
+import com.general.dao.RecetteDao;
+import com.general.dao.RelationDao;
 import com.general.dao.UserDao;
+import com.general.dto.UserDto;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
@@ -34,6 +37,15 @@ public class UserController {
 	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	RecetteDao recetteDao;
+	
+	@Autowired
+	FavorisDao favorisDao;
+	
+	@Autowired
+	RelationDao relationDao;
 	
 	@Autowired 
 	CryptageService cryptageService;
@@ -64,34 +76,97 @@ public class UserController {
 	
 	@RequestMapping(value = "/ByUsername", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public User UsersByUsername(String username)
+	public UserDto UsersByUsername(String username)
 	{
-		User users = userDao.findByusernameUser(username);
-		return users;
+		User u = userDao.findByUsernameUser(username);
+		UserDto userReturn = null;
+		if(u!= null) {
+			userReturn =(UserDto)JTransfo.convert(u);
+			userReturn.setPasswordUser(null);
+			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
+			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
+			userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
+			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+		}
+		return userReturn;
 	}
 	
 	
 	@RequestMapping(value = "/getUserById/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public User getUserById(@PathVariable int idUser)
+	public UserDto getUserById(@PathVariable int idUser)
 	{
-		User users = userDao.findUserByIdUser(idUser);
-		return users;
+		User u = userDao.findUserByIdUser(idUser);
+		UserDto userReturn = null;
+		if(u!= null) {
+			userReturn =(UserDto)JTransfo.convert(u);
+			userReturn.setPasswordUser(null);
+			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
+			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
+			userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
+			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+		}
+		return userReturn;
 	}
 	
 	
 	@RequestMapping(value = "/CreateOrUpdateUser", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public User CreateUser(@RequestBody User user)
+	public UserDto CreateUser(@RequestBody UserDto user)
 	{
-		User test = user;
+		UserDto userReturn = null;
+		User u = null;
 		if(user!=null)
 		{
-			if((userDao.findAllWhereNom(user.getNomUser()).size()==0 && userDao.findAllWhereMail(user.getMailUser()).size()==0) || (user.getIdUser() != null))
+			if((userDao.findAllWhereNom(user.getNomUser()).size()==0 && userDao.findAllWhereMail(user.getMailUser()).size()==0))
 			{
-				User createedUser = userDao.saveAndFlush(user);
-				return createedUser;
-			} else return null;
-		} else return null;
+				user.setPasswordUser(cryptageService.encrypt(user.getPasswordUser()));			
+				u = (User) JTransfo.convert(user);
+
+			} else if((user.getIdUser() != null)) {
+				if(cryptageService.encrypt(user.getPasswordUser()).equals(userDao.findUserByIdUser(user.getIdUser()).getPasswordUser())) {
+					if(user.getNewPassword() != null) {
+						user.setPasswordUser(cryptageService.encrypt(user.getNewPassword()));
+					}else {
+						user.setPasswordUser(cryptageService.encrypt(user.getPasswordUser()));						
+					}
+					u = (User) JTransfo.convert(user);
+				}
+			}
+		}
+		if(u!= null) {
+			userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
+			userReturn.setPasswordUser(null);
+			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
+			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
+			userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
+			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+		}
+		return userReturn;
+	}
+
+	@RequestMapping(value = "/Login", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public UserDto Login(@RequestBody UserDto user)
+	{
+		User u = null;
+		UserDto userReturn = null;
+		if( userDao.findByUsernameUser(user.getUsernameUser()) != null ){
+			u = userDao.findByUsernameUser(user.getUsernameUser());
+		}
+		else if (userDao.findByMailUser(user.getMailUser()) != null ) {
+			u = userDao.findByMailUser(user.getMailUser());
+		}
+		if(u!= null) {
+			if(u.getPasswordUser().equals(cryptageService.encrypt(user.getPasswordUser()))) {
+				userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
+				userReturn.setPasswordUser(null);
+				userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
+				userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
+				userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
+				userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+			}
+		}
+		return userReturn;
 	}
 }

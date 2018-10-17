@@ -8,7 +8,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jtransfo.DomainClass;
+
 @Entity
+@DomainClass("com.general.dto.UserDto")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User{
