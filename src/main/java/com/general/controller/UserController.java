@@ -109,7 +109,7 @@ public class UserController {
 		return userReturn;
 	}
 	
-	
+	/*
 	@RequestMapping(value = "/CreateOrUpdateUser", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto CreateUser(@RequestBody UserDto user)
@@ -143,8 +143,45 @@ public class UserController {
 			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
 		}
 		return userReturn;
-	}
+	}*/
 
+	
+	
+	
+
+	@RequestMapping(value = "/UpdateUser", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public UserDto UpdateUser(@RequestBody UserDto user)
+	{
+		UserDto userReturn = null;
+		User u = null;
+		if(user!=null)
+		{
+			
+			if(user.getNewPassword() != null) 
+			{
+				if(cryptageService.encrypt(user.getPasswordUser()).equals(userDao.findUserByIdUser(user.getIdUser()).getPasswordUser())) 				
+						user.setPasswordUser(cryptageService.encrypt(user.getNewPassword()));
+			}
+			else
+			{
+				u=userDao.findUserByIdUser(user.getIdUser());
+				user.setPasswordUser(u.getPasswordUser());
+				
+			}
+			u = (User) JTransfo.convert(user);
+		}
+		if(u!= null) {
+			userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
+			userReturn.setPasswordUser(null);
+			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
+			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
+			userReturn.setNbFollower(relationDao.findAllByFriend(u).size()); 
+			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+		}
+		return userReturn;
+	}
+	
 	@RequestMapping(value = "/Login", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto Login(@RequestBody UserDto user)
