@@ -109,8 +109,8 @@ public class UserController {
 		return userReturn;
 	}
 	
-	/*
-	@RequestMapping(value = "/CreateOrUpdateUser", method = RequestMethod.POST,headers="Accept=application/json")
+	
+	@RequestMapping(value = "/CreateUser", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto CreateUser(@RequestBody UserDto user)
 	{
@@ -123,16 +123,8 @@ public class UserController {
 				user.setPasswordUser(cryptageService.encrypt(user.getPasswordUser()));			
 				u = (User) JTransfo.convert(user);
 
-			} else if((user.getIdUser() != null)) {
-				if(cryptageService.encrypt(user.getPasswordUser()).equals(userDao.findUserByIdUser(user.getIdUser()).getPasswordUser())) {
-					if(user.getNewPassword() != null) {
-						user.setPasswordUser(cryptageService.encrypt(user.getNewPassword()));
-					}else {
-						user.setPasswordUser(cryptageService.encrypt(user.getPasswordUser()));						
-					}
-					u = (User) JTransfo.convert(user);
-				}
-			}
+			} 
+					
 		}
 		if(u!= null) {
 			userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
@@ -143,7 +135,7 @@ public class UserController {
 			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
 		}
 		return userReturn;
-	}*/
+	}
 
 	
 	
@@ -161,17 +153,22 @@ public class UserController {
 			if(user.getNewPassword() != null) 
 			{
 				if(cryptageService.encrypt(user.getPasswordUser()).equals(userDao.findUserByIdUser(user.getIdUser()).getPasswordUser())) 				
-						user.setPasswordUser(cryptageService.encrypt(user.getNewPassword()));
-			}
-			else
-			{
+				{
+					user.setPasswordUser(cryptageService.encrypt(user.getNewPassword()));
+					u = (User) JTransfo.convert(user);
+				}
+				else {
+					return userReturn;
+				}
+		
 				u=userDao.findUserByIdUser(user.getIdUser());
 				user.setPasswordUser(u.getPasswordUser());
 				
 			}
-			u = (User) JTransfo.convert(user);
+			
 		}
 		if(u!= null) {
+			
 			userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
 			userReturn.setPasswordUser(null);
 			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
