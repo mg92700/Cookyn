@@ -161,10 +161,14 @@ public class UserController {
 					return userReturn;
 				}
 		
+			}
+			else {
+				
 				u=userDao.findUserByIdUser(user.getIdUser());
 				user.setPasswordUser(u.getPasswordUser());
 				
 			}
+		
 			
 		}
 		if(u!= null) {
