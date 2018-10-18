@@ -164,8 +164,9 @@ public class UserController {
 			}
 			else {
 				
-				u=userDao.findUserByIdUser(user.getIdUser());
-				user.setPasswordUser(u.getPasswordUser());
+				//u=userDao.findUserByIdUser(user.getIdUser());
+				user.setPasswordUser(userDao.findUserByIdUser(user.getIdUser()).getPasswordUser());
+				u = (User) JTransfo.convert(user);
 				
 			}
 		
