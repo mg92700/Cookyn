@@ -88,12 +88,13 @@ public class RecetteController {
 	
 	@RequestMapping(value = "/AddRecette", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Recette AddRecette(@RequestBody Recette ir)
+	public Recette AddRecette(@RequestBody Recette rec)
 	{
 		
-		if(ir!=null)
+		if(rec!=null)
 		{
-			Recette addir = recetteDao.saveAndFlush(ir);
+		
+			Recette addir = recetteDao.saveAndFlush(rec);
 			return addir;
 		}
 		else
