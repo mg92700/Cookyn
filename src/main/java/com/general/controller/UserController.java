@@ -66,7 +66,7 @@ public class UserController {
 		return users;
 	}
 	
-	@RequestMapping(value = "/Userusename", method = RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value = "/listUsersByUsername", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<User> listUsersByUsername(String username)
 	{
@@ -74,7 +74,9 @@ public class UserController {
 		return users;
 	}
 	
-	@RequestMapping(value = "/ByUsername", method = RequestMethod.POST,headers="Accept=application/json")
+	
+	
+	@RequestMapping(value = "/UsersByUsername", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto UsersByUsername(String username)
 	{
@@ -105,7 +107,8 @@ public class UserController {
 			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
 			userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
 			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
-		}
+		}else {
+		userReturn.setErrortxt("User est inconnue et nike ta race antoine cordialement");}
 		return userReturn;
 	}
 	
@@ -205,7 +208,8 @@ public class UserController {
 				userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
 				userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
 			}
-		}
+		}else {
+			userReturn.setErrortxt("User est inconnue et nike ta race antoine cordialement");}
 		return userReturn;
 	}
 }

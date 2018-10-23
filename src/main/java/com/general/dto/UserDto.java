@@ -39,7 +39,15 @@ public class UserDto {
 	private int nbFollower;
 	@NotMapped 
 	private int nbFollowing;
+	@NotMapped 
+	private String Errortxt;
 	
+	public String getErrortxt() {
+		return Errortxt;
+	}
+	public void setErrortxt(String errortxt) {
+		Errortxt = errortxt;
+	}
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -114,7 +122,7 @@ public class UserDto {
 	}
 	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
 			String usernameUser, String villeUser, String newPassword, int nbRecetteCreate, int nbRecetteFav,
-			int nbFollower, int nbFollowing) {
+			int nbFollower, int nbFollowing,String Errortxt) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
@@ -128,6 +136,7 @@ public class UserDto {
 		this.nbRecetteFav = nbRecetteFav;
 		this.nbFollower = nbFollower;
 		this.nbFollowing = nbFollowing;
+		this.Errortxt=Errortxt;
 	}
 	public UserDto() {
 		super();
