@@ -65,13 +65,13 @@ public class UniteController {
 	
 	@RequestMapping(value = "/AddUnite", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Unite AddUnite(@RequestBody Unite ig)
+	public Unite AddUnite(@RequestBody Unite uneUniteParam)
 	{
 		
-		if(ig!=null)
+		if(uneUniteParam!=null)
 		{
-			Unite addig = uniteDao.saveAndFlush(ig);
-			return addig;
+			Unite uneUnite = uniteDao.saveAndFlush(uneUniteParam);
+			return uneUnite;
 		}
 		else
 			return null;
