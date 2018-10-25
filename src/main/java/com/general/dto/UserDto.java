@@ -11,7 +11,7 @@ import org.jtransfo.NotMapped;
 import lombok.Data;
 
 @Data
-@DomainClass("com.general.model.User")
+@DomainClass("com.general.dto.UserDto")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserDto {

@@ -1,4 +1,5 @@
 package com.general.controller;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jtransfo.JTransfo;
@@ -15,7 +16,10 @@ import com.general.dao.FavorisDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.RelationDao;
 import com.general.dao.UserDao;
+import com.general.dto.AmieDto;
 import com.general.dto.UserDto;
+import com.general.model.Recette;
+import com.general.model.Relation;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
@@ -209,7 +213,63 @@ public class UserController {
 				userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
 			}
 		}else {
-			userReturn.setErrortxt("User est inconnue et nike ta race antoine cordialement");}
+			userReturn.setErrortxt("User est inconnue");}
 		return userReturn;
+	}
+	
+	@RequestMapping(value = "/GetListAbonne/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<AmieDto> GetListAbonne(@PathVariable Integer idUser)
+	{
+		
+		List<AmieDto> listFriend = new ArrayList<AmieDto>();
+		if(idUser!=null)
+		{
+			User userConnecter= userDao.findUserByIdUser(idUser);
+			List<Relation> listR=relationDao.findAllByUser(userConnecter);
+			for (int i=0; i< listR.size(); i++) {
+				AmieDto friendDto= new AmieDto();
+			    User userFriend=userDao.findUserByIdUser(listR.get(i).getFriend().getIdUser());
+			    friendDto.setIdUser(userFriend.getIdUser());
+			    friendDto.setNomUser(userFriend.getNomUser());
+			    friendDto.setPrenomUser(userFriend.getPrenomUser());
+			    listFriend.add(friendDto);
+				}
+		}
+		return listFriend;
+		
+	}
+	
+	@RequestMapping(value = "/GetListAbonnement/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<AmieDto> GetListAbonnement(@PathVariable Integer idUser)
+	{
+		
+		List<AmieDto> listFriend = new ArrayList<AmieDto>();
+		if(idUser!=null)
+		{
+			User userConnecter= userDao.findUserByIdUser(idUser);
+			List<Relation> listR=relationDao.findAllByFriend(userConnecter);
+			for (int i=0; i< listR.size(); i++) {
+				AmieDto friendDto= new AmieDto();
+			    User userFriend=userDao.findUserByIdUser(listR.get(i).getUser().getIdUser());
+			    friendDto.setIdUser(userFriend.getIdUser());
+			    friendDto.setNomUser(userFriend.getNomUser());
+			    friendDto.setPrenomUser(userFriend.getPrenomUser());
+			    listFriend.add(friendDto);
+				}
+		}
+		return listFriend;
+		
+	}
+	
+	
+	@RequestMapping(value = "/GetListUserByFiltre/{filtre}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<User> GetListUserByFiltre(@PathVariable String filtre)
+	{
+
+		List<User> rec=userDao.findAllByFiltre(filtre);
+		return rec;
 	}
 }

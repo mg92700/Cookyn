@@ -35,18 +35,18 @@ public class IngredientController {
     @Autowired
     CryptageService cryptageService;
     
-    @RequestMapping(value = "/listIngredientLibelle/{name}", method = RequestMethod.GET,headers="Accept=application/json")
+    @RequestMapping(value = "/GetlistIngredientLibelle/{name}", method = RequestMethod.GET,headers="Accept=application/json")
     @CrossOrigin(origins = "*")
-    public List<Ingredient> listIngredientLibelle(@PathVariable String name)
+    public List<Ingredient> GetlistIngredientLibelle(@PathVariable String name)
     {
         List<Ingredient> ingredients = ingredientDao.findAllWhereNom(name);
         return ingredients;
     }
     
     
-    @RequestMapping(value = "/CatIngredient/{name}", method = RequestMethod.GET,headers="Accept=application/json")
+    @RequestMapping(value = "/GetListCatIngredient/{name}", method = RequestMethod.GET,headers="Accept=application/json")
     @CrossOrigin(origins = "*")
-    public List<Ingredient> listCatIngredient(@PathVariable String name)
+    public List<Ingredient> GetListCatIngredient(@PathVariable String name)
     {
         List<Ingredient> ingredients = ingredientDao.findAllWhereCat(name);
         return ingredients;

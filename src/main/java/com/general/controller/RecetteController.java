@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.EtapeDao;
@@ -44,29 +45,30 @@ public class RecetteController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/ListRecette", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListRecette", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Recette> listRecette()
+	public List<Recette> GetListRecette()
 	{
 		List<Recette> recettes = recetteDao.findAll();
 		return recettes;
 	}
 	
-	@RequestMapping(value = "/LibelleRecette", method = RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListLibelleRecette/{libelleRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Recette> listLibelleRecette(@RequestBody Recette recette)
+	public List<Recette> GetListLibelleRecette(@PathVariable String libelleRecette)
 	{
-		List<Recette> recettes = recetteDao.findAllWhereNom(recette.getLibelleRecette());
+		List<Recette> recettes = recetteDao.findAllWhereNom(libelleRecette);
 		return recettes;
 	}
-	
+	/*
 	@RequestMapping(value = "/ByLibelleRecette", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<Recette> RecettesByLibelleRecette(@RequestBody Recette recette)
 	{
 		List<Recette> recettes = recetteDao.findAllByLibelleRecette(recette.getLibelleRecette());
 		return recettes;
-	}
+	}*/
+	
 	@RequestMapping(value = "/ByIdRecetteAll/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public RecetteDto RcetteByIdAll(@PathVariable int idRecette)
@@ -106,10 +108,17 @@ public class RecetteController {
 	@CrossOrigin(origins = "*")
 	public Recette UpdateNote(@RequestBody Recette rec)
 	{
-
 		rec=recetteDao.saveAndFlush(rec);
 		return rec;
 	}
 	
+	@RequestMapping(value = "/GetListRecetteByFiltre/{filtre}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<Recette> GetListRecetteByFiltre(@PathVariable String filtre)
+	{
+
+		List<Recette> rec=recetteDao.findAllByFiltre(filtre);
+		return rec;
+	}
 
 }

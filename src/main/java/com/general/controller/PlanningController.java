@@ -36,9 +36,9 @@ public class PlanningController {
 	@Autowired 
 	CryptageService cryptageService;
 	
-	@RequestMapping(value = "/ListPlanningsByUser:{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListPlanningsByUser/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Planning> ListPlanningsByUser(@PathVariable int idUser)
+	public List<Planning> GetListPlanningsByUser(@PathVariable int idUser)
 	{
 		User user =new User();
 		user.setIdUser(idUser);

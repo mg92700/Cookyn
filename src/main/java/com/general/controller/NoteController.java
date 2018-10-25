@@ -43,17 +43,17 @@ public class NoteController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/ListNotes", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GeListAllNotes", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Note> ListNotes()
+	public List<Note> GeListAllNotes()
 	{
 		List<Note> notes = noteDao.findAll();
 		return notes;
 	}
 	
-	@RequestMapping(value = "/ListNotesByRecette/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListNotesByRecette/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Note> ListNotesByRecette(@PathVariable int idRecette)
+	public List<Note> GetListNotesByRecette(@PathVariable int idRecette)
 	{
 		Recette recette=new Recette();
 		recette.setIdRecette(idRecette);
@@ -61,9 +61,9 @@ public class NoteController {
 		return notes;
 	}
 	
-	@RequestMapping(value = "/ListNotesByUserId/{id}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListNotesByUserId/{id}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Note> ListNotesByUserId(@PathVariable int id)
+	public List<Note> GetListNotesByUserId(@PathVariable int id)
 	{
 		User user = new User();
 		user.setIdUser(id);
