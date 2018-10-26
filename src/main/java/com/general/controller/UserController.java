@@ -18,7 +18,6 @@ import com.general.dao.RelationDao;
 import com.general.dao.UserDao;
 import com.general.dto.AmieDto;
 import com.general.dto.UserDto;
-import com.general.model.Recette;
 import com.general.model.Relation;
 import com.general.model.User;
 import com.general.service.ApiService;
@@ -121,25 +120,29 @@ public class UserController {
 	@CrossOrigin(origins = "*")
 	public UserDto CreateUser(@RequestBody UserDto user)
 	{
-		UserDto userReturn = null;
-		User u = null;
+		UserDto userReturn = new UserDto();
+		User u =  null;
 		if(user!=null)
 		{
-			if((userDao.findAllWhereNom(user.getNomUser()).size()==0 && userDao.findAllWhereMail(user.getMailUser()).size()==0))
-			{
-				user.setPasswordUser(cryptageService.encrypt(user.getPasswordUser()));			
-				u = (User) JTransfo.convert(user);
-
-			} 
+			System.out.println(userDao.findAllByUsernameUser(user.getUsernameUser()).size());
+			if(userDao.findAllByUsernameUser(user.getUsernameUser()).size()==0 && userDao.findAllWhereMail(user.getMailUser()).size()==0){
+			
+				if(user.getPasswordUser()!= null) {
+					user.setPasswordUser(cryptageService.encrypt(user.getPasswordUser()));	
+					u = (User) JTransfo.convert(user);
+					userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
+					userReturn.setPasswordUser(null);
+					userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
+					userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
+					userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
+					userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+				}else {
+					userReturn.setErrortxt("Veuillez renseigner un mot de passe");
+				}
+			} else {
+				userReturn.setErrortxt("Le username ou/et l'email est déjà utilisé");
+			}
 					
-		}
-		if(u!= null) {
-			userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
-			userReturn.setPasswordUser(null);
-			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
-			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-			userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
-			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
 		}
 		return userReturn;
 	}
@@ -213,7 +216,8 @@ public class UserController {
 				userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
 			}
 		}else {
-			userReturn.setErrortxt("User est inconnue");}
+			userReturn.setErrortxt("User est inconnue");
+			}
 		return userReturn;
 	}
 	
