@@ -1,4 +1,5 @@
 package com.general.controller;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import com.general.dao.RecetteDao;
 import com.general.dao.RelationDao;
 import com.general.dao.UserDao;
 import com.general.dto.AmieDto;
+import com.general.dto.RelationDto;
 import com.general.dto.UserDto;
 import com.general.model.Relation;
 import com.general.model.User;
@@ -145,6 +147,55 @@ public class UserController {
 					
 		}
 		return userReturn;
+	}
+	
+	
+	@RequestMapping(value = "/CreateRelation/{idUser}/{idFriend}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public RelationDto CreateRelation(@PathVariable Integer idUser, @PathVariable Integer idFriend)
+	{
+		Date date = new Date(System.currentTimeMillis());
+		User user = userDao.findUserByIdUser(idUser);
+		User friend = userDao.findUserByIdUser(idFriend);
+		Relation r = new Relation();
+		RelationDto rela = new RelationDto();
+		if(user!=null && friend!=null) {			
+			
+			r.setFriend(friend);
+			r.setUser(user);
+			r.setDateRelation(date);
+			r = relationDao.saveAndFlush(r);
+			rela = (RelationDto) JTransfo.convert(r);
+
+		}else {
+			rela.setErrorTxt("Un des Users n'existe pas dans la base");
+		}
+
+		return rela;
+		
+	}
+	
+	@RequestMapping(value = "/DeleteRelation/{idUser}/{idFriend}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Boolean DeleteRelation(@PathVariable Integer idUser, @PathVariable Integer idFriend)
+	{
+		User user = userDao.findUserByIdUser(idUser);
+		User friend = userDao.findUserByIdUser(idFriend);
+		List<Relation> r = new ArrayList<>();
+		Boolean response = false;
+		if(user!=null && friend!=null) {			
+			
+			r = relationDao.findAllByFriendAndUser(friend, user);
+//			for(int i=0; i< r.size(); i++) {
+//				relationDao.delete(r.get(i));
+//			}
+			relationDao.delete(r);
+			
+			response = true;
+		}
+
+		return response;
+		
 	}
 
 	

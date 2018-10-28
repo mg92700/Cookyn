@@ -12,8 +12,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jtransfo.DomainClass;
+
 @Entity
 @XmlRootElement
+@DomainClass("com.general.dto.RelationDto")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Relation{
 	
