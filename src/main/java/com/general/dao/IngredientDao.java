@@ -16,4 +16,6 @@ public interface IngredientDao extends JpaRepository<Ingredient, Long> {
     
     @Query("SELECT l.libelleIngredient FROM Ingredient l WHERE l.catIngredient = ?1")
     List<Ingredient> findAllWhereCat(String name);
+    
+    Ingredient findByidIngredient(int idIngredient);
 }

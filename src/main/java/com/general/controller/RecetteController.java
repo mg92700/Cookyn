@@ -10,17 +10,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.EtapeDao;
+import com.general.dao.IngredientDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.RecetteIngredientDao;
+import com.general.dao.UniteDao;
+import com.general.dao.UserDao;
 import com.general.dto.RecetteDto;
 import com.general.model.Etape;
-import com.general.model.Ingredient;
 import com.general.model.Recette;
 import com.general.model.RecetteIngredient;
+import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
 
@@ -41,6 +43,12 @@ public class RecetteController {
 	RecetteDao recetteDao;
 	@Autowired
 	RecetteIngredientDao recetteIngredientDao;
+	@Autowired
+	IngredientDao ingredientDao;
+	@Autowired
+	UserDao userDao;
+	@Autowired
+	UniteDao uniteDao;
 	
 	@Autowired 
 	CryptageService cryptageService;
@@ -60,14 +68,6 @@ public class RecetteController {
 		List<Recette> recettes = recetteDao.findAllWhereNom(libelleRecette);
 		return recettes;
 	}
-	/*
-	@RequestMapping(value = "/ByLibelleRecette", method = RequestMethod.POST,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public List<Recette> RecettesByLibelleRecette(@RequestBody Recette recette)
-	{
-		List<Recette> recettes = recetteDao.findAllByLibelleRecette(recette.getLibelleRecette());
-		return recettes;
-	}*/
 	
 	@RequestMapping(value = "/ByIdRecetteAll/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -76,13 +76,13 @@ public class RecetteController {
 		Recette r= recetteDao.findByIdRecette(idRecette);
 		List<Etape> etapes=etapeDao.findAllByrecette(r);
 		List<RecetteIngredient> ri=recetteIngredientDao.findAllByrecette(r);
-		List<Ingredient> ingredients=new ArrayList<Ingredient>();
-		for (RecetteIngredient recetteIngredient : ri) {
-			ingredients.add(recetteIngredient.getIngredient());
-		}
+//		List<Ingredient> ingredients=new ArrayList<Ingredient>();
+//		for (RecetteIngredient recetteIngredient : ri) {
+//			ingredients.add(recetteIngredient.getIngredient());
+//		}
 		RecetteDto recette=new RecetteDto();
 		recette.setRecette(r);
-		recette.setIngredients(ingredients);
+		recette.setIngredients(ri);
 		recette.setEtapes(etapes);
 		return recette;
 	}
@@ -90,14 +90,35 @@ public class RecetteController {
 	
 	@RequestMapping(value = "/AddRecette", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Recette AddRecette(@RequestBody Recette rec)
+	public RecetteDto AddRecette(@RequestBody RecetteDto rec)
 	{
-		
+		RecetteDto recDto = new RecetteDto();
+		List<Etape> etapes = new ArrayList<>();
+		List<RecetteIngredient> ingredients = new ArrayList<>();
+		User u = new User();
 		if(rec!=null)
 		{
-		
-			Recette addir = recetteDao.saveAndFlush(rec);
-			return addir;
+			u = userDao.findUserByIdUser(rec.getRecette().getUser().getIdUser());
+			rec.getRecette().setUser(u);
+			recDto.setRecette(recetteDao.saveAndFlush(rec.getRecette()));
+			if(rec.getEtapes()!= null) {				
+				for(int i=0; i<rec.getEtapes().size(); i++) {
+					rec.getEtapes().get(i).setRecette(rec.getRecette());
+					etapes.add(etapeDao.saveAndFlush(rec.getEtapes().get(i)));
+				}
+				recDto.setEtapes(etapes);
+			}
+			if(rec.getIngredients() != null) {				
+				for(int i=0; i< rec.getIngredients().size(); i++) {
+					rec.getIngredients().get(i).setRecette(rec.getRecette());
+					rec.getIngredients().get(i).setIngredient(ingredientDao.findByidIngredient(rec.getIngredients().get(i).getIngredient().getIdIngredient()));
+					rec.getIngredients().get(i).setUnite(uniteDao.findByidUnite(rec.getIngredients().get(i).getUnite().getIdUnite()));
+//					recetteIngredientDao.saveAndFlush(rec.getIngredients().get(i));
+					ingredients.add(rec.getIngredients().get(i));
+				}
+				recDto.setIngredients(ingredients);
+			}
+			return recDto;
 		}
 		else
 			return null;

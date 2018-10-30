@@ -15,31 +15,28 @@ public class Ingredient{
 	
 	@Id
 	@GeneratedValue
-	private int idIngredient;
+	private Integer idIngredient;
 	@Column(nullable = false)
 	private String catIngredient;
 	@Column(nullable = false)
 	private String libelleIngredient;
-	
-	
-	public Ingredient(int idIngredient, String catIngredient, String libelleIngredient) {
+	public Ingredient(Integer idIngredient, String catIngredient, String libelleIngredient) {
 		super();
 		this.idIngredient = idIngredient;
 		this.catIngredient = catIngredient;
 		this.libelleIngredient = libelleIngredient;
 	}
-
-
 	public Ingredient() {
 		super();
 	}
-	
-	public int getIdIngredient() {
+	public Integer getIdIngredient() {
 		return idIngredient;
 	}
-	public void setIdIngredient(int idIngredient) {
+
+	public void setIdIngredient(Integer idIngredient) {
 		this.idIngredient = idIngredient;
 	}
+
 	public String getCatIngredient() {
 		return catIngredient;
 	}

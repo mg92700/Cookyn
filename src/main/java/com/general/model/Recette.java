@@ -19,7 +19,7 @@ public class Recette{
 	
 	@Id
 	@GeneratedValue
-	private int idRecette;
+	private Integer idRecette;
 	@Column
 	private String catRecette;
 	@Column
@@ -34,7 +34,7 @@ public class Recette{
 	@Column
 	private Blob photoRecette;
 	
-	public Recette(int idRecette, String catRecette, String libelleRecette, int tempPrepaRecette, String diffRecette,
+	public Recette(Integer idRecette, String catRecette, String libelleRecette, int tempPrepaRecette, String diffRecette,
 			User user, Blob photoRecette) {
 		super();
 		this.idRecette = idRecette;
@@ -50,10 +50,10 @@ public class Recette{
 		super();
 	}
 	
-	public int getIdRecette() {
+	public Integer getIdRecette() {
 		return idRecette;
 	}
-	public void setIdRecette(int idRecette) {
+	public void setIdRecette(Integer idRecette) {
 		this.idRecette = idRecette;
 	}
 	public String getCatRecette() {

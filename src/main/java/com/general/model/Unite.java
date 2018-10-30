@@ -15,11 +15,11 @@ public class Unite{
 	
 	@Id
 	@GeneratedValue
-	private int idUnite;
+	private Integer idUnite;
 	@Column
 	private String libelleUnite;
 	
-	public Unite(int idUnite, String libelleUnite) {
+	public Unite(Integer idUnite, String libelleUnite) {
 		super();
 		this.idUnite = idUnite;
 		this.libelleUnite = libelleUnite;
@@ -29,10 +29,10 @@ public class Unite{
 	}
 	
 	
-	public int getIdUnite() {
+	public Integer getIdUnite() {
 		return idUnite;
 	}
-	public void setIdUnite(int idUnite) {
+	public void setIdUnite(Integer idUnite) {
 		this.idUnite = idUnite;
 	}
 	public String getLibelleUnite() {

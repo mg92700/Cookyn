@@ -20,6 +20,8 @@ public class Etape{
 	private int idEtape;
 	@Column
 	private String descriptionEtape;
+	@Column
+	private int indexEtape;
 	@ManyToOne
 	@JoinColumn(name="idRecette")
 	private Recette recette;
@@ -27,12 +29,23 @@ public class Etape{
 	public Etape() {
 		super();
 	}
-	public Etape(int idEtape, String descriptionEtape, Recette recette) {
+
+	public Etape(int idEtape, String descriptionEtape, int indexEtape, Recette recette) {
 		super();
 		this.idEtape = idEtape;
 		this.descriptionEtape = descriptionEtape;
+		this.indexEtape = indexEtape;
 		this.recette = recette;
 	}
+
+	public int getIndexEtape() {
+		return indexEtape;
+	}
+
+	public void setIndexEtape(int indexEtape) {
+		this.indexEtape = indexEtape;
+	}
+
 	public int getIdEtape() {
 		return idEtape;
 	}
