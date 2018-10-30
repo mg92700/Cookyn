@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,14 +16,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@IdClass(RecetteIngredient.class)
 public class RecetteIngredient implements Serializable {
 	
 	@Id
+	@GeneratedValue
+	private int idRecetteIngredient;
+	
 	@ManyToOne
 	@JoinColumn(name="idRecette")
 	private Recette recette;
-	@Id
 	@ManyToOne
 	@JoinColumn(name="idIngredient")
 	private Ingredient ingredient;
@@ -35,8 +36,9 @@ public class RecetteIngredient implements Serializable {
 	
 	
 	
-	public RecetteIngredient(Recette recette, Ingredient ingredient, Unite unite, float quantite) {
+	public RecetteIngredient(int idRecetteIngredient,Recette recette, Ingredient ingredient, Unite unite, float quantite) {
 		super();
+		this.idRecetteIngredient=idRecetteIngredient;
 		this.recette = recette;
 		this.ingredient = ingredient;
 		this.unite = unite;
@@ -49,6 +51,17 @@ public class RecetteIngredient implements Serializable {
 	}
 	
 	
+	
+	public int getIdRecetteIngredient() {
+		return idRecetteIngredient;
+	}
+
+
+	public void setIdRecetteIngredient(int idRecetteIngredient) {
+		this.idRecetteIngredient = idRecetteIngredient;
+	}
+
+
 	public Recette getRecette() {
 		return recette;
 	}

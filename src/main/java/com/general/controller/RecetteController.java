@@ -108,12 +108,10 @@ public class RecetteController {
 				}
 				recDto.setEtapes(etapes);
 			}
-			if(rec.getIngredients() != null) {				
+			if(rec.getIngredients() != null) {		
 				for(int i=0; i< rec.getIngredients().size(); i++) {
 					rec.getIngredients().get(i).setRecette(rec.getRecette());
-					rec.getIngredients().get(i).setIngredient(ingredientDao.findByidIngredient(rec.getIngredients().get(i).getIngredient().getIdIngredient()));
-					rec.getIngredients().get(i).setUnite(uniteDao.findByidUnite(rec.getIngredients().get(i).getUnite().getIdUnite()));
-//					recetteIngredientDao.saveAndFlush(rec.getIngredients().get(i));
+					recetteIngredientDao.saveAndFlush(rec.getIngredients().get(i));
 					ingredients.add(rec.getIngredients().get(i));
 				}
 				recDto.setIngredients(ingredients);
