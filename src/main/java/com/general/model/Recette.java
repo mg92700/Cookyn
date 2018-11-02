@@ -33,7 +33,22 @@ public class Recette{
 	private User user;
 	@Column
 	private Blob photoRecette;
+	@Column
+	private Integer prix;
 	
+	public Recette(Integer prix) {
+		super();
+		this.prix = prix;
+	}
+
+	public Integer getPrix() {
+		return prix;
+	}
+
+	public void setPrix(Integer prix) {
+		this.prix = prix;
+	}
+
 	public Recette(Integer idRecette, String catRecette, String libelleRecette, int tempPrepaRecette, String diffRecette,
 			User user, Blob photoRecette) {
 		super();

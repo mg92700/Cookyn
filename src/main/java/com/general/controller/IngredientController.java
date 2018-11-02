@@ -43,6 +43,14 @@ public class IngredientController {
         return ingredients;
     }
     
+    @RequestMapping(value = "/GetListAllIngredient", method = RequestMethod.GET,headers="Accept=application/json")
+    @CrossOrigin(origins = "*")
+    public List<Ingredient> GetListAllIngredient()
+    {
+    	
+    	 List<Ingredient> ingredients = ingredientDao.findAll();
+         return ingredients;
+    }
     
     @RequestMapping(value = "/GetListCatIngredient/{name}", method = RequestMethod.GET,headers="Accept=application/json")
     @CrossOrigin(origins = "*")
