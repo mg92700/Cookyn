@@ -24,6 +24,7 @@ import com.general.model.Relation;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
+import com.general.service.EmailValidator;
 import com.general.service.Status;
 
 @Controller
@@ -54,6 +55,9 @@ public class UserController {
 	
 	@Autowired 
 	CryptageService cryptageService;
+	
+	
+	EmailValidator validator = new EmailValidator();
 
 	@RequestMapping(value = "/listUsers", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -79,8 +83,6 @@ public class UserController {
 		return users;
 	}
 	
-	
-	
 	@RequestMapping(value = "/UsersByUsername", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto UsersByUsername(String username)
@@ -97,7 +99,6 @@ public class UserController {
 		}
 		return userReturn;
 	}
-	
 	
 	@RequestMapping(value = "/getUserById/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -116,8 +117,7 @@ public class UserController {
 		userReturn.setErrortxt("User est inconnue et nike ta race antoine cordialement");}
 		return userReturn;
 	}
-	
-	
+
 	@RequestMapping(value = "/CreateUser", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto CreateUser(@RequestBody UserDto user)
@@ -148,7 +148,6 @@ public class UserController {
 		}
 		return userReturn;
 	}
-	
 	
 	@RequestMapping(value = "/CreateRelation/{idUser}/{idFriend}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -198,10 +197,6 @@ public class UserController {
 		
 	}
 
-	
-	
-	
-
 	@RequestMapping(value = "/UpdateUser", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto UpdateUser(@RequestBody UserDto user)
@@ -245,20 +240,36 @@ public class UserController {
 		return userReturn;
 	}
 	
+
 	@RequestMapping(value = "/Login", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto Login(@RequestBody UserDto user)
 	{
 		User u = null;
-		UserDto userReturn = null;
-		if( userDao.findByUsernameUser(user.getUsernameUser()) != null ){
-			u = userDao.findByUsernameUser(user.getUsernameUser());
+		UserDto userReturn = new UserDto();
+		
+		if(validator.validateEmail(user.getUsernameUser()))
+		{
+			//si c'est un email
+			 if (userDao.findByMailUser(user.getUsernameUser()) != null ) {
+				 u = userDao.findByMailUser(user.getUsernameUser());
+			 	}
+		
+			
+			
+		}else {
+			//si c'est pas un email
+			if( userDao.findByUsernameUser(user.getUsernameUser()) != null ){
+						u = userDao.findByUsernameUser(user.getUsernameUser());
+				}
 		}
-		else if (userDao.findByMailUser(user.getMailUser()) != null ) {
-			u = userDao.findByMailUser(user.getMailUser());
-		}
-		if(u!= null) {
-			if(u.getPasswordUser().equals(cryptageService.encrypt(user.getPasswordUser()))) {
+		
+	
+		
+		if(u!= null) 
+		{
+			if(u.getPasswordUser().equals(cryptageService.encrypt(user.getPasswordUser()))) 
+			{
 				userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
 				userReturn.setPasswordUser(null);
 				userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
@@ -266,9 +277,15 @@ public class UserController {
 				userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
 				userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
 			}
-		}else {
-			userReturn.setErrortxt("User est inconnue");
+			else {
+				
+				userReturn.setErrortxt("Combinaison e-mail & mot de passe incorrect");
 			}
+		}
+		else 
+		{
+			userReturn.setErrortxt("User est inconnue");
+		}
 		return userReturn;
 	}
 	
