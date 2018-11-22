@@ -22,8 +22,22 @@ public class AmieDto {
 	private String nomUser;
 	@MappedBy
 	private String prenomUser;
-	
-	
+	@MappedBy
+	private String loginUser;
+
+	public AmieDto(Integer idUser, String nomUser, String prenomUser, String loginUser) {
+		super();
+		this.idUser = idUser;
+		this.nomUser = nomUser;
+		this.prenomUser = prenomUser;
+		this.loginUser = loginUser;
+	}
+	public String getLoginUser() {
+		return loginUser;
+	}
+	public void setLoginUser(String loginUser) {
+		this.loginUser = loginUser;
+	}
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -42,12 +56,7 @@ public class AmieDto {
 	public void setPrenomUser(String prenomUser) {
 		this.prenomUser = prenomUser;
 	}
-	public AmieDto(Integer idUser, String nomUser, String prenomUser) {
-		super();
-		this.idUser = idUser;
-		this.nomUser = nomUser;
-		this.prenomUser = prenomUser;
-	}
+
 	public AmieDto() {
 		super();
 	}

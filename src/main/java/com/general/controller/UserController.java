@@ -94,8 +94,8 @@ public class UserController {
 			userReturn.setPasswordUser(null);
 			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
 			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-			userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
-			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+			userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size());
+			userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
 		}
 		return userReturn;
 	}
@@ -111,8 +111,8 @@ public class UserController {
 			userReturn.setPasswordUser(null);
 			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
 			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-			userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
-			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+			userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size());
+			userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
 		}else {
 		userReturn.setErrortxt("User est inconnue et nike ta race antoine cordialement");}
 		return userReturn;
@@ -136,8 +136,8 @@ public class UserController {
 					userReturn.setPasswordUser(null);
 					userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
 					userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-					userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
-					userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+					userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size());
+					userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
 				}else {
 					userReturn.setErrortxt("Veuillez renseigner un mot de passe");
 				}
@@ -234,8 +234,8 @@ public class UserController {
 			userReturn.setPasswordUser(null);
 			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
 			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-			userReturn.setNbFollower(relationDao.findAllByFriend(u).size()); 
-			userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+			userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size()); 
+			userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
 		}
 		return userReturn;
 	}
@@ -274,8 +274,8 @@ public class UserController {
 				userReturn.setPasswordUser(null);
 				userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
 				userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-				userReturn.setNbFollower(relationDao.findAllByFriend(u).size());
-				userReturn.setNbFollowing(relationDao.findAllByUser(u).size());
+				userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size());
+				userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
 			}
 			else {
 				
@@ -328,6 +328,7 @@ public class UserController {
 			    friendDto.setIdUser(userFriend.getIdUser());
 			    friendDto.setNomUser(userFriend.getNomUser());
 			    friendDto.setPrenomUser(userFriend.getPrenomUser());
+			    friendDto.setLoginUser(userFriend.getUsernameUser());
 			    listFriend.add(friendDto);
 				}
 		}

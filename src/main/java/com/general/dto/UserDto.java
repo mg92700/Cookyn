@@ -36,18 +36,11 @@ public class UserDto {
 	@NotMapped
 	private int nbRecetteFav;
 	@NotMapped
-	private int nbFollower;
+	private int nbAbonnement;
 	@NotMapped 
-	private int nbFollowing;
+	private int nbAbonnee;
 	@NotMapped 
 	private String Errortxt;
-	
-	public String getErrortxt() {
-		return Errortxt;
-	}
-	public void setErrortxt(String errortxt) {
-		Errortxt = errortxt;
-	}
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -108,21 +101,27 @@ public class UserDto {
 	public void setNbRecetteFav(int nbRecetteFav) {
 		this.nbRecetteFav = nbRecetteFav;
 	}
-	public int getNbFollower() {
-		return nbFollower;
+	public int getNbAbonnement() {
+		return nbAbonnement;
 	}
-	public void setNbFollower(int nbFollower) {
-		this.nbFollower = nbFollower;
+	public void setNbAbonnement(int nbAbonnement) {
+		this.nbAbonnement = nbAbonnement;
 	}
-	public int getNbFollowing() {
-		return nbFollowing;
+	public int getNbAbonnee() {
+		return nbAbonnee;
 	}
-	public void setNbFollowing(int nbFollowing) {
-		this.nbFollowing = nbFollowing;
+	public void setNbAbonnee(int nbAbonnee) {
+		this.nbAbonnee = nbAbonnee;
+	}
+	public String getErrortxt() {
+		return Errortxt;
+	}
+	public void setErrortxt(String errortxt) {
+		Errortxt = errortxt;
 	}
 	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
 			String usernameUser, String villeUser, String newPassword, int nbRecetteCreate, int nbRecetteFav,
-			int nbFollower, int nbFollowing,String Errortxt) {
+			int nbAbonnement, int nbAbonnee, String errortxt) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
@@ -134,11 +133,28 @@ public class UserDto {
 		this.newPassword = newPassword;
 		this.nbRecetteCreate = nbRecetteCreate;
 		this.nbRecetteFav = nbRecetteFav;
-		this.nbFollower = nbFollower;
-		this.nbFollowing = nbFollowing;
-		this.Errortxt=Errortxt;
+		this.nbAbonnement = nbAbonnement;
+		this.nbAbonnee = nbAbonnee;
+		Errortxt = errortxt;
+	}
+	@Override
+	public String toString() {
+		return "UserDto [idUser=" + idUser + ", nomUser=" + nomUser + ", prenomUser=" + prenomUser + ", mailUser="
+				+ mailUser + ", passwordUser=" + passwordUser + ", usernameUser=" + usernameUser + ", villeUser="
+				+ villeUser + ", newPassword=" + newPassword + ", nbRecetteCreate=" + nbRecetteCreate
+				+ ", nbRecetteFav=" + nbRecetteFav + ", nbAbonnement=" + nbAbonnement + ", nbAbonnee=" + nbAbonnee
+				+ ", Errortxt=" + Errortxt + ", getIdUser()=" + getIdUser() + ", getNomUser()=" + getNomUser()
+				+ ", getPrenomUser()=" + getPrenomUser() + ", getMailUser()=" + getMailUser() + ", getPasswordUser()="
+				+ getPasswordUser() + ", getUsernameUser()=" + getUsernameUser() + ", getVilleUser()=" + getVilleUser()
+				+ ", getNewPassword()=" + getNewPassword() + ", getNbRecetteCreate()=" + getNbRecetteCreate()
+				+ ", getNbRecetteFav()=" + getNbRecetteFav() + ", getNbAbonnement()=" + getNbAbonnement()
+				+ ", getNbAbonnee()=" + getNbAbonnee() + ", getErrortxt()=" + getErrortxt() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 	public UserDto() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
+	
+	
 }

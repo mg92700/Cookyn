@@ -1,6 +1,8 @@
 package com.general.controller;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import com.general.model.RecetteIngredient;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
+import java.util.stream.Stream;
 
 @Controller
 @RestController
@@ -60,6 +63,41 @@ public class RecetteController {
 		List<Recette> recettes = recetteDao.findAll();
 		return recettes;
 	}
+	
+	@RequestMapping(value = "/GetListRecetteByindex/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Map<String, Object> GetListRecetteByindex(@PathVariable int offset)
+	{
+		List<Recette> recettes = recetteDao.findAll();
+		List<Recette> recetteSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) {
+	        if (offset >= recettes.size()) {
+	        	recetteSub= recettes.subList(0, 0); //return empty.
+	        }
+	        if (2 >-1) {
+	            //apply offset and limit
+	        	recetteSub= recettes.subList(offset, Math.min(offset+limite, recettes.size()));
+	        } else {
+	            //apply just offset
+	        	recetteSub= recettes.subList(offset, recettes.size());
+	        }
+	    } else if (2 >-1) {
+	        //apply just limit
+	    	recetteSub= recettes.subList(0, Math.min(limite, recettes.size()));
+	    } else {
+	    	recetteSub= recettes.subList(0, recettes.size());
+	    }
+		map.put("listRecette", recetteSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
+		
+	}
+	
 	
 	@RequestMapping(value = "/GetListLibelleRecette/{libelleRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
