@@ -1,7 +1,9 @@
 package com.general.controller;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import com.general.dao.UserDao;
 import com.general.dto.AmieDto;
 import com.general.dto.RelationDto;
 import com.general.dto.UserDto;
+import com.general.model.Recette;
 import com.general.model.Relation;
 import com.general.model.User;
 import com.general.service.ApiService;
@@ -59,11 +62,53 @@ public class UserController {
 	
 	EmailValidator validator = new EmailValidator();
 
-	@RequestMapping(value = "/listUsers", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetlistUsers/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<User> listUsers()
+	public Map<String, Object> GetlistUsers(@PathVariable int offset)
 	{
 		List<User> users = userDao.findAll();
+		List<User> userSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) {
+	        if (offset >= users.size()) {
+	        	userSub= users.subList(0, 0); //return empty.
+	        }
+	        if (2 >-1) {
+	            //apply offset and limit
+	        	userSub= users.subList(offset, Math.min(offset+limite, users.size()));
+	        } else {
+	            //apply just offset
+	        	userSub= users.subList(offset, users.size());
+	        }
+	    } else if (2 >-1) {
+	        //apply just limit
+	    	userSub= users.subList(0, Math.min(limite, users.size()));
+	    } else {
+	    	userSub= users.subList(0, users.size());
+	    }
+		map.put("listUser", userSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
+		
+		
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/listUsersByIndex", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<User> listUsersByIndex()
+	{
+		List<User> users = userDao.findAll();
+		
+		
+		
+		
 		return users;
 	}
 	
