@@ -23,7 +23,7 @@ public class AmieDto {
 	@MappedBy
 	private String prenomUser;
 	@MappedBy
-	private String userNameUser;
+	private String usernameUser;
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -42,23 +42,18 @@ public class AmieDto {
 	public void setPrenomUser(String prenomUser) {
 		this.prenomUser = prenomUser;
 	}
-	public String getUserNameUser() {
-		return userNameUser;
+	public String getUsernameUser() {
+		return usernameUser;
 	}
-	public void setUserNameUser(String userNameUser) {
-		this.userNameUser = userNameUser;
+	public void setUsernameUser(String usernameUser) {
+		this.usernameUser = usernameUser;
 	}
-	public AmieDto(Integer idUser, String nomUser, String prenomUser, String userNameUser) {
+	public AmieDto(Integer idUser, String nomUser, String prenomUser, String usernameUser) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
 		this.prenomUser = prenomUser;
-		this.userNameUser = userNameUser;
-	}
-	@Override
-	public String toString() {
-		return "AmieDto [idUser=" + idUser + ", nomUser=" + nomUser + ", prenomUser=" + prenomUser + ", userNameUser="
-				+ userNameUser + "]";
+		this.usernameUser = usernameUser;
 	}
 	public AmieDto() {
 		super();

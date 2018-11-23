@@ -147,7 +147,7 @@ public class UserController {
 	public UserDto getUserById(@PathVariable int idUser)
 	{
 		User u = userDao.findUserByIdUser(idUser);
-		UserDto userReturn = null;
+		UserDto userReturn = new UserDto();
 		if(u!= null) {
 			userReturn =(UserDto)JTransfo.convert(u);
 			userReturn.setPasswordUser(null);
@@ -346,7 +346,7 @@ public class UserController {
 			    friendDto.setIdUser(userFriend.getIdUser());
 			    friendDto.setNomUser(userFriend.getNomUser());
 			    friendDto.setPrenomUser(userFriend.getPrenomUser());
-			    friendDto.setUserNameUser(userFriend.getUsernameUser());
+			    friendDto.setUsernameUser(userFriend.getUsernameUser());
 			    
 			    listFriend.add(friendDto);
 				}
@@ -371,7 +371,7 @@ public class UserController {
 			    friendDto.setIdUser(userFriend.getIdUser());
 			    friendDto.setNomUser(userFriend.getNomUser());
 			    friendDto.setPrenomUser(userFriend.getPrenomUser());
-			    friendDto.setUserNameUser(userFriend.getUsernameUser());
+			    friendDto.setUsernameUser(userFriend.getUsernameUser());
 			    listFriend.add(friendDto);
 				}
 		}
