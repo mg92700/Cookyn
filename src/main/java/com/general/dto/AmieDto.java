@@ -23,21 +23,7 @@ public class AmieDto {
 	@MappedBy
 	private String prenomUser;
 	@MappedBy
-	private String loginUser;
-
-	public AmieDto(Integer idUser, String nomUser, String prenomUser, String loginUser) {
-		super();
-		this.idUser = idUser;
-		this.nomUser = nomUser;
-		this.prenomUser = prenomUser;
-		this.loginUser = loginUser;
-	}
-	public String getLoginUser() {
-		return loginUser;
-	}
-	public void setLoginUser(String loginUser) {
-		this.loginUser = loginUser;
-	}
+	private String userNameUser;
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -56,10 +42,30 @@ public class AmieDto {
 	public void setPrenomUser(String prenomUser) {
 		this.prenomUser = prenomUser;
 	}
-
+	public String getUserNameUser() {
+		return userNameUser;
+	}
+	public void setUserNameUser(String userNameUser) {
+		this.userNameUser = userNameUser;
+	}
+	public AmieDto(Integer idUser, String nomUser, String prenomUser, String userNameUser) {
+		super();
+		this.idUser = idUser;
+		this.nomUser = nomUser;
+		this.prenomUser = prenomUser;
+		this.userNameUser = userNameUser;
+	}
+	@Override
+	public String toString() {
+		return "AmieDto [idUser=" + idUser + ", nomUser=" + nomUser + ", prenomUser=" + prenomUser + ", userNameUser="
+				+ userNameUser + "]";
+	}
 	public AmieDto() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
+
+	
 	
 	
 	

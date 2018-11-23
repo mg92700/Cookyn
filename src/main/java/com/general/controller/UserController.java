@@ -97,12 +97,9 @@ public class UserController {
 		
 	}
 	
-	
-	
-	
-	@RequestMapping(value = "/listUsersByIndex", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/listUsers", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<User> listUsersByIndex()
+	public List<User> listUsers()
 	{
 		List<User> users = userDao.findAll();
 		
@@ -285,7 +282,6 @@ public class UserController {
 		return userReturn;
 	}
 	
-
 	@RequestMapping(value = "/Login", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto Login(@RequestBody UserDto user)
@@ -350,6 +346,8 @@ public class UserController {
 			    friendDto.setIdUser(userFriend.getIdUser());
 			    friendDto.setNomUser(userFriend.getNomUser());
 			    friendDto.setPrenomUser(userFriend.getPrenomUser());
+			    friendDto.setUserNameUser(userFriend.getUsernameUser());
+			    
 			    listFriend.add(friendDto);
 				}
 		}
@@ -373,14 +371,13 @@ public class UserController {
 			    friendDto.setIdUser(userFriend.getIdUser());
 			    friendDto.setNomUser(userFriend.getNomUser());
 			    friendDto.setPrenomUser(userFriend.getPrenomUser());
-			    friendDto.setLoginUser(userFriend.getUsernameUser());
+			    friendDto.setUserNameUser(userFriend.getUsernameUser());
 			    listFriend.add(friendDto);
 				}
 		}
 		return listFriend;
 		
 	}
-	
 	
 	@RequestMapping(value = "/GetListUserByFiltre/{filtre}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
