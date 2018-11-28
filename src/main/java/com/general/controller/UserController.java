@@ -5,8 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,21 +76,39 @@ public class UserController {
 		//return recettes;
 		int limite=20;
 		
-		if (offset>0) {
-	        if (offset >= users.size()) {
+		if (offset>0) 
+		{
+			
+	        if (offset >= users.size()) 
+	        {
 	        	userSub= users.subList(0, 0); //return empty.
 	        }
-	        if (2 >-1) {
+	        if(offset>users.size())
+	        {
+	        	map.put("offset", users.size());
+	        	map.put("listUser", userSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
 	            //apply offset and limit
 	        	userSub= users.subList(offset, Math.min(offset+limite, users.size()));
-	        } else {
+	        } 
+	        else 
+	        {
 	            //apply just offset
 	        	userSub= users.subList(offset, users.size());
 	        }
-	    } else if (2 >-1) {
+	        
+	    } 
+		else if (2 >-1) 
+		{
 	        //apply just limit
 	    	userSub= users.subList(0, Math.min(limite, users.size()));
-	    } else {
+	    } else 
+	    {
 	    	userSub= users.subList(0, users.size());
 	    }
 		map.put("listUser", userSub);
@@ -103,11 +125,34 @@ public class UserController {
 	{
 		List<User> users = userDao.findAll();
 		
-		
-		
+	
 		
 		return users;
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/EtreAmie/{idUser}/{idAmis}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Boolean EtreAmie(@PathVariable int idUser,@PathVariable int idAmis)
+	{
+		User user = userDao.findUserByIdUser(idUser);
+		User friend =userDao.findUserByIdUser(idAmis);
+		
+		if(user!=null && friend!=null)
+		{
+			List<Relation> r=relationDao.findAllByIdUserAndIdFriend(user,friend);
+			if(r.size()>0)
+			{
+				return true;
+				
+			}
+		}
+	
+		return false;
+	}
+	
 	
 	@RequestMapping(value = "/Usernom", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")

@@ -78,6 +78,14 @@ public class RecetteController {
 	        if (offset >= recettes.size()) {
 	        	recetteSub= recettes.subList(0, 0); //return empty.
 	        }
+	        if(offset>recettes.size())
+	        {
+	        	map.put("offset", recettes.size());
+	        	map.put("listUser", recettes);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
 	        if (2 >-1) {
 	            //apply offset and limit
 	        	recetteSub= recettes.subList(offset, Math.min(offset+limite, recettes.size()));
