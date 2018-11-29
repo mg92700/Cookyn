@@ -155,8 +155,8 @@ public class UserController {
 			userReturn.setPasswordUser(null);
 			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
 			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-			userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size());
-			userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
+			userReturn.setNbAbonnement(relationDao.findAllByUser(u).size());
+			userReturn.setNbAbonnee(relationDao.findAllByFriend(u).size());
 		}
 		return userReturn;
 	}
@@ -172,8 +172,8 @@ public class UserController {
 			userReturn.setPasswordUser(null);
 			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
 			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-			userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size());
-			userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
+			userReturn.setNbAbonnement(relationDao.findAllByUser(u).size() );
+			userReturn.setNbAbonnee(   relationDao.findAllByFriend(u).size());
 		}else {
 		userReturn.setErrortxt("User est inconnue et nike ta race antoine cordialement");}
 		return userReturn;
