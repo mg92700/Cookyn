@@ -64,9 +64,9 @@ public class RecetteController {
 		return recettes;
 	}
 	
-	@RequestMapping(value = "/GetListRecetteByindex/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListRecetteByOffSet/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Map<String, Object> GetListRecetteByindex(@PathVariable int offset)
+	public Map<String, Object> GetListRecetteByOffSet(@PathVariable int offset)
 	{
 		List<Recette> recettes = recetteDao.findAll();
 		List<Recette> recetteSub = new ArrayList<>();
@@ -74,29 +74,39 @@ public class RecetteController {
 		//return recettes;
 		int limite=20;
 		
-		if (offset>0) {
-	        if (offset >= recettes.size()) {
+		if (offset>0) 
+		{
+			
+	        if (offset >= recettes.size()) 
+	        {
 	        	recetteSub= recettes.subList(0, 0); //return empty.
 	        }
 	        if(offset>recettes.size())
 	        {
 	        	map.put("offset", recettes.size());
-	        	map.put("listUser", recettes);
+	        	map.put("listRecette", recetteSub);
 	        	map.put("limite", limite);
 	        	return map;
 	        	
 	        }
-	        if (2 >-1) {
+	        if (2 >-1) 
+	        {
 	            //apply offset and limit
 	        	recetteSub= recettes.subList(offset, Math.min(offset+limite, recettes.size()));
-	        } else {
+	        } 
+	        else 
+	        {
 	            //apply just offset
 	        	recetteSub= recettes.subList(offset, recettes.size());
 	        }
-	    } else if (2 >-1) {
+	        
+	    } 
+		else if (2 >-1) 
+		{
 	        //apply just limit
-	    	recetteSub= recettes.subList(0, Math.min(limite, recettes.size()));
-	    } else {
+			recetteSub= recettes.subList(0, Math.min(limite, recettes.size()));
+	    } else 
+	    {
 	    	recetteSub= recettes.subList(0, recettes.size());
 	    }
 		map.put("listRecette", recetteSub);
@@ -106,18 +116,17 @@ public class RecetteController {
 		
 	}
 	
-	
-	@RequestMapping(value = "/GetListLibelleRecette/{libelleRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListByRecette/{libelleRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Recette> GetListLibelleRecette(@PathVariable String libelleRecette)
+	public List<Recette> GetListByRecette(@PathVariable String libelleRecette)
 	{
 		List<Recette> recettes = recetteDao.findAllWhereNom(libelleRecette);
 		return recettes;
 	}
 	
-	@RequestMapping(value = "/ByIdRecetteAll/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetRecetteById/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public RecetteDto RcetteByIdAll(@PathVariable int idRecette)
+	public RecetteDto GetRecetteById(@PathVariable int idRecette)
 	{
 		Recette r= recetteDao.findByIdRecette(idRecette);
 		List<Etape> etapes=etapeDao.findAllByrecette(r);
@@ -132,7 +141,6 @@ public class RecetteController {
 		recette.setEtapes(etapes);
 		return recette;
 	}
-	
 	
 	@RequestMapping(value = "/AddRecette", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -167,7 +175,6 @@ public class RecetteController {
 		else
 			return null;
 	}
-	
 	
 	@RequestMapping(value = "/UpdateRecette", method = RequestMethod.PUT,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")

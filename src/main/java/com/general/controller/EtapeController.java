@@ -41,9 +41,9 @@ public class EtapeController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/ListEtapes/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListEtapesById/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Etape> ListEtapes(@PathVariable int idRecette)
+	public List<Etape> GetListEtapesById(@PathVariable int idRecette)
 	{
 		Recette recette=new Recette();
 		recette.setIdRecette(idRecette);

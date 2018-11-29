@@ -39,9 +39,9 @@ public class UniteController {
 	@Autowired 
 	CryptageService cryptageService;
 	
-	@RequestMapping(value = "/ListUnites", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListUnites", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Unite> ListUnites()
+	public List<Unite> GetListUnites()
 	{
 		List<Unite> unite = uniteDao.findAll();
 		return unite;
@@ -76,7 +76,6 @@ public class UniteController {
 		else
 			return null;
 	}
-	
 	
 	@RequestMapping(value = "/UpdateUnite", method = RequestMethod.PUT,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
