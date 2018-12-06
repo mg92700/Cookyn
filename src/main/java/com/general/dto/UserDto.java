@@ -41,6 +41,15 @@ public class UserDto {
 	private int nbAbonnee;
 	@NotMapped 
 	private String Errortxt;
+	@NotMapped 
+	private String Token;
+	
+	public String getToken() {
+		return Token;
+	}
+	public void setToken(String token) {
+		Token = token;
+	}
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -121,7 +130,7 @@ public class UserDto {
 	}
 	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
 			String usernameUser, String villeUser, String newPassword, int nbRecetteCreate, int nbRecetteFav,
-			int nbAbonnement, int nbAbonnee, String errortxt) {
+			int nbAbonnement, int nbAbonnee, String errortxt, String token) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
@@ -136,6 +145,11 @@ public class UserDto {
 		this.nbAbonnement = nbAbonnement;
 		this.nbAbonnee = nbAbonnee;
 		Errortxt = errortxt;
+		Token = token;
+	}
+	public UserDto() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String toString() {
@@ -143,18 +157,10 @@ public class UserDto {
 				+ mailUser + ", passwordUser=" + passwordUser + ", usernameUser=" + usernameUser + ", villeUser="
 				+ villeUser + ", newPassword=" + newPassword + ", nbRecetteCreate=" + nbRecetteCreate
 				+ ", nbRecetteFav=" + nbRecetteFav + ", nbAbonnement=" + nbAbonnement + ", nbAbonnee=" + nbAbonnee
-				+ ", Errortxt=" + Errortxt + ", getIdUser()=" + getIdUser() + ", getNomUser()=" + getNomUser()
-				+ ", getPrenomUser()=" + getPrenomUser() + ", getMailUser()=" + getMailUser() + ", getPasswordUser()="
-				+ getPasswordUser() + ", getUsernameUser()=" + getUsernameUser() + ", getVilleUser()=" + getVilleUser()
-				+ ", getNewPassword()=" + getNewPassword() + ", getNbRecetteCreate()=" + getNbRecetteCreate()
-				+ ", getNbRecetteFav()=" + getNbRecetteFav() + ", getNbAbonnement()=" + getNbAbonnement()
-				+ ", getNbAbonnee()=" + getNbAbonnee() + ", getErrortxt()=" + getErrortxt() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", Errortxt=" + Errortxt + ", Token=" + Token + "]";
 	}
-	public UserDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
+	
 	
 	
 }

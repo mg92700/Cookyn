@@ -1,6 +1,9 @@
 package com.general.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,63 @@ public class FavorisController {
 		user.setIdUser(idUser);
 		List<Favoris> favoris = favorisDao.findAllByUser(user);
 		return favoris;
+	}
+	
+	
+	
+	@RequestMapping(value = "/GetlistFavorisByUser/{idUser}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Map<String, Object> GetlistFavorisByUser(@PathVariable int idUser,@PathVariable int offset)
+	{
+		Map<String, Object> map = new HashMap<>(); 
+		User user=new User();
+		user.setIdUser(idUser);
+		List<Favoris> favoris = favorisDao.findAllByUser(user);
+		List<Favoris> favorisSub=  new ArrayList<>();
+		
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= favoris.size()) 
+	        {
+	        	favorisSub= favoris.subList(0, 0); //return empty.
+	        }
+	        if(offset>favoris.size())
+	        {
+	        	map.put("offset", favoris.size());
+	        	map.put("listFavoris", favorisSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	favorisSub= favoris.subList(offset, Math.min(offset+limite, favoris.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	favorisSub= favoris.subList(offset, favoris.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+			favorisSub= favoris.subList(0, Math.min(limite, favoris.size()));
+	    } else 
+	    {
+	    	favorisSub= favoris.subList(0, favoris.size());
+	    }
+		map.put("listFavoris", favorisSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		
+		
+		return map;
 	}
 	
 	@RequestMapping(value = "/AddFavoris", method = RequestMethod.POST,headers="Accept=application/json")
