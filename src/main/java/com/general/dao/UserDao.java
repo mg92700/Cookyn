@@ -28,4 +28,5 @@ public interface UserDao extends JpaRepository<User, Long> {
 	@Query("SELECT u FROM User u WHERE u.usernameUser LIKE ?1%")
 	List<User> findAllByFiltre(String name);
 	
+	
 }
