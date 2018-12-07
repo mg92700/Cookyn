@@ -116,12 +116,56 @@ public class RecetteController {
 		
 	}
 	
-	@RequestMapping(value = "/GetListByRecette/{libelleRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	
+	@RequestMapping(value = "/GetListByRecette/{libelleRecette}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Recette> GetListByRecette(@PathVariable String libelleRecette)
+	public Map<String, Object> GetListByRecette(@PathVariable String libelleRecette, @PathVariable int offset)
 	{
 		List<Recette> recettes = recetteDao.findAllWhereNom(libelleRecette);
-		return recettes;
+		List<Recette> recetteSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= recettes.size()) 
+	        {
+	        	recetteSub= recettes.subList(0, 0); //return empty.
+	        }
+	        if(offset>recettes.size())
+	        {
+	        	map.put("offset", recettes.size());
+	        	map.put("listRecette", recetteSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	recetteSub= recettes.subList(offset, Math.min(offset+limite, recettes.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	recetteSub= recettes.subList(offset, recettes.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+			recetteSub= recettes.subList(0, Math.min(limite, recettes.size()));
+	    } else 
+	    {
+	    	recetteSub= recettes.subList(0, recettes.size());
+	    }
+		map.put("listRecette", recetteSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
 	}
 	
 	@RequestMapping(value = "/GetRecetteById/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
@@ -184,13 +228,113 @@ public class RecetteController {
 		return rec;
 	}
 	
-	@RequestMapping(value = "/GetListRecetteByFiltre/{filtre}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListRecetteByFiltre/{filtre}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Recette> GetListRecetteByFiltre(@PathVariable String filtre)
+	public Map<String, Object> GetListRecetteByFiltre(@PathVariable String filtre, @PathVariable int offset)
 	{
 
-		List<Recette> rec=recetteDao.findAllByFiltre(filtre);
-		return rec;
+		List<Recette> recettes=recetteDao.findAllByFiltre(filtre);
+		List<Recette> recetteSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= recettes.size()) 
+	        {
+	        	recetteSub= recettes.subList(0, 0); //return empty.
+	        }
+	        if(offset>recettes.size())
+	        {
+	        	map.put("offset", recettes.size());
+	        	map.put("listRecette", recetteSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	recetteSub= recettes.subList(offset, Math.min(offset+limite, recettes.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	recetteSub= recettes.subList(offset, recettes.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+			recetteSub= recettes.subList(0, Math.min(limite, recettes.size()));
+	    } else 
+	    {
+	    	recetteSub= recettes.subList(0, recettes.size());
+	    }
+		map.put("listRecette", recetteSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
 	}
-
+	
+// recette creer par user
+	@RequestMapping(value = "/GetListRecetteCreatedByUser/{idU}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Map<String, Object> GetListRecetteCreatedByUser(@PathVariable int idU,@PathVariable int offset)
+	{
+		User u = new User();
+		u.setIdUser(idU);
+		List<Recette> recettes=recetteDao.findAllByUser(u);
+		//List<Recette> rec = new ArrayList<>();
+		
+		List<Recette> recetteSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= recettes.size()) 
+	        {
+	        	recetteSub= recettes.subList(0, 0); //return empty.
+	        }
+	        if(offset>recettes.size())
+	        {
+	        	map.put("offset", recettes.size());
+	        	map.put("listRecette", recetteSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	recetteSub= recettes.subList(offset, Math.min(offset+limite, recettes.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	recetteSub= recettes.subList(offset, recettes.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+			recetteSub= recettes.subList(0, Math.min(limite, recettes.size()));
+	    } else 
+	    {
+	    	recetteSub= recettes.subList(0, recettes.size());
+	    }
+		map.put("listRecette", recetteSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
+	}
+	
+	
 }

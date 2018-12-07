@@ -1,6 +1,9 @@
 package com.general.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,32 +46,165 @@ public class NoteController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/GeListAllNotes", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GeListAllNotes/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Note> GeListAllNotes()
+	public Map<String, Object> GeListAllNotes(@PathVariable int offset)
 	{
 		List<Note> notes = noteDao.findAll();
-		return notes;
+		List<Note> notesSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= notes.size()) 
+	        {
+	        	notesSub= notes.subList(0, 0); //return empty.
+	        }
+	        if(offset>notes.size())
+	        {
+	        	map.put("offset", notes.size());
+	        	map.put("listNotes", notesSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	notesSub= notes.subList(offset, Math.min(offset+limite, notes.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	notesSub= notes.subList(offset, notes.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+			notesSub= notes.subList(0, Math.min(limite, notes.size()));
+	    } else 
+	    {
+	    	notesSub= notes.subList(0, notes.size());
+	    }
+		map.put("listNotes", notesSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
 	}
 	
-	@RequestMapping(value = "/GetListNotesByRecette/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	
+	
+	@RequestMapping(value = "/GetListNotesByRecette/{idRecette}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Note> GetListNotesByRecette(@PathVariable int idRecette)
+	public Map<String, Object> GetListNotesByRecette(@PathVariable int idRecette, @PathVariable int offset)
 	{
 		Recette recette=new Recette();
 		recette.setIdRecette(idRecette);
 		List<Note> notes = noteDao.findAllByrecette(recette);
-		return notes;
+		List<Note> notesSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= notes.size()) 
+	        {
+	        	notesSub= notes.subList(0, 0); //return empty.
+	        }
+	        if(offset>notes.size())
+	        {
+	        	map.put("offset", notes.size());
+	        	map.put("listNotes", notesSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	notesSub= notes.subList(offset, Math.min(offset+limite, notes.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	notesSub= notes.subList(offset, notes.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+			notesSub= notes.subList(0, Math.min(limite, notes.size()));
+	    } else 
+	    {
+	    	notesSub= notes.subList(0, notes.size());
+	    }
+		map.put("listNotes", notesSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
 	}
 	
-	@RequestMapping(value = "/GetListNotesByUserId/{id}", method = RequestMethod.GET,headers="Accept=application/json")
+	
+	
+	@RequestMapping(value = "/GetListNotesByUserId/{id}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Note> GetListNotesByUserId(@PathVariable int id)
+	public Map<String, Object> GetListNotesByUserId(@PathVariable int id, @PathVariable int offset)
 	{
 		User user = new User();
 		user.setIdUser(id);
 		List<Note> notes = noteDao.findAllByuser(user);
-		return notes;
+		List<Note> notesSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= notes.size()) 
+	        {
+	        	notesSub= notes.subList(0, 0); //return empty.
+	        }
+	        if(offset>notes.size())
+	        {
+	        	map.put("offset", notes.size());
+	        	map.put("listNotes", notesSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	notesSub= notes.subList(offset, Math.min(offset+limite, notes.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	notesSub= notes.subList(offset, notes.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+			notesSub= notes.subList(0, Math.min(limite, notes.size()));
+	    } else 
+	    {
+	    	notesSub= notes.subList(0, notes.size());
+	    }
+		map.put("listNotes", notesSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
 	}
 	
 	@RequestMapping(value = "/AddNote", method = RequestMethod.POST,headers="Accept=application/json")

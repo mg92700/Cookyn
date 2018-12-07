@@ -1,6 +1,9 @@
 package com.general.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +44,59 @@ public class EtapeController {
 	@Autowired 
 	CryptageService cryptageService;
 
-	@RequestMapping(value = "/GetListEtapesById/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListEtapesById/{idRecette}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<Etape> GetListEtapesById(@PathVariable int idRecette)
+	public Map<String, Object> GetListEtapesById(@PathVariable int idRecette, @PathVariable int offset)
 	{
 		Recette recette=new Recette();
 		recette.setIdRecette(idRecette);
 		List<Etape> etapes = etapeDao.findAllByrecette(recette);
-		return etapes;
+		List<Etape> etapesSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= etapes.size()) 
+	        {
+	        	etapesSub= etapes.subList(0, 0); //return empty.
+	        }
+	        if(offset>etapes.size())
+	        {
+	        	map.put("offset", etapes.size());
+	        	map.put("listEtape", etapesSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	etapesSub= etapes.subList(offset, Math.min(offset+limite, etapes.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	etapesSub= etapes.subList(offset, etapes.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+			etapesSub= etapes.subList(0, Math.min(limite, etapes.size()));
+	    } else 
+	    {
+	    	etapesSub= etapes.subList(0, etapes.size());
+	    }
+		map.put("listEtape", etapesSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
 	}
+	
 	
 	@RequestMapping(value = "/AddEtapes", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")

@@ -2,7 +2,9 @@ package com.general.controller;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import com.general.dao.RelationDao;
 import com.general.dao.UserDao;
 import com.general.dto.AmieDto;
 import com.general.dto.RelationDto;
+import com.general.model.Recette;
 import com.general.model.Relation;
 import com.general.model.User;
 import com.general.service.ApiService;
@@ -103,9 +106,9 @@ public class RelationController {
 	}
 	
 	
-	@RequestMapping(value = "/GetListAbonne/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListAbonne/{idUser}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<AmieDto> GetListAbonne(@PathVariable Integer idUser)
+	public  Map<String, Object> GetListAbonne(@PathVariable Integer idUser, @PathVariable int offset)
 	{
 		
 		List<AmieDto> listFriend = new ArrayList<AmieDto>();
@@ -123,14 +126,58 @@ public class RelationController {
 			    listFriend.add(friendDto);
 				}
 		}
-		return listFriend;
+		
+		List<AmieDto> listFriendSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= listFriend.size()) 
+	        {
+	        	listFriendSub= listFriend.subList(0, 0); //return empty.
+	        }
+	        if(offset>listFriend.size())
+	        {
+	        	map.put("offset", listFriend.size());
+	        	map.put("listRecette", listFriendSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	listFriendSub= listFriend.subList(offset, Math.min(offset+limite, listFriend.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	listFriendSub= listFriend.subList(offset, listFriend.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+			listFriendSub= listFriend.subList(0, Math.min(limite, listFriend.size()));
+	    } else 
+	    {
+	    	listFriendSub= listFriend.subList(0, listFriend.size());
+	    }
+		map.put("listRelation", listFriendSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
 		
 	}
 	
 	
-	@RequestMapping(value = "/GetListAbonnement/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListAbonnement/{idUser}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<AmieDto> GetListAbonnement(@PathVariable Integer idUser)
+	public  Map<String, Object> GetListAbonnement(@PathVariable Integer idUser, @PathVariable int offset)
 	{
 		List<AmieDto> listFriend = new ArrayList<AmieDto>();
 		if(idUser!=null)
@@ -148,8 +195,51 @@ public class RelationController {
 			    listFriend.add(friendDto);
 				}
 		}
-		return listFriend;
 		
+		List<AmieDto> listFriendSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= listFriend.size()) 
+	        {
+	        	listFriendSub= listFriend.subList(0, 0); //return empty.
+	        }
+	        if(offset>listFriend.size())
+	        {
+	        	map.put("offset", listFriend.size());
+	        	map.put("listRecette", listFriendSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	listFriendSub= listFriend.subList(offset, Math.min(offset+limite, listFriend.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	listFriendSub= listFriend.subList(offset, listFriend.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+			listFriendSub= listFriend.subList(0, Math.min(limite, listFriend.size()));
+	    } else 
+	    {
+	    	listFriendSub= listFriend.subList(0, listFriend.size());
+	    }
+		map.put("listRelation", listFriendSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
 		
 	}
 	
