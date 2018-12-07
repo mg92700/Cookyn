@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.FavorisDao;
+import com.general.dao.RecetteDao;
 import com.general.dao.UserDao;
 import com.general.model.Favoris;
+import com.general.model.Recette;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
@@ -37,6 +39,9 @@ public class FavorisController {
 	FavorisDao favorisDao;
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	RecetteDao recetteDao;
 	
 	@Autowired 
 	CryptageService cryptageService;
@@ -108,10 +113,15 @@ public class FavorisController {
 		return map;
 	}
 	
-	@RequestMapping(value = "/AddFavoris", method = RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value = "/AddFavoris/{idRecette}/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Favoris AddFavoris(@RequestBody Favoris favoris)
+	public Favoris AddFavoris(@PathVariable int idRecette, @PathVariable int idUser)
 	{
+		Favoris favoris = new Favoris();
+		Recette recette = recetteDao.findByIdRecette(idRecette);
+		User user = userDao.findUserByIdUser(idUser);
+		favoris.setRecette(recette);
+		favoris.setUser(user);
 		favorisDao.saveAndFlush(favoris);
 		return favoris;
 	}
