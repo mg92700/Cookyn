@@ -10,6 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jtransfo.DomainClass;
 
+import java.util.Date;
+
 @Entity
 @DomainClass("com.general.dto.UserDto")
 @XmlRootElement
@@ -33,7 +35,28 @@ public class User{
 	private String villeUser;
 	@Column
 	private String role;
+	@Column
+	private Date dateCreation;
+	@Column
+	private Date dateModification;
 	
+	public User(Date dateCreation, Date dateModification) {
+		super();
+		this.dateCreation = dateCreation;
+		this.dateModification = dateModification;
+	}
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+	public Date getDateModification() {
+		return dateModification;
+	}
+	public void setDateModification(Date dateModification) {
+		this.dateModification = dateModification;
+	}
 	public Integer getIdUser() {
 		return idUser;
 	}

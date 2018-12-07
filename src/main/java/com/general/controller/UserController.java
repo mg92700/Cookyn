@@ -1,9 +1,10 @@
 package com.general.controller;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -166,6 +167,11 @@ public class UserController {
 	public UserDto GetUserById(@PathVariable int idUser)
 	{
 		User u = userDao.findUserByIdUser(idUser);
+		String format = "dd/MM/yy H:mm:ss"; 
+		SimpleDateFormat formater = new SimpleDateFormat( format ); 
+		System.out.println(formater.format(u.getDateCreation())); 
+		System.out.println(formater.format(u.getDateModification())); 
+
 		UserDto userReturn = new UserDto();
 		if(u!= null) {
 			userReturn =(UserDto)JTransfo.convert(u);
@@ -193,6 +199,12 @@ public class UserController {
 				if(user.getPasswordUser()!= null) {
 					user.setPasswordUser(cryptageService.encrypt(user.getPasswordUser()));	
 					user.setRole("user");
+					
+					//String format = "dd/MM/yy H:mm:ss"; 
+					//SimpleDateFormat formater = new SimpleDateFormat( format ); 
+					//user.setDateCreation(formater.format( new Date()));
+					user.setDateCreation(new Date());
+					user.setDateModification(new Date());
 					u = (User) JTransfo.convert(user);
 					
 					userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
@@ -219,6 +231,9 @@ public class UserController {
 	{
 		UserDto userReturn = null;
 		User u = null;
+		User userDb = userDao.findUserByIdUser(user.getIdUser());
+		
+		
 		if(user!=null)
 		{
 			
@@ -234,8 +249,13 @@ public class UserController {
 				}
 		
 			}
+			if(user.getPrenomUser()!=null) 
+			{
+				user.setPrenomUser(userDb.getPrenomUser());
+			}
+		
 			else {
-				
+
 				//u=userDao.findUserByIdUser(user.getIdUser());
 				user.setPasswordUser(userDao.findUserByIdUser(user.getIdUser()).getPasswordUser());
 				u = (User) JTransfo.convert(user);
@@ -245,13 +265,14 @@ public class UserController {
 			
 		}
 		if(u!= null) {
-			
+			u.setDateModification(new Date());
 			userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
 			userReturn.setPasswordUser(null);
 			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
 			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
 			userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size()); 
 			userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
+			
 		}
 		return userReturn;
 	}

@@ -9,6 +9,8 @@ import org.jtransfo.DomainClass;
 import org.jtransfo.MappedBy;
 import org.jtransfo.NotMapped;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -46,6 +48,47 @@ public class UserDto {
 	private String Errortxt;
 	@NotMapped 
 	private String Token;
+	
+	@MappedBy
+	private Date dateCreation;
+	@MappedBy
+	private Date dateModification;
+	
+	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
+			String usernameUser, String villeUser, String role, String newPassword, int nbRecetteCreate,
+			int nbRecetteFav, int nbAbonnement, int nbAbonnee, String errortxt, String token, Date dateCreation,
+			Date dateModification) {
+		super();
+		this.idUser = idUser;
+		this.nomUser = nomUser;
+		this.prenomUser = prenomUser;
+		this.mailUser = mailUser;
+		this.passwordUser = passwordUser;
+		this.usernameUser = usernameUser;
+		this.villeUser = villeUser;
+		this.role = role;
+		this.newPassword = newPassword;
+		this.nbRecetteCreate = nbRecetteCreate;
+		this.nbRecetteFav = nbRecetteFav;
+		this.nbAbonnement = nbAbonnement;
+		this.nbAbonnee = nbAbonnee;
+		Errortxt = errortxt;
+		Token = token;
+		this.dateCreation = dateCreation;
+		this.dateModification = dateModification;
+	}
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+	public Date getDateModification() {
+		return dateModification;
+	}
+	public void setDateModification(Date dateModification) {
+		this.dateModification = dateModification;
+	}
 	public Integer getIdUser() {
 		return idUser;
 	}
