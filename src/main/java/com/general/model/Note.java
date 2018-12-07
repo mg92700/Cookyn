@@ -1,6 +1,7 @@
 package com.general.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +32,41 @@ public class Note implements Serializable {
 	private Recette recette;
 	@Column
 	private int note;
+	@Column
+	private Date dateCreation;
+	public Note(int idNote, User user, Recette recette, int note, Date dateCreation, Date dateModification) {
+		super();
+		this.idNote = idNote;
+		this.user = user;
+		this.recette = recette;
+		this.note = note;
+		this.dateCreation = dateCreation;
+		this.dateModification = dateModification;
+	}
+
+
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+
+
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+
+
+	public Date getDateModification() {
+		return dateModification;
+	}
+
+
+	public void setDateModification(Date dateModification) {
+		this.dateModification = dateModification;
+	}
+
+
+	@Column
+	private Date dateModification;
 	
 	public Note(int idNote, User user, Recette recette, int note) {
 		super();

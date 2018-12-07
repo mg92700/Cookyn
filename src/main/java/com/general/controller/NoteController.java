@@ -1,6 +1,7 @@
 package com.general.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.general.dao.NoteDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.RecetteIngredientDao;
+import com.general.dao.UserDao;
 import com.general.model.Note;
 import com.general.model.Recette;
 import com.general.model.User;
@@ -42,6 +44,9 @@ public class NoteController {
 	RecetteDao recetteDao;
 	@Autowired
 	RecetteIngredientDao recetteIngredientDao;
+	@Autowired
+	UserDao userDao;
+
 	
 	@Autowired 
 	CryptageService cryptageService;
@@ -211,14 +216,20 @@ public class NoteController {
 	@CrossOrigin(origins = "*")
 	public Note AddNote(@RequestBody Note note)
 	{
-		note=noteDao.saveAndFlush(note);
-		return note;
-	}
-	
-	@RequestMapping(value = "/UpdateNote", method = RequestMethod.PUT,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public Note UpdateNote(@RequestBody Note note)
-	{
+		Note noteDB= noteDao.findByUserAndRecette(note.getUser(), note.getRecette());
+		Date dateCreation = null;
+		
+		if(noteDB!=null) {
+			dateCreation = noteDB.getDateCreation();
+			noteDao.delete(noteDB);
+		}
+		if(dateCreation!=null) {
+			note.setDateCreation(dateCreation);
+		}
+		else {			
+			note.setDateCreation(new Date());
+		}
+		note.setDateModification(new Date());
 		note=noteDao.saveAndFlush(note);
 		return note;
 	}

@@ -1,6 +1,7 @@
 package com.general.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,16 +123,24 @@ public class FavorisController {
 		User user = userDao.findUserByIdUser(idUser);
 		favoris.setRecette(recette);
 		favoris.setUser(user);
+		favoris.setDateCreation(new Date());
 		favorisDao.saveAndFlush(favoris);
 		return favoris;
 	}
 	
-	@RequestMapping(value = "/UpdateFavoris", method = RequestMethod.PUT,headers="Accept=application/json")
+	@RequestMapping(value = "/RemoveFavoris/{idUser}/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Favoris UpdateFavoris(@RequestBody Favoris favoris)
+	public Favoris RemoveFavoris(@PathVariable int idUser, @PathVariable int idRecette)
 	{
-		favorisDao.saveAndFlush(favoris);
+		User user = new User();
+		user.setIdUser(idUser);
+		Recette recette = new Recette();
+		recette.setIdRecette(idRecette);
+		
+		Favoris favoris = favorisDao.findByUserAndRecette(user, recette);
+		favorisDao.delete(favoris);
 		return favoris;
 	}
+
 	
 }
