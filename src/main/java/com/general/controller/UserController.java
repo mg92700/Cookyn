@@ -249,11 +249,7 @@ public class UserController {
 				}
 		
 			}
-			if(user.getPrenomUser()!=null) 
-			{
-				user.setPrenomUser(userDb.getPrenomUser());
-			}
-		
+
 			else {
 
 				//u=userDao.findUserByIdUser(user.getIdUser());
@@ -261,7 +257,48 @@ public class UserController {
 				u = (User) JTransfo.convert(user);
 				
 			}
-		
+			//prenom
+			if(user.getPrenomUser()==null){
+				u.setPrenomUser(userDb.getPrenomUser());
+			}
+			else 
+			{
+				u.setPrenomUser(user.getPrenomUser());
+			}
+			//nom
+			if(user.getNomUser()==null){
+				u.setNomUser(userDb.getNomUser());
+			}
+			else 
+			{
+				u.setNomUser(user.getNomUser());
+			}
+			//ville
+			if(user.getVilleUser()==null){
+				u.setVilleUser(userDb.getVilleUser());
+			}
+			else 
+			{
+				u.setVilleUser(user.getVilleUser());
+			}
+			//mail
+			if(user.getMailUser()==null){
+				u.setMailUser(userDb.getMailUser());
+			}
+			else 
+			{
+				u.setMailUser(user.getMailUser());
+			}
+			//username
+			if(user.getUsernameUser()==null){
+				u.setUsernameUser(userDb.getUsernameUser());
+			}
+			else 
+			{
+				u.setUsernameUser(user.getUsernameUser());
+			}
+			
+			u.setDateCreation(userDb.getDateCreation());
 			
 		}
 		if(u!= null) {

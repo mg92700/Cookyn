@@ -18,8 +18,10 @@ public interface NoteDao extends JpaRepository<Note, Long> {
 	List<Note> findAllByuser(User user);
 	List<Note> findAllByrecette(Recette recette);
 	
-//	List<Note> findAllByidUser(int idUser);
-
+	Note findByUserAndRecette(User user, Recette recette);
+	
+	//List<Note> findAllByidUser(int idUser);
+	
 
     @Query(value = "insert into Note (user,recette,note) VALUES (:user,:recette,:note)", nativeQuery = true)
     @Transactional

@@ -1,7 +1,9 @@
 package com.general.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.JoinColumn;
@@ -27,8 +29,22 @@ public class Favoris implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idRecette")
 	private Recette recette;
+	@Column
+	private Date dateCreation;
 	
-	
+	public Favoris(int idFavoris, User user, Recette recette, Date dateCreation) {
+		super();
+		this.idFavoris = idFavoris;
+		this.user = user;
+		this.recette = recette;
+		this.dateCreation = dateCreation;
+	}
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
 	public Favoris() {
 		super();
 	}
