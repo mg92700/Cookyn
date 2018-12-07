@@ -192,13 +192,16 @@ public class UserController {
 			
 				if(user.getPasswordUser()!= null) {
 					user.setPasswordUser(cryptageService.encrypt(user.getPasswordUser()));	
+					user.setRole("user");
 					u = (User) JTransfo.convert(user);
+					
 					userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
 					userReturn.setPasswordUser(null);
 					userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
 					userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
 					userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size());
 					userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
+					
 				}else {
 					userReturn.setErrortxt("Veuillez renseigner un mot de passe");
 				}
@@ -210,7 +213,6 @@ public class UserController {
 		return userReturn;
 	}
 	
-
 	@RequestMapping(value = "/UpdateUser", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto UpdateUser(@RequestBody UserDto user)
@@ -310,4 +312,27 @@ public class UserController {
 		List<User> rec=userDao.findAllByFiltre(filtre);
 		return rec;
 	}
+
+	@RequestMapping(value = "/LogAdmin", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Boolean LogAdmin(@RequestBody UserDto user)
+	{
+		Boolean trouver=false;
+		String mdpEncore=cryptageService.encrypt(user.getPasswordUser());
+		User u= userDao.findByMailUser(user.getMailUser());
+		if(u!=null)
+		{
+			if(u.getRole().equals("admin")) 
+			{
+				if(mdpEncore.equals(u.getPasswordUser()))
+				{
+					trouver=true;
+					
+				}
+			}
+		}
+		return trouver;
+		
+	}
+
 }
