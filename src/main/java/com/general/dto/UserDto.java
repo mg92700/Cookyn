@@ -1,5 +1,6 @@
 package com.general.dto;
 
+import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,6 +30,8 @@ public class UserDto {
 	private String usernameUser;
 	@MappedBy
 	private String villeUser;
+	@MappedBy
+	private String role;
 	@NotMapped
 	private String newPassword;
 	@NotMapped
@@ -43,13 +46,6 @@ public class UserDto {
 	private String Errortxt;
 	@NotMapped 
 	private String Token;
-	
-	public String getToken() {
-		return Token;
-	}
-	public void setToken(String token) {
-		Token = token;
-	}
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -92,6 +88,12 @@ public class UserDto {
 	public void setVilleUser(String villeUser) {
 		this.villeUser = villeUser;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	public String getNewPassword() {
 		return newPassword;
 	}
@@ -128,9 +130,19 @@ public class UserDto {
 	public void setErrortxt(String errortxt) {
 		Errortxt = errortxt;
 	}
+	public String getToken() {
+		return Token;
+	}
+	public void setToken(String token) {
+		Token = token;
+	}
+	public UserDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
-			String usernameUser, String villeUser, String newPassword, int nbRecetteCreate, int nbRecetteFav,
-			int nbAbonnement, int nbAbonnee, String errortxt, String token) {
+			String usernameUser, String villeUser, String role, String newPassword, int nbRecetteCreate,
+			int nbRecetteFav, int nbAbonnement, int nbAbonnee, String errortxt, String token) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
@@ -139,6 +151,7 @@ public class UserDto {
 		this.passwordUser = passwordUser;
 		this.usernameUser = usernameUser;
 		this.villeUser = villeUser;
+		this.role = role;
 		this.newPassword = newPassword;
 		this.nbRecetteCreate = nbRecetteCreate;
 		this.nbRecetteFav = nbRecetteFav;
@@ -147,20 +160,9 @@ public class UserDto {
 		Errortxt = errortxt;
 		Token = token;
 	}
-	public UserDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	@Override
-	public String toString() {
-		return "UserDto [idUser=" + idUser + ", nomUser=" + nomUser + ", prenomUser=" + prenomUser + ", mailUser="
-				+ mailUser + ", passwordUser=" + passwordUser + ", usernameUser=" + usernameUser + ", villeUser="
-				+ villeUser + ", newPassword=" + newPassword + ", nbRecetteCreate=" + nbRecetteCreate
-				+ ", nbRecetteFav=" + nbRecetteFav + ", nbAbonnement=" + nbAbonnement + ", nbAbonnee=" + nbAbonnee
-				+ ", Errortxt=" + Errortxt + ", Token=" + Token + "]";
-	}
-
 	
+	
+
 	
 	
 }

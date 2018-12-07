@@ -31,31 +31,15 @@ public class User{
 	private String usernameUser;
 	@Column
 	private String villeUser;
-	
-	public User(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
-			String usernameUser, String villeUser) {
-		super();
-		this.idUser = idUser;
-		this.nomUser = nomUser;
-		this.prenomUser = prenomUser;
-		this.mailUser = mailUser;
-		this.passwordUser = passwordUser;
-		this.usernameUser = usernameUser;
-		this.villeUser = villeUser;
-	}
-	
-	public User() {
-		super();
-	}
+	@Column
+	private String role;
 	
 	public Integer getIdUser() {
 		return idUser;
 	}
-
 	public void setIdUser(Integer idUser) {
 		this.idUser = idUser;
 	}
-
 	public String getNomUser() {
 		return nomUser;
 	}
@@ -92,20 +76,29 @@ public class User{
 	public void setVilleUser(String villeUser) {
 		this.villeUser = villeUser;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public User(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
+			String usernameUser, String villeUser, String role) {
+		super();
+		this.idUser = idUser;
+		this.nomUser = nomUser;
+		this.prenomUser = prenomUser;
+		this.mailUser = mailUser;
+		this.passwordUser = passwordUser;
+		this.usernameUser = usernameUser;
+		this.villeUser = villeUser;
+		this.role = role;
+	}
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	
+	
 }
-
-/*
- 
- 
- 	idUser int primary key auto_increment,
-    nomUser varchar(20),
-    prenomUser varchar(20),
-    mailUser varchar(30),
-    passwordUser varchar(50),
-    usernameUser varchar(30),
-    villeUser varchar(30)
- 
- 
- */
