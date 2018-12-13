@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jtransfo.DomainClass;
 import org.jtransfo.MappedBy;
+import org.jtransfo.NotMapped;
 
 import com.general.model.Etape;
 import com.general.model.Recette;
@@ -27,7 +28,7 @@ public class RecetteDto {
 	@MappedBy
 	private List<Etape> etapes;
 	
-	@MappedBy
+	@NotMapped 
 	private byte[] imageRecette;
 	
 
