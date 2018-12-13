@@ -52,18 +52,16 @@ public class BasicAuthenticationFilter implements Filter{
 	              {
 	            	  filterChain.doFilter(servletRequest, servletResponse);
 	            		
-	                //unauthorized(response);
+	              
 	                
 	              }
 
 	             else {
 	            	 response.setStatus(HttpServletResponse.SC_FORBIDDEN,"Incorrecte");
 	            	
-	              //unauthorized(response);
+	            
 	            }
 	       
-	        
-	      
 	    } 
 	 else {
 		 response.setStatus(HttpServletResponse.SC_FORBIDDEN,"Incorrecte");
