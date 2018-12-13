@@ -25,8 +25,7 @@ public class CryptageService {
 	            return new String(cipher.doFinal(Base64.decodeBase64(encryptedInput)), Charsets.UTF_8);
 
 	        } catch (Exception e) {
-	            log.warn(e.getMessage(), e);
-	            throw new RuntimeException(e);
+	            return null;
 	        }
 	    }
 	    public String encrypt(String str) {
@@ -40,4 +39,8 @@ public class CryptageService {
 	            throw new RuntimeException(e);
 	        }
 	}
+	    
+	  
+ 
+	    
 }

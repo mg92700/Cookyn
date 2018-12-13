@@ -95,8 +95,6 @@ public class UniteController {
 		return map;
 	}
 	
-	
-	
 	@RequestMapping(value = "/UniteByLibelle/{libelleUnite}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Unite UniteByLibelle(@PathVariable String libelleUnite)

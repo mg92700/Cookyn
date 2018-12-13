@@ -1,5 +1,6 @@
 package com.general.controller;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpHeaders;
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +37,8 @@ import com.general.service.ApiService;
 import com.general.service.CryptageService;
 import com.general.service.EmailValidator;
 import com.general.service.Status;
+import com.google.api.Authentication;
+import com.google.protobuf.Method;
 
 @Controller
 @RestController
@@ -66,6 +71,8 @@ public class UserController {
 	
 	
 	EmailValidator validator = new EmailValidator();
+
+	private String token;
 
 	@RequestMapping(value = "/GetlistUsersByOffSet/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -118,15 +125,6 @@ public class UserController {
 		return map;
 		
 		
-	}
-	
-	@RequestMapping(value = "/GetListUsers", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public List<User> GetListUsers()
-	{
-		List<User> users = userDao.findAll();
-		
-		return users;
 	}
 	
 	@RequestMapping(value = "/GetListByNom", method = RequestMethod.GET,headers="Accept=application/json")
@@ -371,26 +369,5 @@ public class UserController {
 		return rec;
 	}
 
-	@RequestMapping(value = "/LogAdmin", method = RequestMethod.POST,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public Boolean LogAdmin(@RequestBody UserDto user)
-	{
-		Boolean trouver=false;
-		String mdpEncore=cryptageService.encrypt(user.getPasswordUser());
-		User u= userDao.findByMailUser(user.getMailUser());
-		if(u!=null)
-		{
-			if(u.getRole().equals("admin")) 
-			{
-				if(mdpEncore.equals(u.getPasswordUser()))
-				{
-					trouver=true;
-					
-				}
-			}
-		}
-		return trouver;
-		
-	}
 
 }

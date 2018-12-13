@@ -1,5 +1,7 @@
 package com.general;
 
+import java.io.IOException;
+
 import org.jtransfo.JTransfo;
 import org.jtransfo.spring.JTransfoSpringFactory;
 import org.springframework.boot.SpringApplication;
@@ -11,6 +13,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.general.service.ServiceImageFtp;
+
 @SpringBootApplication
 @EnableJpaRepositories("com.general.dao")
 @EntityScan("com.general.model")
@@ -18,8 +22,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class GeneralWebServiceApplication {
 
-	public static void main(String[] args) {
+	
+	public static void main(String[] args) throws IOException {
 		SpringApplication.run(GeneralWebServiceApplication.class, args);
+		
 	}
 	
 	@Bean

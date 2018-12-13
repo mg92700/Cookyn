@@ -1,4 +1,5 @@
 package com.general.controller;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,8 @@ import com.general.model.RecetteIngredient;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
+import com.general.service.ServiceImageFtp;
+
 import java.util.stream.Stream;
 
 @Controller
@@ -52,6 +55,9 @@ public class RecetteController {
 	UserDao userDao;
 	@Autowired
 	UniteDao uniteDao;
+	
+	@Autowired 
+	ServiceImageFtp serviceFtp;
 	
 	@Autowired 
 	CryptageService cryptageService;
@@ -188,7 +194,7 @@ public class RecetteController {
 	
 	@RequestMapping(value = "/AddRecette", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public RecetteDto AddRecette(@RequestBody RecetteDto rec)
+	public RecetteDto AddRecette(@RequestBody RecetteDto rec) throws IOException 
 	{
 		RecetteDto recDto = new RecetteDto();
 		List<Etape> etapes = new ArrayList<>();
@@ -198,7 +204,12 @@ public class RecetteController {
 		{
 			u = userDao.findUserByIdUser(rec.getRecette().getUser().getIdUser());
 			rec.getRecette().setUser(u);
+			
+			String url=serviceFtp.resultat(u.getUsernameUser(), rec.getRecette().getLibelleRecette(),rec.getIMG());
+			rec.getRecette().setPhotoRecette(url);;
+			
 			recDto.setRecette(recetteDao.saveAndFlush(rec.getRecette()));
+		
 			if(rec.getEtapes()!= null) {				
 				for(int i=0; i<rec.getEtapes().size(); i++) {
 					rec.getEtapes().get(i).setRecette(rec.getRecette());

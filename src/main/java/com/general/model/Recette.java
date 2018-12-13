@@ -32,7 +32,7 @@ public class Recette{
 	@JoinColumn(name="creeparUser")
 	private User user;
 	@Column
-	private Blob photoRecette;
+	private String urlRecette;
 	@Column
 	private Integer prix;
 	
@@ -50,7 +50,7 @@ public class Recette{
 	}
 
 	public Recette(Integer idRecette, String catRecette, String libelleRecette, int tempPrepaRecette, String diffRecette,
-			User user, Blob photoRecette) {
+			User user, String urlRecette) {
 		super();
 		this.idRecette = idRecette;
 		this.catRecette = catRecette;
@@ -58,7 +58,7 @@ public class Recette{
 		this.tempPrepaRecette = tempPrepaRecette;
 		this.diffRecette = diffRecette;
 		this.user = user;
-		this.photoRecette = photoRecette;
+		this.urlRecette = urlRecette;
 	}
 
 	public Recette() {
@@ -101,11 +101,11 @@ public class Recette{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Blob getPhotoRecette() {
-		return photoRecette;
+	public String getPhotoRecette() {
+		return urlRecette;
 	}
-	public void setPhotoRecette(Blob photoRecette) {
-		this.photoRecette = photoRecette;
+	public void setPhotoRecette(String urlRecette) {
+		this.urlRecette = urlRecette;
 	}		
 	
 }
