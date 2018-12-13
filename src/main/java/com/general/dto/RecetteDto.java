@@ -28,15 +28,15 @@ public class RecetteDto {
 	private List<Etape> etapes;
 	
 	@MappedBy
-	private byte IMG[];
+	private byte[] imageRecette;
 	
 
-	public RecetteDto(Recette recette, List<RecetteIngredient> ingredients, List<Etape> etapes,byte IMG[]) {
+	public RecetteDto(Recette recette, List<RecetteIngredient> ingredients, List<Etape> etapes,byte[] imageRecette) {
 		super();
 		this.recette = recette;
 		this.ingredients = ingredients;
 		this.etapes = etapes;
-		this.IMG=IMG;
+		this.imageRecette=imageRecette;
 	}
 
 
@@ -45,13 +45,13 @@ public class RecetteDto {
 	}
 	
 
-	public byte[] getIMG() {
-		return IMG;
+	public byte[] getImageRecette() {
+		return imageRecette;
 	}
 
 
-	public void setIMG(byte[] iMG) {
-		IMG = iMG;
+	public void setImageRecette(byte[] imageRecette) {
+		this.imageRecette = imageRecette;
 	}
 
 

@@ -205,7 +205,7 @@ public class RecetteController {
 			u = userDao.findUserByIdUser(rec.getRecette().getUser().getIdUser());
 			rec.getRecette().setUser(u);
 			
-			String url=serviceFtp.resultat(u.getUsernameUser(), rec.getRecette().getLibelleRecette(),rec.getIMG());
+			String url=serviceFtp.resultat(u.getUsernameUser(),rec.getRecette().getLibelleRecette() ,rec.getImageRecette());
 			rec.getRecette().setPhotoRecette(url);;
 			
 			recDto.setRecette(recetteDao.saveAndFlush(rec.getRecette()));
