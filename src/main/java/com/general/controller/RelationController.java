@@ -142,7 +142,7 @@ public class RelationController {
 	        if(offset>listFriend.size())
 	        {
 	        	map.put("offset", listFriend.size());
-	        	map.put("listRecette", listFriendSub);
+	        	map.put("listRelation", listFriendSub);
 	        	map.put("limite", limite);
 	        	return map;
 	        	
@@ -211,7 +211,7 @@ public class RelationController {
 	        if(offset>listFriend.size())
 	        {
 	        	map.put("offset", listFriend.size());
-	        	map.put("listRecette", listFriendSub);
+	        	map.put("listRelation", listFriendSub);
 	        	map.put("limite", limite);
 	        	return map;
 	        	
