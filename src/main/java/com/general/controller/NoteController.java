@@ -21,6 +21,7 @@ import com.general.dao.RecetteDao;
 import com.general.dao.RecetteIngredientDao;
 import com.general.dao.UserDao;
 import com.general.model.Note;
+import com.general.model.Planning;
 import com.general.model.Recette;
 import com.general.model.User;
 import com.general.service.ApiService;
@@ -235,4 +236,19 @@ public class NoteController {
 	}
 	
 
+	@RequestMapping(value = "/DeleteNoteById/{idNote}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Note DeletePlanningById(@PathVariable int idNote)
+	{
+		Note n= noteDao.findByidNote(idNote);
+		if(n!=null) {
+			noteDao.delete(n);
+		}
+		else {
+			System.out.println("Note inconnue");
+		}
+		return n;
+	}
+	
+	
 }

@@ -134,5 +134,20 @@ public class UniteController {
 	}
 	
 	
+	@RequestMapping(value = "/DeleteById/{idUnite}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Unite DeleteteById(@PathVariable int idUnite)
+	{
+		Unite unite = uniteDao.findByidUnite(idUnite);
+		
+		if(unite!=null) {
+			uniteDao.delete(unite);
+		}
+		else {
+			System.out.println("id inexistant");
+		}
+		return unite;
+	}
+	
 	
 }

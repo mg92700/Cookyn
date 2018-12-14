@@ -351,4 +351,18 @@ public class RecetteController {
 	}
 	
 	
+	@RequestMapping(value = "/DeleteRecetteById/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Recette DeleteRecetteById(@PathVariable int idRecette)
+	{
+		Recette r= recetteDao.findByIdRecette(idRecette);
+		if(r!=null) {
+			recetteDao.delete(r);
+		}
+		else {
+			System.out.println("Recette inconnue");
+		}
+		return r;
+	}
+	
 }

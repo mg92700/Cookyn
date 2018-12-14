@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.PlanningDao;
 import com.general.model.Planning;
+import com.general.model.Recette;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
@@ -173,6 +174,21 @@ public class PlanningController {
 	{
 		pl=planningDao.saveAndFlush(pl);
 		return pl;
+	}
+	
+	
+	@RequestMapping(value = "/DeletePlanningById/{idPlanning}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Planning DeletePlanningById(@PathVariable int idPlanning)
+	{
+		Planning p= planningDao.findByidPlanning(idPlanning);
+		if(p!=null) {
+			planningDao.delete(p);
+		}
+		else {
+			System.out.println("Planning inconnue");
+		}
+		return p;
 	}
 	
 }

@@ -312,6 +312,7 @@ public class UserController {
 		return userReturn;
 	}
 	
+	
 	@RequestMapping(value = "/Login", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto Login(@RequestBody UserDto user)
@@ -370,4 +371,19 @@ public class UserController {
 	}
 
 
+	@RequestMapping(value = "/DeleteUserById/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public UserDto DeleteUserById(@PathVariable int idUser)
+	{
+		User u = userDao.findUserByIdUser(idUser);
+
+		UserDto userReturn = new UserDto();
+		if(u!= null) {
+			userDao.delete(u);
+		}else {
+		userReturn.setErrortxt("User est inconnue");
+		}
+		return userReturn;
+	}
+	
 }

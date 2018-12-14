@@ -15,6 +15,8 @@ public interface FavorisDao extends JpaRepository<Favoris, Long> {
 	
 	List<Favoris> findAllByUser(User user);	
 	
+	Favoris findByidFavoris(int idFavoris);
+	
 	
 	@Query("SELECT f FROM Favoris f WHERE f.idFavoris = ?1")
 	Favoris findnoteidFavoris(int idFav);
