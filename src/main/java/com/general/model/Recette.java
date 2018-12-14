@@ -127,12 +127,7 @@ public class Recette{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public String getPhotoRecette() {
-		return urlRecette;
-	}
-	public void setPhotoRecette(String urlRecette) {
-		this.urlRecette = urlRecette;
-	}		
+	
 	
 }
 

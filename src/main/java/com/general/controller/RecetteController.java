@@ -208,14 +208,14 @@ public class RecetteController {
 		{
 			u = userDao.findUserByIdUser(rec.getRecette().getUser().getIdUser());
 			rec.getRecette().setUser(u);
-			rec.setDateCreation(d);
+			rec.getRecette().setDateCreation(d);
 			if(rec.getImageRecette()!=null)
 			{
 				byte[] images = Base64.getDecoder().decode(rec.getImageRecette());
 				
 				String url=serviceFtp.resultat(u.getUsernameUser(),rec.getRecette().getLibelleRecette() ,images);
 				
-				rec.getRecette().setPhotoRecette(url);
+				rec.getRecette().setUrlRecette(url);
 			}
 			recDto.setRecette(recetteDao.saveAndFlush(rec.getRecette()));
 		
