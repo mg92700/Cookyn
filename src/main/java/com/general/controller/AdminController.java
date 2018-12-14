@@ -372,8 +372,6 @@ public class AdminController {
 		return unite;
 	}
 	
-	
-    
     @RequestMapping(value = "/GetListPlanningsByOffset/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GetListPlanningsByOffset(@PathVariable int offset)
@@ -426,7 +424,6 @@ public class AdminController {
 			
 	}
     
-    
     @RequestMapping(value = "/DeletePlanningById/{idPlanning}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Planning DeletePlanningById(@PathVariable int idPlanning)
@@ -440,8 +437,6 @@ public class AdminController {
 		}
 		return p;
 	}
-    
-    
     
     @RequestMapping(value = "/GeListAllNotes/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -507,9 +502,7 @@ public class AdminController {
 		}
 		return n;
 	}
-    
-    
-    
+   
     @RequestMapping(value = "/GetlistFavorisByUser/{idUser}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GetlistFavorisByUser(@PathVariable int idUser,@PathVariable int offset)
@@ -579,8 +572,6 @@ public class AdminController {
 		return f;
 	}
 	
-    
-    
     @RequestMapping(value = "/GetListEtapesById/{idRecette}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GetListEtapesById(@PathVariable int idRecette, @PathVariable int offset)
