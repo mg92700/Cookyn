@@ -55,6 +55,7 @@ public class ServiceImageFtp {
             String chemin = "/Cookyn/";
             InputStream inputStream = new FileInputStream(file);
 
+            urlServer=urlServer.replaceAll(" ", "");
             System.out.println("Début de l'upload");
       
             InputStream input = new FileInputStream(new File(urlServer)) ;

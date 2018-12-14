@@ -214,6 +214,7 @@ public class RecetteController {
 				byte[] images = Base64.getDecoder().decode(rec.getImageRecette());
 				
 				String url=serviceFtp.resultat(u.getUsernameUser(),rec.getRecette().getLibelleRecette() ,images);
+				
 				rec.getRecette().setPhotoRecette(url);
 			}
 			recDto.setRecette(recetteDao.saveAndFlush(rec.getRecette()));
