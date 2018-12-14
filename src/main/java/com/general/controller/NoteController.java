@@ -21,6 +21,7 @@ import com.general.dao.RecetteDao;
 import com.general.dao.RecetteIngredientDao;
 import com.general.dao.UserDao;
 import com.general.model.Note;
+import com.general.model.Planning;
 import com.general.model.Recette;
 import com.general.model.User;
 import com.general.service.ApiService;
@@ -234,5 +235,4 @@ public class NoteController {
 		return note;
 	}
 	
-
 }

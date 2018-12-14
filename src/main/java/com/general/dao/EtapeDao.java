@@ -12,4 +12,5 @@ public interface EtapeDao extends JpaRepository<Etape, Long> {
 
 	List<Etape> findAllByrecette(Recette recette);
 	
+	Etape findByidEtape(int idEtape);
 }

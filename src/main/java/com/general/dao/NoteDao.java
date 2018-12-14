@@ -20,6 +20,8 @@ public interface NoteDao extends JpaRepository<Note, Long> {
 	
 	Note findByUserAndRecette(User user, Recette recette);
 	
+	Note findByidNote (int idNote);
+	
 	//List<Note> findAllByidUser(int idUser);
 	
 

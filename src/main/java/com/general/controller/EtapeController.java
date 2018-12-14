@@ -25,7 +25,7 @@ import com.general.service.CryptageService;
 
 @Controller
 @RestController
-@RequestMapping(value = "/Etape")
+@RequestMapping(value = "/etape")
 public class EtapeController {
 
 	@Autowired
@@ -116,4 +116,5 @@ public class EtapeController {
 			return etape;
 	}
 
+	
 }

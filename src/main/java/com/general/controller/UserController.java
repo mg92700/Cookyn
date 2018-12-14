@@ -312,6 +312,7 @@ public class UserController {
 		return userReturn;
 	}
 	
+	
 	@RequestMapping(value = "/Login", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto Login(@RequestBody UserDto user)
@@ -368,6 +369,5 @@ public class UserController {
 		List<User> rec=userDao.findAllByFiltre(filtre);
 		return rec;
 	}
-
-
+	
 }

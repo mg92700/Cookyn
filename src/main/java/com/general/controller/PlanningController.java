@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.PlanningDao;
 import com.general.model.Planning;
+import com.general.model.Recette;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;

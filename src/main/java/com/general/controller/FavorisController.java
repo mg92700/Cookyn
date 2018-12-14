@@ -142,5 +142,5 @@ public class FavorisController {
 		return favoris;
 	}
 
-	
+
 }
