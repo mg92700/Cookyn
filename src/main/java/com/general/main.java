@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import com.general.security.Token;
+import com.general.security.TokenSecurity;
 import com.general.service.ServiceImageFtp;
 
 public class main {

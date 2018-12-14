@@ -144,7 +144,7 @@ public class IngredientController {
     
     @RequestMapping(value = "/GetListCatIngredient/{name}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
     @CrossOrigin(origins = "*")
-    public  Map<String, Object> GetListCatIngredient(@PathVariable String name, @PathVariable int offset)
+    public Map<String, Object> GetListCatIngredient(@PathVariable String name, @PathVariable int offset)
     {
         List<Ingredient> ingredients = ingredientDao.findAllWhereCat(name);
         List<Ingredient> ingredientsSub = new ArrayList<>();
@@ -194,7 +194,6 @@ public class IngredientController {
 
     }
     
-    
     @RequestMapping(value = "/AddIngredient", method = RequestMethod.POST,headers="Accept=application/json")
     @CrossOrigin(origins = "*")
     public Ingredient AddIngredient(@RequestBody Ingredient ig)
@@ -208,6 +207,7 @@ public class IngredientController {
         else
             return null;
     }
+    
     @RequestMapping(value = "/UpdateIngredient", method = RequestMethod.PUT,headers="Accept=application/json")
     @CrossOrigin(origins = "*")
     public Ingredient UpdateIngredient(@RequestBody Ingredient ingredient)

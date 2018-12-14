@@ -1,6 +1,7 @@
 package com.general.controller;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +123,6 @@ public class RecetteController {
 		
 	}
 	
-	
 	@RequestMapping(value = "/GetListByRecette/{libelleRecette}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GetListByRecette(@PathVariable String libelleRecette, @PathVariable int offset)
@@ -204,10 +204,13 @@ public class RecetteController {
 		{
 			u = userDao.findUserByIdUser(rec.getRecette().getUser().getIdUser());
 			rec.getRecette().setUser(u);
-			
-			String url=serviceFtp.resultat(u.getUsernameUser(),rec.getRecette().getLibelleRecette() ,rec.getImageRecette());
-			rec.getRecette().setPhotoRecette(url);;
-			
+			if(rec.getImageRecette()!=null)
+			{
+				byte[] images = Base64.getDecoder().decode(rec.getImageRecette());
+				
+				String url=serviceFtp.resultat(u.getUsernameUser(),rec.getRecette().getLibelleRecette() ,images);
+				rec.getRecette().setPhotoRecette(url);
+			}
 			recDto.setRecette(recetteDao.saveAndFlush(rec.getRecette()));
 		
 			if(rec.getEtapes()!= null) {				

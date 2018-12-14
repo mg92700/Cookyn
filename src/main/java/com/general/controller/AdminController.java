@@ -1,5 +1,6 @@
 package com.general.controller;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -10,14 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.general.dao.IngredientDao;
+import com.general.dao.RecetteDao;
 import com.general.dao.UserDao;
 import com.general.dto.UserDto;
+import com.general.model.Ingredient;
+import com.general.model.Recette;
 import com.general.model.User;
+
+import com.general.security.TokenSecurity;
 import com.general.service.CryptageService;
 
 @Controller
@@ -26,6 +34,8 @@ import com.general.service.CryptageService;
 public class AdminController {
 	
 	
+	@Autowired
+	RecetteDao recetteDao;
 	
 	@Autowired
 	UserDao userDao;
@@ -33,20 +43,21 @@ public class AdminController {
 	@Autowired 
 	CryptageService cryptageService;
 	
+	@Autowired
+	TokenSecurity t;
+    
+    @Autowired
+    IngredientDao ingredientDao;
+    
+	
 	@RequestMapping(value = "/LogAdmin", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Boolean LogAdmin(@RequestBody UserDto user,HttpServletRequest request)
+	public Map<String, Object> LogAdmin(@RequestBody UserDto user,HttpServletRequest request)
 	{
-		//recupe les données du header
-	    Map<String, String> map = new HashMap<String, String>();
-	    Enumeration headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String key = (String) headerNames.nextElement();
-            String value = request.getHeader(key);
-            map.put(key, value);
-        }
-        //recupere value depuis la clés
-        String Token=map.get("authorization");
+		
+		Map<String, Object> mapReturn = new HashMap<String, Object>();
+		
+		String token=null;
         
       
 		Boolean trouver=false;
@@ -59,11 +70,16 @@ public class AdminController {
 				if(mdpEncore.equals(u.getPasswordUser()))
 				{
 					trouver=true;
+					token=t.getToken();
 					
 				}
 			}
 		}
-		return trouver;
+		
+		mapReturn.put("EstConnecter", trouver);
+		mapReturn.put("Token", token);
+		
+		return mapReturn;
 		
 	}
 
@@ -75,4 +91,64 @@ public class AdminController {
 		
 		return users;
 	}
+
+	@RequestMapping(value = "/GetListRecette", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public List<Recette> GetListRecette()
+	{
+		List<Recette> recettes = recetteDao.findAll();
+		return recettes;
+	}
+	
+    @RequestMapping(value = "/GetListAllIngredient/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
+    @CrossOrigin(origins = "*")
+    public Map<String, Object> GetListAllIngredient(@PathVariable int offset)
+    {
+    	
+    	 List<Ingredient> ingredients = ingredientDao.findAll();
+    	 List<Ingredient> ingredientsSub = new ArrayList<>();
+ 		Map<String, Object> map = new HashMap<>(); 
+ 		//return recettes;
+ 		int limite=20;
+ 		
+ 		if (offset>0) 
+ 		{
+ 			
+ 	        if (offset >= ingredients.size()) 
+ 	        {
+ 	        	ingredientsSub= ingredients.subList(0, 0); //return empty.
+ 	        }
+ 	        if(offset>ingredients.size())
+ 	        {
+ 	        	map.put("offset", ingredients.size());
+ 	        	map.put("listIngredients", ingredientsSub);
+ 	        	map.put("limite", limite);
+ 	        	return map;
+ 	        	
+ 	        }
+ 	        if (2 >-1) 
+ 	        {
+ 	            //apply offset and limit
+ 	        	ingredientsSub= ingredients.subList(offset, Math.min(offset+limite, ingredients.size()));
+ 	        } 
+ 	        else 
+ 	        {
+ 	            //apply just offset
+ 	        	ingredientsSub= ingredients.subList(offset, ingredients.size());
+ 	        }
+ 	        
+ 	    } 
+ 		else if (2 >-1) 
+ 		{
+ 	        //apply just limit
+ 			ingredientsSub= ingredients.subList(0, Math.min(limite, ingredients.size()));
+ 	    } else 
+ 	    {
+ 	    	ingredientsSub= ingredients.subList(0, ingredients.size());
+ 	    }
+ 		map.put("listIngredients", ingredientsSub);
+ 		map.put("offset", offset);
+ 		map.put("limite", limite);
+ 		return map;
+    }
 }

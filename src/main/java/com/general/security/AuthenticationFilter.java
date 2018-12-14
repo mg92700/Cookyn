@@ -10,23 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 
 @WebFilter("/admin/*")
-public class BasicAuthenticationFilter implements Filter{
+public class AuthenticationFilter implements Filter{
 
 	  
-	  private Token t = new Token();
+	 private TokenSecurity t = new TokenSecurity();
 
-	  
-	  private String notFoundImage;
-	 
 	 @Override
-	  public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+	 public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 	      throws IOException, ServletException {
 
 	    HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -52,7 +51,20 @@ public class BasicAuthenticationFilter implements Filter{
 	              {
 	            	  filterChain.doFilter(servletRequest, servletResponse);
 	            		
-	              
+	            	    //recupere la routes dans la reponse
+
+	                  String path = ((HttpServletRequest) servletRequest).getServletPath();
+
+	                   
+
+	                   //verifier s'il peut ou pas sans connection
+
+	                   
+						if(!this.GetListAutoriseRoutes().contains(path))
+	                    {
+	                    	filterChain.doFilter(servletRequest, servletResponse);
+
+	                    }
 	                
 	              }
 
@@ -68,19 +80,56 @@ public class BasicAuthenticationFilter implements Filter{
 	      
 	    }
 	  }
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
+	
+	 @Override
+	 public void init(FilterConfig filterConfig) throws ServletException {
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
-	public void destroy() {
+	
+	 @Override
+	 public void destroy() {
 		// TODO Auto-generated method stub
 		
 	}
-	  private void unauthorized(HttpServletResponse response) throws IOException {
+	 
+	 private void unauthorized(HttpServletResponse response) throws IOException {
 		    unauthorized(response);
 		  }
 	
+
+	    public List<String> GetListAutoriseRoutes()
+
+	    {
+
+	          //Liste des routes accessible
+
+	          List<String> lesRoutesAutorise= new  ArrayList<String>();
+
+	          lesRoutesAutorise.add("");
+
+	          lesRoutesAutorise.add("");
+
+	          lesRoutesAutorise.add("");
+
+	          lesRoutesAutorise.add("");
+
+	          lesRoutesAutorise.add("");
+
+	          lesRoutesAutorise.add("");
+
+	          lesRoutesAutorise.add("");
+
+	          lesRoutesAutorise.add("");
+
+	          return lesRoutesAutorise;
+
+	         
+
+	      
+
+	         
+
+	    }
 
 }

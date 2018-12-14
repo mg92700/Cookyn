@@ -1,16 +1,23 @@
 package com.general.security;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Component;
 
 import com.general.service.CryptageService;
-
-public class Token {
+@Component
+public class TokenSecurity {
 	
 	private static final long TICKS_AT_EPOCH = 621355968000000000L;
     private static final long TICKS_PER_MILLISECOND = 10000;
     private static final long trenteMinutes=18000000000L;
     private  CryptageService crypt = new CryptageService();
+    
     
     public static long getUTCTicks(Date date){
 

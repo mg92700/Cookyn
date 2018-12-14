@@ -29,10 +29,10 @@ public class RecetteDto {
 	private List<Etape> etapes;
 	
 	@NotMapped 
-	private byte[] imageRecette;
+	private String imageRecette;
 	
 
-	public RecetteDto(Recette recette, List<RecetteIngredient> ingredients, List<Etape> etapes,byte[] imageRecette) {
+	public RecetteDto(Recette recette, List<RecetteIngredient> ingredients, List<Etape> etapes,String imageRecette) {
 		super();
 		this.recette = recette;
 		this.ingredients = ingredients;
@@ -46,12 +46,12 @@ public class RecetteDto {
 	}
 	
 
-	public byte[] getImageRecette() {
+	public String getImageRecette() {
 		return imageRecette;
 	}
 
 
-	public void setImageRecette(byte[] imageRecette) {
+	public void setImageRecette(String imageRecette) {
 		this.imageRecette = imageRecette;
 	}
 
