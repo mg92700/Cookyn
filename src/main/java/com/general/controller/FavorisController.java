@@ -142,18 +142,5 @@ public class FavorisController {
 		return favoris;
 	}
 
-	
-	@RequestMapping(value = "/DeleteFavorisById/{idFavoris}", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public Favoris DeleteFavorisById(@PathVariable int idFavoris)
-	{
-		Favoris f= favorisDao.findByidFavoris(idFavoris);
-		if(f!=null) {
-			favorisDao.delete(f);
-		}
-		else {
-			System.out.println("Favoris inconnue");
-		}
-		return f;
-	}
+
 }

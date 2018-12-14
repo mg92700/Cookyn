@@ -117,18 +117,4 @@ public class EtapeController {
 	}
 
 	
-	@RequestMapping(value = "/DeleteEtapeById/{idEtape}", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public Etape DeleteEtapeById(@PathVariable int idEtape)
-	{
-		Etape e= etapeDao.findByidEtape(idEtape);
-		if(e!=null) {
-			etapeDao.delete(e);
-		}
-		else {
-			System.out.println("Etape inconnue");
-		}
-		return e;
-	}
-	
 }

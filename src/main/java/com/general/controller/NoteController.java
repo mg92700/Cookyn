@@ -235,20 +235,4 @@ public class NoteController {
 		return note;
 	}
 	
-
-	@RequestMapping(value = "/DeleteNoteById/{idNote}", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public Note DeletePlanningById(@PathVariable int idNote)
-	{
-		Note n= noteDao.findByidNote(idNote);
-		if(n!=null) {
-			noteDao.delete(n);
-		}
-		else {
-			System.out.println("Note inconnue");
-		}
-		return n;
-	}
-	
-	
 }

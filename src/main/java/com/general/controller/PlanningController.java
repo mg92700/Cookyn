@@ -176,19 +176,4 @@ public class PlanningController {
 		return pl;
 	}
 	
-	
-	@RequestMapping(value = "/DeletePlanningById/{idPlanning}", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public Planning DeletePlanningById(@PathVariable int idPlanning)
-	{
-		Planning p= planningDao.findByidPlanning(idPlanning);
-		if(p!=null) {
-			planningDao.delete(p);
-		}
-		else {
-			System.out.println("Planning inconnue");
-		}
-		return p;
-	}
-	
 }

@@ -369,21 +369,5 @@ public class UserController {
 		List<User> rec=userDao.findAllByFiltre(filtre);
 		return rec;
 	}
-
-
-	@RequestMapping(value = "/DeleteUserById/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public UserDto DeleteUserById(@PathVariable int idUser)
-	{
-		User u = userDao.findUserByIdUser(idUser);
-
-		UserDto userReturn = new UserDto();
-		if(u!= null) {
-			userDao.delete(u);
-		}else {
-		userReturn.setErrortxt("User est inconnue");
-		}
-		return userReturn;
-	}
 	
 }

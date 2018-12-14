@@ -217,19 +217,4 @@ public class IngredientController {
         return ingredient;
     }
     
-    //findByidIngredient
-    
-    @RequestMapping(value = "/DeleteIngredientById/{idIngredient}", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public Ingredient DeleteIngredientById(@PathVariable int idIngredient)
-	{
-    	Ingredient i= ingredientDao.findByidIngredient(idIngredient);
-		if(i!=null) {
-			ingredientDao.delete(i);
-		}
-		else {
-			System.out.println("Ingredient inconnue");
-		}
-		return i;
-	}
 }

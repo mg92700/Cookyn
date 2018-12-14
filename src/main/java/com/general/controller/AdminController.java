@@ -158,6 +158,21 @@ public class AdminController {
 		
 		
 	}
+	
+	@RequestMapping(value = "/DeleteUserById/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public User DeleteUserById(@PathVariable int idUser)
+	{
+		User u = userDao.findUserByIdUser(idUser);
+
+		UserDto userReturn = new UserDto();
+		if(u!= null) {
+			userDao.delete(u);
+		}else {
+		userReturn.setErrortxt("User est inconnue");
+		}
+		return u;
+	}
 
 	@RequestMapping(value = "/GetListRecetteByOffSet/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -209,6 +224,20 @@ public class AdminController {
 		map.put("limite", limite);
 		return map;
 		
+	}
+	
+	@RequestMapping(value = "/DeleteRecetteById/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Recette DeleteRecetteById(@PathVariable int idRecette)
+	{
+		Recette r= recetteDao.findByIdRecette(idRecette);
+		if(r!=null) {
+			recetteDao.delete(r);
+		}
+		else {
+			System.out.println("Recette inconnue");
+		}
+		return r;
 	}
 	
     @RequestMapping(value = "/GetListAllIngredient/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
@@ -263,6 +292,20 @@ public class AdminController {
  		return map;
     }
     
+    @RequestMapping(value = "/DeleteIngredientById/{idIngredient}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Ingredient DeleteIngredientById(@PathVariable int idIngredient)
+	{
+    	Ingredient i= ingredientDao.findByidIngredient(idIngredient);
+		if(i!=null) {
+			ingredientDao.delete(i);
+		}
+		else {
+			System.out.println("Ingredient inconnue");
+		}
+		return i;
+	}
+    
     @RequestMapping(value = "/GetListUnites/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object>  GetListUnites(@PathVariable int offset)
@@ -313,6 +356,23 @@ public class AdminController {
 		map.put("limite", limite);
 		return map;
 	}
+    
+	@RequestMapping(value = "/DeleteById/{idUnite}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Unite DeleteteById(@PathVariable int idUnite)
+	{
+		Unite unite = uniteDao.findByidUnite(idUnite);
+		
+		if(unite!=null) {
+			uniteDao.delete(unite);
+		}
+		else {
+			System.out.println("id inexistant");
+		}
+		return unite;
+	}
+	
+	
     
     @RequestMapping(value = "/GetListPlanningsByOffset/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -367,6 +427,22 @@ public class AdminController {
 	}
     
     
+    @RequestMapping(value = "/DeletePlanningById/{idPlanning}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Planning DeletePlanningById(@PathVariable int idPlanning)
+	{
+		Planning p= planningDao.findByidPlanning(idPlanning);
+		if(p!=null) {
+			planningDao.delete(p);
+		}
+		else {
+			System.out.println("Planning inconnue");
+		}
+		return p;
+	}
+    
+    
+    
     @RequestMapping(value = "/GeListAllNotes/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GeListAllNotes(@PathVariable int offset)
@@ -417,6 +493,22 @@ public class AdminController {
 		map.put("limite", limite);
 		return map;
 	}
+    
+    @RequestMapping(value = "/DeleteNoteById/{idNote}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Note DeleteNoteById(@PathVariable int idNote)
+	{
+		Note n= noteDao.findByidNote(idNote);
+		if(n!=null) {
+			noteDao.delete(n);
+		}
+		else {
+			System.out.println("Note inconnue");
+		}
+		return n;
+	}
+    
+    
     
     @RequestMapping(value = "/GetlistFavorisByUser/{idUser}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -473,6 +565,21 @@ public class AdminController {
 		return map;
 	}
     
+	@RequestMapping(value = "/DeleteFavorisById/{idFavoris}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Favoris DeleteFavorisById(@PathVariable int idFavoris)
+	{
+		Favoris f= favorisDao.findByidFavoris(idFavoris);
+		if(f!=null) {
+			favorisDao.delete(f);
+		}
+		else {
+			System.out.println("Favoris inconnue");
+		}
+		return f;
+	}
+	
+    
     
     @RequestMapping(value = "/GetListEtapesById/{idRecette}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -527,5 +634,18 @@ public class AdminController {
 		return map;
 	}
     
+	@RequestMapping(value = "/DeleteEtapeById/{idEtape}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Etape DeleteEtapeById(@PathVariable int idEtape)
+	{
+		Etape e= etapeDao.findByidEtape(idEtape);
+		if(e!=null) {
+			etapeDao.delete(e);
+		}
+		else {
+			System.out.println("Etape inconnue");
+		}
+		return e;
+	}
     
 }
