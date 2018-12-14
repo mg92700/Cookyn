@@ -203,7 +203,7 @@ public class RecetteController {
 		List<Etape> etapes = new ArrayList<>();
 		List<RecetteIngredient> ingredients = new ArrayList<>();
 		User u = new User();
-		Date d = new Date();
+		Date d = java.util.Calendar.getInstance().getTime();
 		if(rec!=null)
 		{
 			u = userDao.findUserByIdUser(rec.getRecette().getUser().getIdUser());
