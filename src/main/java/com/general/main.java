@@ -44,7 +44,7 @@ public class main {
           byte[] fileContent = Files.readAllBytes(fi.toPath());
           System.out.println(fileContent.toString());
           
-          String ok=s.resultat("cestcakenfzaufbezdiuazcNFGZEYmouhsin","antoine",fileContent);
+          String ok=s.resultat("cestcakenfzauf    bezdiuazcN   FGZEYmouhsin","antoine",fileContent);
           System.out.println(ok);
 		  
 		}

@@ -49,15 +49,24 @@ public class UserDto {
 	@NotMapped 
 	private String Token;
 	
+	@NotMapped
+	private int nbRecetteFavoris;
+	
+	@NotMapped
+	private int nbRecetteCree;
+	
 	@MappedBy
 	private Date dateCreation;
 	@MappedBy
 	private Date dateModification;
+
+	
+	
 	
 	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
 			String usernameUser, String villeUser, String role, String newPassword, int nbRecetteCreate,
-			int nbRecetteFav, int nbAbonnement, int nbAbonnee, String errortxt, String token, Date dateCreation,
-			Date dateModification) {
+			int nbRecetteFav, int nbAbonnement, int nbAbonnee, String errortxt, String token, int nbRecetteFavoris,
+			int nbRecetteCree, Date dateCreation, Date dateModification) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
@@ -74,8 +83,23 @@ public class UserDto {
 		this.nbAbonnee = nbAbonnee;
 		Errortxt = errortxt;
 		Token = token;
+		this.nbRecetteFavoris = nbRecetteFavoris;
+		this.nbRecetteCree = nbRecetteCree;
 		this.dateCreation = dateCreation;
 		this.dateModification = dateModification;
+	}
+	
+	public int getNbRecetteFavoris() {
+		return nbRecetteFavoris;
+	}
+	public void setNbRecetteFavoris(int nbRecetteFavoris) {
+		this.nbRecetteFavoris = nbRecetteFavoris;
+	}
+	public int getNbRecetteCree() {
+		return nbRecetteCree;
+	}
+	public void setNbRecetteCree(int nbRecetteCree) {
+		this.nbRecetteCree = nbRecetteCree;
 	}
 	public Date getDateCreation() {
 		return dateCreation;

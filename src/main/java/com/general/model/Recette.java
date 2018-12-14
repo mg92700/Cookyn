@@ -1,6 +1,7 @@
 package com.general.model;
 
 import java.sql.Blob;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +36,42 @@ public class Recette{
 	private String urlRecette;
 	@Column
 	private Integer prix;
+	@Column
+	private Date dateCreation;
 	
+	
+	
+	public Recette(Integer idRecette, String catRecette, String libelleRecette, int tempPrepaRecette,
+			String diffRecette, User user, String urlRecette, Integer prix, Date dateCreation) {
+		super();
+		this.idRecette = idRecette;
+		this.catRecette = catRecette;
+		this.libelleRecette = libelleRecette;
+		this.tempPrepaRecette = tempPrepaRecette;
+		this.diffRecette = diffRecette;
+		this.user = user;
+		this.urlRecette = urlRecette;
+		this.prix = prix;
+		this.dateCreation = dateCreation;
+		
+	}
+
+	public String getUrlRecette() {
+		return urlRecette;
+	}
+
+	public void setUrlRecette(String urlRecette) {
+		this.urlRecette = urlRecette;
+	}
+
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+
 	public Recette(Integer prix) {
 		super();
 		this.prix = prix;
@@ -49,17 +85,7 @@ public class Recette{
 		this.prix = prix;
 	}
 
-	public Recette(Integer idRecette, String catRecette, String libelleRecette, int tempPrepaRecette, String diffRecette,
-			User user, String urlRecette) {
-		super();
-		this.idRecette = idRecette;
-		this.catRecette = catRecette;
-		this.libelleRecette = libelleRecette;
-		this.tempPrepaRecette = tempPrepaRecette;
-		this.diffRecette = diffRecette;
-		this.user = user;
-		this.urlRecette = urlRecette;
-	}
+
 
 	public Recette() {
 		super();

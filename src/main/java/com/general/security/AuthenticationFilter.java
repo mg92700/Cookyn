@@ -40,6 +40,16 @@ public class AuthenticationFilter implements Filter{
             map.put(key, value);
         }
         
+	    //recupere la routes dans la reponse
+
+        String path = ((HttpServletRequest) servletRequest).getServletPath();
+        
+        
+		if(this.GetListAutoriseRoutes().contains(path))
+        {
+        	filterChain.doFilter(servletRequest, servletResponse);
+
+        }
         //recupere value depuis la clés
         String Token=map.get("authorization");
 	    if (Token != null) 
@@ -51,20 +61,13 @@ public class AuthenticationFilter implements Filter{
 	              {
 	            	  filterChain.doFilter(servletRequest, servletResponse);
 	            		
-	            	    //recupere la routes dans la reponse
-
-	                  String path = ((HttpServletRequest) servletRequest).getServletPath();
+	            
 
 	                   
 
 	                   //verifier s'il peut ou pas sans connection
 
-	                   
-						if(!this.GetListAutoriseRoutes().contains(path))
-	                    {
-	                    	filterChain.doFilter(servletRequest, servletResponse);
-
-	                    }
+	                  
 	                
 	              }
 
@@ -106,9 +109,9 @@ public class AuthenticationFilter implements Filter{
 
 	          List<String> lesRoutesAutorise= new  ArrayList<String>();
 
-	          lesRoutesAutorise.add("");
+	          lesRoutesAutorise.add("/admin/LogAdmin");
 
-	          lesRoutesAutorise.add("");
+	          lesRoutesAutorise.add("/admin/LogAdmin");
 
 	          lesRoutesAutorise.add("");
 

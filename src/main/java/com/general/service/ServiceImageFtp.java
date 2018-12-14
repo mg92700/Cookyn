@@ -67,7 +67,11 @@ public class ServiceImageFtp {
             {
               System.out.println("Le fichier "+chemin+" a été transféré avec succès");
             }
-           
+            
+            
+            System.out.println("Le fichier "+chemin+" a été supprimé avec succès");
+            
+            file.delete();
         } 
         catch (IOException ex) 
         {
@@ -95,6 +99,7 @@ public class ServiceImageFtp {
    //"/Users/mouhsin/Documents/"
     	Date date = new Date();
 		String path=userName+libelleRecette+getUTCTicks(date)+".png";
+		path=path.replaceAll(" ", "");
 		BufferedImage img = ImageIO.read(new ByteArrayInputStream(images));
         File outputfile = new File(path);
         ImageIO.write(img, "jpg", outputfile);

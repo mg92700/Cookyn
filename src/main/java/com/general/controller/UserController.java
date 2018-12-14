@@ -167,8 +167,7 @@ public class UserController {
 		User u = userDao.findUserByIdUser(idUser);
 		String format = "dd/MM/yy H:mm:ss"; 
 		SimpleDateFormat formater = new SimpleDateFormat( format ); 
-		System.out.println(formater.format(u.getDateCreation())); 
-		System.out.println(formater.format(u.getDateModification())); 
+ 
 
 		UserDto userReturn = new UserDto();
 		if(u!= null) {
@@ -178,6 +177,7 @@ public class UserController {
 			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
 			userReturn.setNbAbonnement(relationDao.findAllByUser(u).size() );
 			userReturn.setNbAbonnee(   relationDao.findAllByFriend(u).size());
+			
 		}else {
 		userReturn.setErrortxt("User est inconnue et nike ta race antoine cordialement");}
 		return userReturn;

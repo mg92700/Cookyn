@@ -1,5 +1,6 @@
 package com.general.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -31,15 +32,35 @@ public class RecetteDto {
 	@NotMapped 
 	private String imageRecette;
 	
+	@MappedBy
+	private Date dateCreation;
+	
 
-	public RecetteDto(Recette recette, List<RecetteIngredient> ingredients, List<Etape> etapes,String imageRecette) {
+
+
+
+	public RecetteDto(Recette recette, List<RecetteIngredient> ingredients, List<Etape> etapes, String imageRecette,
+			Date dateCreation) {
 		super();
 		this.recette = recette;
 		this.ingredients = ingredients;
 		this.etapes = etapes;
-		this.imageRecette=imageRecette;
+		this.imageRecette = imageRecette;
+		this.dateCreation = dateCreation;
 	}
 
+
+
+
+
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+
+
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
 
 	public RecetteDto() {
 		super();

@@ -1,7 +1,9 @@
+
 package com.general.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,6 +183,7 @@ public class RecetteController {
 		Recette r= recetteDao.findByIdRecette(idRecette);
 		List<Etape> etapes=etapeDao.findAllByrecette(r);
 		List<RecetteIngredient> ri=recetteIngredientDao.findAllByrecette(r);
+		r.getUser().setPasswordUser(null);
 //		List<Ingredient> ingredients=new ArrayList<Ingredient>();
 //		for (RecetteIngredient recetteIngredient : ri) {
 //			ingredients.add(recetteIngredient.getIngredient());
@@ -200,10 +203,12 @@ public class RecetteController {
 		List<Etape> etapes = new ArrayList<>();
 		List<RecetteIngredient> ingredients = new ArrayList<>();
 		User u = new User();
+		Date d = new Date();
 		if(rec!=null)
 		{
 			u = userDao.findUserByIdUser(rec.getRecette().getUser().getIdUser());
 			rec.getRecette().setUser(u);
+			rec.setDateCreation(d);
 			if(rec.getImageRecette()!=null)
 			{
 				byte[] images = Base64.getDecoder().decode(rec.getImageRecette());

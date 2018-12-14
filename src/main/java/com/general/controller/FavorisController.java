@@ -27,7 +27,7 @@ import com.general.service.CryptageService;
 
 @Controller
 @RestController
-@RequestMapping(value = "/Favoris")
+@RequestMapping(value = "/favoris")
 public class FavorisController {
 
 	@Autowired
