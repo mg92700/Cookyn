@@ -438,7 +438,7 @@ public class AdminController {
 		return p;
 	}
     
-    @RequestMapping(value = "/GeListAllNotes/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
+    @RequestMapping(value = "/GetListAllNotes/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GeListAllNotes(@PathVariable int offset)
 	{

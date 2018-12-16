@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import com.general.email.EmailServiceImpl;
 import com.general.security.TokenSecurity;
 import com.general.service.ServiceImageFtp;
 
 public class main {
+
 
 	  public static void main(String[] args) throws IOException {
 			// TODO Auto-generated method stub
@@ -32,7 +34,7 @@ public class main {
 			}
 */
 		  
-		  
+		  /*
 		  ServiceImageFtp s = new ServiceImageFtp();
 
           // APPROACH #1: using retrieveFile(String, OutputStream)
@@ -45,7 +47,12 @@ public class main {
           System.out.println(fileContent.toString());
           
           String ok=s.resultat("cestcakenfzauf    bezdiuazcN   FGZEYmouhsin"," zekjbvrebkjv  rekguvekuger rekgureghre ",fileContent);
-          System.out.println(ok);
+          System.out.println(ok);*/
+		  
+		  
+			EmailServiceImpl t = new EmailServiceImpl();
+		  
+		  t.sendSimpleMessage("farouk.mansour@ynov.com", "hamid", "ici c'est paris");
 		  
 		}
 
