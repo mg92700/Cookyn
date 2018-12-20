@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import com.general.email.EmailServiceImpl;
 import com.general.security.TokenSecurity;
 import com.general.service.ServiceImageFtp;
@@ -47,13 +50,21 @@ public class main {
           System.out.println(fileContent.toString());
           
           String ok=s.resultat("cestcakenfzauf    bezdiuazcN   FGZEYmouhsin"," zekjbvrebkjv  rekguvekuger rekgureghre ",fileContent);
-          System.out.println(ok);*/
+          System.out.println(ok);
 		  
 		  
 			EmailServiceImpl t = new EmailServiceImpl();
 		  
-		  t.sendSimpleMessage("farouk.mansour@ynov.com", "hamid", "ici c'est paris");
-		  
+		  try {
+			t.sendSimpleMessage("komisteve.togboga@ynov.com", "cookyn",1);
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  */
 		}
 
 }

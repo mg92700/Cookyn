@@ -59,6 +59,34 @@ public class FavorisController {
 	
 	
 	
+	@RequestMapping(value = "/ExistFavoris/{idUser}/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Boolean ExistFavoris(@PathVariable int idUser,@PathVariable int idRecette)
+	{
+	
+		
+		Recette r= recetteDao.findByIdRecette(idRecette);
+		User u =userDao.findUserByIdUser(idUser);
+		
+		if(u!=null)
+		{
+			if(r!=null)
+			{
+				
+				Favoris f = favorisDao.findByUserAndRecette(u, r);
+				if(f!=null)
+				{
+					return true;
+					
+				}
+				
+			}
+
+		}
+		
+		return false;
+	}
+	
 	@RequestMapping(value = "/GetlistFavorisByUser/{idUser}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GetlistFavorisByUser(@PathVariable int idUser,@PathVariable int offset)
