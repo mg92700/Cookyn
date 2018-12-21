@@ -1,24 +1,17 @@
 package com.general.controller;
-import java.util.Date;
-import java.util.Enumeration;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.text.SimpleDateFormat;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.http.HttpHeaders;
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,18 +20,13 @@ import com.general.dao.FavorisDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.RelationDao;
 import com.general.dao.UserDao;
-import com.general.dto.AmieDto;
-import com.general.dto.RelationDto;
 import com.general.dto.UserDto;
-import com.general.model.Recette;
-import com.general.model.Relation;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
 import com.general.service.EmailValidator;
 import com.general.service.Status;
-import com.google.api.Authentication;
-import com.google.protobuf.Method;
+
 
 @Controller
 @RestController
@@ -49,6 +37,7 @@ public class UserController {
 	ApiService apiService;
 	
 	@Autowired
+	
 	JTransfo JTransfo;
 	
 	@Autowired

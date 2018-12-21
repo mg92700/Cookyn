@@ -24,7 +24,7 @@ import com.general.service.CryptageService;
 
 @Controller
 @RestController
-@RequestMapping(value = "/Planning")
+@RequestMapping(value = "/planning")
 
 public class PlanningController {
 

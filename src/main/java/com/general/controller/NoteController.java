@@ -30,7 +30,7 @@ import com.general.service.CryptageService;
 
 @Controller
 @RestController
-@RequestMapping(value = "/Note")
+@RequestMapping(value = "/note")
 public class NoteController {
 
 	@Autowired

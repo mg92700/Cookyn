@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CourseDto {
+public class CourseParamDto {
 
 	
 	
@@ -59,11 +59,17 @@ public class CourseDto {
 	}
 
 
-	public CourseDto(Date dateDebut, Date dateFin, Integer idUser) {
+	public CourseParamDto(Date dateDebut, Date dateFin, Integer idUser) {
 		super();
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.idUser = idUser;
+	}
+
+
+	public CourseParamDto() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	
 	
