@@ -26,7 +26,6 @@ import com.general.model.Relation;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
-import com.general.service.Status;
 
 @Controller
 @RestController
@@ -39,8 +38,7 @@ public class RelationController {
 	@Autowired
 	JTransfo JTransfo;
 	
-	@Autowired
-	Status status;
+	
 	
 	@Autowired
 	UserDao userDao;

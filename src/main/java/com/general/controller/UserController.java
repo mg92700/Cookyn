@@ -25,7 +25,6 @@ import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
 import com.general.service.EmailValidator;
-import com.general.service.Status;
 
 
 @Controller
@@ -40,8 +39,6 @@ public class UserController {
 	
 	JTransfo JTransfo;
 	
-	@Autowired
-	Status status;
 	
 	@Autowired
 	UserDao userDao;
@@ -61,7 +58,7 @@ public class UserController {
 	
 	EmailValidator validator = new EmailValidator();
 
-	private String token;
+	
 
 	@RequestMapping(value = "/GetlistUsersByOffSet/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -300,7 +297,6 @@ public class UserController {
 		}
 		return userReturn;
 	}
-	
 	
 	@RequestMapping(value = "/Login", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")

@@ -20,7 +20,7 @@ import com.general.model.Recette;
 import com.general.model.Unite;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
-import com.general.service.Status;
+
 
 @Controller
 @RestController
@@ -33,9 +33,6 @@ public class UniteController {
 	
 	@Autowired
 	JTransfo JTransfo;
-	
-	@Autowired
-	Status status;
 	
 	@Autowired
 	UniteDao uniteDao;
