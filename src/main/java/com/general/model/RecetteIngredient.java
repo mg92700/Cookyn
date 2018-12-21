@@ -91,18 +91,3 @@ public class RecetteIngredient implements Serializable {
 }
 
 
-/*
-
-
-	idRecette int,
-    idIngredient int,
-    idUnite int,
-	quantite float,
-    FOREIGN KEY (idRecette) REFERENCES Recette(idRecette),
-    FOREIGN KEY (idIngredient) REFERENCES Ingredient(idIngredient),
-    FOREIGN KEY (idUnite) REFERENCES Unite(idUnite),
-    primary key (idRecette,idIngredient)
-
-
-
-*/

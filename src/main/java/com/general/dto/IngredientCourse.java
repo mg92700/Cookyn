@@ -1,5 +1,7 @@
 package com.general.dto;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,23 +13,23 @@ import lombok.Data;
 @Data
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CourseListDto {
+public class IngredientCourse {
 	
 	@NotMapped 
 	String libelleIngredient;
-	@NotMapped 
-	float quantite;
+
 	
 	@NotMapped 
 	int idIngredient;
 
-	@NotMapped 
-	String unite;
+
 	
 	
 	@NotMapped 
 	String categorie;
 	
+	@NotMapped 
+	List<RelationUniteQuantiteDto> lstRelationUniteDto;
 
 	public String getLibelleIngredient() {
 		return libelleIngredient;
@@ -37,28 +39,12 @@ public class CourseListDto {
 		this.libelleIngredient = libelleIngredient;
 	}
 
-	public float getQuantite() {
-		return quantite;
-	}
-
-	public void setQuantite(float quantite) {
-		this.quantite = quantite;
-	}
-
 	public int getIdIngredient() {
 		return idIngredient;
 	}
 
-	public void setIdIngredient(int idRecette) {
-		this.idIngredient = idRecette;
-	}
-
-	public String getUnite() {
-		return unite;
-	}
-
-	public void setUnite(String unite) {
-		this.unite = unite;
+	public void setIdIngredient(int idIngredient) {
+		this.idIngredient = idIngredient;
 	}
 
 	public String getCategorie() {
@@ -69,22 +55,28 @@ public class CourseListDto {
 		this.categorie = categorie;
 	}
 
-	public CourseListDto(String libelleIngredient, float quantite, int idIngredient, String unite, String categorie) {
-		super();
-		this.libelleIngredient = libelleIngredient;
-		this.quantite = quantite;
-		this.idIngredient = idIngredient;
-		this.unite = unite;
-		this.categorie = categorie;
+	public List<RelationUniteQuantiteDto> getLstRelationUniteDto() {
+		return lstRelationUniteDto;
 	}
 
-	public CourseListDto() {
+	public void setLstRelationUniteDto(List<RelationUniteQuantiteDto> lstRelationUniteDto) {
+		this.lstRelationUniteDto = lstRelationUniteDto;
+	}
+
+	public IngredientCourse(String libelleIngredient, int idIngredient, String categorie,
+			List<RelationUniteQuantiteDto> lstRelationUniteDto) {
+		super();
+		this.libelleIngredient = libelleIngredient;
+		this.idIngredient = idIngredient;
+		this.categorie = categorie;
+		this.lstRelationUniteDto = lstRelationUniteDto;
+	}
+
+	public IngredientCourse() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-
 	
 	
-
+	
 }

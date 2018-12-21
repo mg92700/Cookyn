@@ -27,8 +27,9 @@ import com.general.dao.RecetteIngredientDao;
 import com.general.dao.UniteDao;
 import com.general.dao.UserDao;
 import com.general.dto.CourseCategorieDto;
-import com.general.dto.CourseListDto;
+import com.general.dto.IngredientCourse;
 import com.general.dto.CourseParamDto;
+import com.general.dto.RelationUniteQuantiteDto;
 import com.general.dto.UserDto;
 import com.general.model.Ingredient;
 import com.general.model.Planning;
@@ -81,16 +82,17 @@ public class CourseController {
     
     
 	
+	@SuppressWarnings("unlikely-arg-type")
 	@RequestMapping(value = "/GenerationCourse", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GenerationCourse (@RequestBody CourseParamDto course)
 	{
 		
 		Map<String, Object> mapReturn = new HashMap<String, Object>();
-		Map<Integer, CourseListDto> DicoCourseDto = new LinkedHashMap<>();
+		Map<Integer, IngredientCourse> DicoCourseDto = new LinkedHashMap<>();
 		
-		Map<String,List<CourseListDto>>DicoCourseCategorieDto = new LinkedHashMap<>();
-		int compteurRecette=0;
+		Map<String,List<IngredientCourse>>DicoCourseCategorieDto = new LinkedHashMap<>();
+
 		
 		User u = userDao.findUserByIdUser(course.getIdUser());
 		List<Planning> lstPlanning=null;
@@ -98,7 +100,7 @@ public class CourseController {
 		if(u!=null)
 		{
 			lstPlanning=planningDao.findPlanningByUserAndDate(u, course.getDateDebut(), course.getDateFin());
-			compteurRecette=lstPlanning.size();
+		
 			for(Planning unPlanning : lstPlanning)
 			{
 				Recette uneRecette = recetteDao.findByIdRecette(unPlanning.getRecette().getIdRecette());
@@ -107,20 +109,44 @@ public class CourseController {
 				{
 					
 					Ingredient unIngredient = ingredientDao.findByidIngredient(uneRecetteIngredient.getIngredient().getIdIngredient());
-					CourseListDto crs = new CourseListDto();
-					crs.setIdIngredient(unIngredient.getIdIngredient());
-					crs.setLibelleIngredient(unIngredient.getLibelleIngredient());
-					crs.setQuantite(uneRecetteIngredient.getQuantite());
-					crs.setUnite(uneRecetteIngredient.getUnite().getLibelleUnite());
-					crs.setCategorie(unIngredient.getCatIngredient());
-					
 					if(DicoCourseDto.containsKey(unIngredient.getIdIngredient()))
 					{
-						DicoCourseDto.get(unIngredient.getIdIngredient()).setQuantite(DicoCourseDto.get(unIngredient.getIdIngredient()).getQuantite()+crs.getQuantite());;
+					
+						for(RelationUniteQuantiteDto relation:  DicoCourseDto.get(unIngredient.getIdIngredient()).getLstRelationUniteDto())
+						{
+							if(relation.getUnite().equals(uneRecetteIngredient.getUnite().getIdUnite()))
+							{
+								relation.setQuantite((relation.getQuantite() + uneRecetteIngredient.getQuantite()));
+								//DicoCourseDto.get(unIngredient.getIdIngredient()).setQuantite(DicoCourseDto.get(unIngredient.getIdIngredient()).get()+crs.getQuantite());;
+								
+								break;
+							}
+							else
+							{
+								RelationUniteQuantiteDto uneRelationUniteQuantiteDto = new RelationUniteQuantiteDto();
+								uneRelationUniteQuantiteDto.setQuantite(uneRecetteIngredient.getQuantite());
+								uneRelationUniteQuantiteDto.setUnite(uneRecetteIngredient.getUnite());
+								DicoCourseDto.get(unIngredient.getIdIngredient()).getLstRelationUniteDto().add(uneRelationUniteQuantiteDto);
+								break;
+							}
+							
+							
+						}
+							
 						
 					}
 					else
 					{
+						
+						
+						
+						IngredientCourse crs = new IngredientCourse();
+						crs.setLstRelationUniteDto(new ArrayList<RelationUniteQuantiteDto>());
+						crs.setIdIngredient(unIngredient.getIdIngredient());
+						crs.setLibelleIngredient(unIngredient.getLibelleIngredient());
+						crs.setCategorie(unIngredient.getCatIngredient());
+						crs.getLstRelationUniteDto().add(new RelationUniteQuantiteDto(uneRecetteIngredient.getQuantite(),uneRecetteIngredient.getUnite()));
+						
 						DicoCourseDto.put(unIngredient.getIdIngredient(), crs);
 						
 					}
@@ -134,7 +160,7 @@ public class CourseController {
 		List<CourseCategorieDto> lstTrier= new ArrayList<>();
 		List<String> dist = ingredientDao.findAllDistinctCategorie();
 		for(int i= 0; i< dist.size(); i++) {
-			List<CourseListDto> listCourseByCat = new ArrayList<>();
+			List<IngredientCourse> listCourseByCat = new ArrayList<>();
 			System.out.println(dist.get(i));
 			DicoCourseCategorieDto.put(dist.get(i), listCourseByCat);
 			lstTrier.add(new CourseCategorieDto(listCourseByCat, dist.get(i)));
@@ -143,7 +169,7 @@ public class CourseController {
 		
 		if (DicoCourseDto.size()>0)
 		{
-			for(CourseListDto uneCourse:DicoCourseDto.values())
+			for(IngredientCourse uneCourse:DicoCourseDto.values())
 			{
 	
 				DicoCourseCategorieDto.get(uneCourse.getCategorie()).add(uneCourse);
@@ -151,7 +177,7 @@ public class CourseController {
 			}
 		}
 		for(int i=0; i<lstTrier.size(); i++) {
-			List<CourseListDto> listCourseByCat = DicoCourseCategorieDto.get(lstTrier.get(i).getCategorie());
+			List<IngredientCourse> listCourseByCat = DicoCourseCategorieDto.get(lstTrier.get(i).getCategorie());
 			lstTrier.get(i).setListCourseDto(listCourseByCat);
 		}
 			

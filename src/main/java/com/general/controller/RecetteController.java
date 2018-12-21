@@ -28,8 +28,10 @@ import com.general.dto.RecetteDto;
 import com.general.model.Etape;
 import com.general.model.Recette;
 import com.general.model.RecetteIngredient;
+import com.general.model.Unite;
 import com.general.model.User;
 import com.general.service.ApiService;
+import com.general.service.ConvertUnite;
 import com.general.service.CryptageService;
 import com.general.service.ServiceImageFtp;
 
@@ -48,14 +50,19 @@ public class RecetteController {
 	
 	@Autowired
 	EtapeDao etapeDao;
+	
 	@Autowired
 	RecetteDao recetteDao;
+	
 	@Autowired
 	RecetteIngredientDao recetteIngredientDao;
+	
 	@Autowired
 	IngredientDao ingredientDao;
+	
 	@Autowired
 	UserDao userDao;
+	
 	@Autowired
 	UniteDao uniteDao;
 	
@@ -64,12 +71,18 @@ public class RecetteController {
 	
 	@Autowired 
 	CryptageService cryptageService;
+	
+	@Autowired 
+	ConvertUnite convert;
 
 	@RequestMapping(value = "/GetListRecette", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<Recette> GetListRecette()
 	{
 		List<Recette> recettes = recetteDao.findAll();
+	
+
+		
 		return recettes;
 	}
 	
@@ -206,15 +219,14 @@ public class RecetteController {
 		Date d = java.util.Calendar.getInstance().getTime();
 		if(rec!=null)
 		{
+			
 			u = userDao.findUserByIdUser(rec.getRecette().getUser().getIdUser());
 			rec.getRecette().setUser(u);
 			rec.getRecette().setDateCreation(d);
 			if(rec.getImageRecette()!=null)
 			{
 				byte[] images = Base64.getDecoder().decode(rec.getImageRecette());
-				
 				String url=serviceFtp.resultat(u.getUsernameUser(),rec.getRecette().getLibelleRecette() ,images);
-				
 				rec.getRecette().setUrlRecette(url);
 			}
 			recDto.setRecette(recetteDao.saveAndFlush(rec.getRecette()));
@@ -228,6 +240,8 @@ public class RecetteController {
 			}
 			if(rec.getIngredients() != null) {		
 				for(int i=0; i< rec.getIngredients().size(); i++) {
+					
+					//rec.getIngredients().get(i).setQuantite(convert.Convert(rec.getIngredients().get(i).getUnite().getIdUnite(), rec.getIngredients().get(i).getQuantite()));
 					rec.getIngredients().get(i).setRecette(rec.getRecette());
 					recetteIngredientDao.saveAndFlush(rec.getIngredients().get(i));
 					ingredients.add(rec.getIngredients().get(i));
@@ -300,7 +314,6 @@ public class RecetteController {
 		return map;
 	}
 	
-// recette creer par user
 	@RequestMapping(value = "/GetListRecetteCreatedByUser/{idU}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GetListRecetteCreatedByUser(@PathVariable int idU,@PathVariable int offset)
@@ -356,5 +369,5 @@ public class RecetteController {
 		return map;
 	}
 	
-	
+
 }

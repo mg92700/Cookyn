@@ -18,16 +18,16 @@ public class CourseCategorieDto {
 	
 	
 	@NotMapped 
-	List<CourseListDto> listCourseDto;
+	List<IngredientCourse> listCourseDto;
 	
 	@NotMapped 
 	String categorie;
 
-	public List<CourseListDto> getListCourseDto() {
+	public List<IngredientCourse> getListCourseDto() {
 		return listCourseDto;
 	}
 
-	public void setListCourseDto(List<CourseListDto> listCourseDto) {
+	public void setListCourseDto(List<IngredientCourse> listCourseDto) {
 		this.listCourseDto = listCourseDto;
 	}
 
@@ -39,7 +39,7 @@ public class CourseCategorieDto {
 		this.categorie = categorie;
 	}
 
-	public CourseCategorieDto(List<CourseListDto> listCourseDto, String categorie) {
+	public CourseCategorieDto(List<IngredientCourse> listCourseDto, String categorie) {
 		super();
 		this.listCourseDto = listCourseDto;
 		this.categorie = categorie;
