@@ -181,7 +181,7 @@ public class CourseController {
 			lstTrier.get(i).setListCourseDto(listCourseByCat);
 		}
 			
-		mapReturn.put("listeCourse", DicoCourseCategorieDto);
+		mapReturn.put("listeCourse", lstTrier);
 		
 		return mapReturn;
 		
