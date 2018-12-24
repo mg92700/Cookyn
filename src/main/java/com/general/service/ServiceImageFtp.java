@@ -23,6 +23,7 @@ public class ServiceImageFtp {
 	private static final long TICKS_AT_EPOCH = 621355968000000000L;
     private static final long TICKS_PER_MILLISECOND = 10000;
    
+    
 	
     @Async
 	public String resultat(String userName,String libelleRecette,byte[] images)throws IOException
@@ -108,7 +109,6 @@ public class ServiceImageFtp {
     	return path;
     	
     }
-    
     
     public static long getUTCTicks(Date date){
 
