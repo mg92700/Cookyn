@@ -60,59 +60,10 @@ public class UserDto {
 	@MappedBy
 	private Date dateModification;
 
-	
-	
-	
-	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
-			String usernameUser, String villeUser, String role, String newPassword, int nbRecetteCreate,
-			int nbRecetteFav, int nbAbonnement, int nbAbonnee, String errortxt, String token, int nbRecetteFavoris,
-			int nbRecetteCree, Date dateCreation, Date dateModification) {
-		super();
-		this.idUser = idUser;
-		this.nomUser = nomUser;
-		this.prenomUser = prenomUser;
-		this.mailUser = mailUser;
-		this.passwordUser = passwordUser;
-		this.usernameUser = usernameUser;
-		this.villeUser = villeUser;
-		this.role = role;
-		this.newPassword = newPassword;
-		this.nbRecetteCreate = nbRecetteCreate;
-		this.nbRecetteFav = nbRecetteFav;
-		this.nbAbonnement = nbAbonnement;
-		this.nbAbonnee = nbAbonnee;
-		Errortxt = errortxt;
-		Token = token;
-		this.nbRecetteFavoris = nbRecetteFavoris;
-		this.nbRecetteCree = nbRecetteCree;
-		this.dateCreation = dateCreation;
-		this.dateModification = dateModification;
-	}
-	
-	public int getNbRecetteFavoris() {
-		return nbRecetteFavoris;
-	}
-	public void setNbRecetteFavoris(int nbRecetteFavoris) {
-		this.nbRecetteFavoris = nbRecetteFavoris;
-	}
-	public int getNbRecetteCree() {
-		return nbRecetteCree;
-	}
-	public void setNbRecetteCree(int nbRecetteCree) {
-		this.nbRecetteCree = nbRecetteCree;
-	}
-	public Date getDateCreation() {
-		return dateCreation;
-	}
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
-	public Date getDateModification() {
-		return dateModification;
-	}
-	public void setDateModification(Date dateModification) {
-		this.dateModification = dateModification;
-	}
+	@MappedBy
+	private int compteActiver;
+	@MappedBy
+	private Date dateDerniereConnection;
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -203,13 +154,47 @@ public class UserDto {
 	public void setToken(String token) {
 		Token = token;
 	}
-	public UserDto() {
-		super();
-		// TODO Auto-generated constructor stub
+	public int getNbRecetteFavoris() {
+		return nbRecetteFavoris;
+	}
+	public void setNbRecetteFavoris(int nbRecetteFavoris) {
+		this.nbRecetteFavoris = nbRecetteFavoris;
+	}
+	public int getNbRecetteCree() {
+		return nbRecetteCree;
+	}
+	public void setNbRecetteCree(int nbRecetteCree) {
+		this.nbRecetteCree = nbRecetteCree;
+	}
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+	public Date getDateModification() {
+		return dateModification;
+	}
+	public void setDateModification(Date dateModification) {
+		this.dateModification = dateModification;
+	}
+	public int getCompteActiver() {
+		return compteActiver;
+	}
+	public void setCompteActiver(int compteActiver) {
+		this.compteActiver = compteActiver;
+	}
+	public Date getDateDerniereConnection() {
+		return dateDerniereConnection;
+	}
+	public void setDateDerniereConnection(Date dateDerniereConnection) {
+		this.dateDerniereConnection = dateDerniereConnection;
 	}
 	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
 			String usernameUser, String villeUser, String role, String newPassword, int nbRecetteCreate,
-			int nbRecetteFav, int nbAbonnement, int nbAbonnee, String errortxt, String token) {
+			int nbRecetteFav, int nbAbonnement, int nbAbonnee, String errortxt, String token, int nbRecetteFavoris,
+			int nbRecetteCree, Date dateCreation, Date dateModification, int compteActiver,
+			Date dateDerniereConnection) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
@@ -226,7 +211,20 @@ public class UserDto {
 		this.nbAbonnee = nbAbonnee;
 		Errortxt = errortxt;
 		Token = token;
+		this.nbRecetteFavoris = nbRecetteFavoris;
+		this.nbRecetteCree = nbRecetteCree;
+		this.dateCreation = dateCreation;
+		this.dateModification = dateModification;
+		this.compteActiver = compteActiver;
+		this.dateDerniereConnection = dateDerniereConnection;
 	}
+	public UserDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
 	
 	
 

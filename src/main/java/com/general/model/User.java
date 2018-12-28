@@ -39,24 +39,11 @@ public class User{
 	private Date dateCreation;
 	@Column
 	private Date dateModification;
+	@Column
+	private int compteActiver;
+	@Column
+	private Date dateDerniereConnection;
 	
-	public User(Date dateCreation, Date dateModification) {
-		super();
-		this.dateCreation = dateCreation;
-		this.dateModification = dateModification;
-	}
-	public Date getDateCreation() {
-		return dateCreation;
-	}
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
-	public Date getDateModification() {
-		return dateModification;
-	}
-	public void setDateModification(Date dateModification) {
-		this.dateModification = dateModification;
-	}
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -105,8 +92,33 @@ public class User{
 	public void setRole(String role) {
 		this.role = role;
 	}
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+	public Date getDateModification() {
+		return dateModification;
+	}
+	public void setDateModification(Date dateModification) {
+		this.dateModification = dateModification;
+	}
+	public int getCompteActiver() {
+		return compteActiver;
+	}
+	public void setCompteActiver(int  compteActiver) {
+		this.compteActiver = compteActiver;
+	}
+	public Date getDateDerniereConnection() {
+		return dateDerniereConnection;
+	}
+	public void setDateDerniereConnection(Date dateDerniereConnection) {
+		this.dateDerniereConnection = dateDerniereConnection;
+	}
 	public User(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
-			String usernameUser, String villeUser, String role) {
+			String usernameUser, String villeUser, String role, Date dateCreation, Date dateModification,
+			int compteActiver, Date dateDerniereConnection) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
@@ -116,11 +128,16 @@ public class User{
 		this.usernameUser = usernameUser;
 		this.villeUser = villeUser;
 		this.role = role;
+		this.dateCreation = dateCreation;
+		this.dateModification = dateModification;
+		this.compteActiver = compteActiver;
+		this.dateDerniereConnection = dateDerniereConnection;
 	}
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 
 	
 	

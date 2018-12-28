@@ -133,15 +133,15 @@ public class UserController {
 	@CrossOrigin(origins = "*")
 	public UserDto GetUsersByUserName(String username)
 	{
-		User u = userDao.findByUsernameUser(username);
+		User user = userDao.findByUsernameUser(username);
 		UserDto userReturn = null;
-		if(u!= null) {
-			userReturn =(UserDto)JTransfo.convert(u);
+		if(user!= null) {
+			userReturn =(UserDto)JTransfo.convert(user);
 			userReturn.setPasswordUser(null);
-			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
-			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-			userReturn.setNbAbonnement(relationDao.findAllByUser(u).size());
-			userReturn.setNbAbonnee(relationDao.findAllByFriend(u).size());
+			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(user).size());
+			userReturn.setNbRecetteFav(favorisDao.findAllByUser(user).size());
+			userReturn.setNbAbonnement(relationDao.findAllByUser(user).size());
+			userReturn.setNbAbonnee(relationDao.findAllByFriend(user).size());
 		}
 		return userReturn;
 	}
@@ -150,19 +150,19 @@ public class UserController {
 	@CrossOrigin(origins = "*")
 	public UserDto GetUserById(@PathVariable int idUser)
 	{
-		User u = userDao.findUserByIdUser(idUser);
+		User user = userDao.findUserByIdUser(idUser);
 		String format = "dd/MM/yy H:mm:ss"; 
 		SimpleDateFormat formater = new SimpleDateFormat( format ); 
  
 
 		UserDto userReturn = new UserDto();
-		if(u!= null) {
-			userReturn =(UserDto)JTransfo.convert(u);
+		if(user!= null) {
+			userReturn =(UserDto)JTransfo.convert(user);
 			userReturn.setPasswordUser(null);
-			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
-			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-			userReturn.setNbAbonnement(relationDao.findAllByUser(u).size() );
-			userReturn.setNbAbonnee(   relationDao.findAllByFriend(u).size());
+			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(user).size());
+			userReturn.setNbRecetteFav(favorisDao.findAllByUser(user).size());
+			userReturn.setNbAbonnement(relationDao.findAllByUser(user).size() );
+			userReturn.setNbAbonnee(   relationDao.findAllByFriend(user).size());
 			
 		}else {
 		userReturn.setErrortxt("User est inconnue et nike ta race antoine cordialement");}
@@ -171,32 +171,34 @@ public class UserController {
 
 	@RequestMapping(value = "/CreateUser", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public UserDto CreateUser(@RequestBody UserDto user)
+	public UserDto CreateUser(@RequestBody UserDto userDto)
 	{
 		UserDto userReturn = new UserDto();
-		User u =  null;
-		if(user!=null)
+		User user =  null;
+		if(userDto!=null)
 		{
-			System.out.println(userDao.findAllByUsernameUser(user.getUsernameUser()).size());
-			if(userDao.findAllByUsernameUser(user.getUsernameUser()).size()==0 && userDao.findAllWhereMail(user.getMailUser()).size()==0){
+			System.out.println(userDao.findAllByUsernameUser(userDto.getUsernameUser()).size());
+			if(userDao.findAllByUsernameUser(userDto.getUsernameUser()).size()==0 && userDao.findAllWhereMail(userDto.getMailUser()).size()==0){
 			
-				if(user.getPasswordUser()!= null) {
-					user.setPasswordUser(cryptageService.encrypt(user.getPasswordUser()));	
-					user.setRole("user");
+				if(userDto.getPasswordUser()!= null) {
+					userDto.setPasswordUser(cryptageService.encrypt(userDto.getPasswordUser()));	
+					userDto.setRole("user");
 					
 					//String format = "dd/MM/yy H:mm:ss"; 
 					//SimpleDateFormat formater = new SimpleDateFormat( format ); 
 					//user.setDateCreation(formater.format( new Date()));
-					user.setDateCreation(new Date());
-					user.setDateModification(new Date());
-					u = (User) JTransfo.convert(user);
+					userDto.setDateCreation(new Date());
+					userDto.setDateModification(new Date());
+					userDto.setDateDerniereConnection(new Date());
+					userDto.setCompteActiver(0);
+					user = (User) JTransfo.convert(userDto);
 					
-					userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
+					userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(user));
 					userReturn.setPasswordUser(null);
-					userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
-					userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-					userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size());
-					userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
+					userReturn.setNbRecetteCreate(recetteDao.findAllByUser(user).size());
+					userReturn.setNbRecetteFav(favorisDao.findAllByUser(user).size());
+					userReturn.setNbAbonnement(relationDao.findAllByFriend(user).size());
+					userReturn.setNbAbonnee(relationDao.findAllByUser(user).size());
 					
 				}else {
 					userReturn.setErrortxt("Veuillez renseigner un mot de passe");
@@ -211,22 +213,22 @@ public class UserController {
 	
 	@RequestMapping(value = "/UpdateUser", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public UserDto UpdateUser(@RequestBody UserDto user)
+	public UserDto UpdateUser(@RequestBody UserDto userDto)
 	{
 		UserDto userReturn = null;
-		User u = null;
-		User userDb = userDao.findUserByIdUser(user.getIdUser());
+		User user = null;
+		User userDb = userDao.findUserByIdUser(userDto.getIdUser());
 		
 		
-		if(user!=null)
+		if(userDto!=null)
 		{
 			
-			if(user.getNewPassword() != null) 
+			if(userDto.getNewPassword() != null) 
 			{
-				if(cryptageService.encrypt(user.getPasswordUser()).equals(userDao.findUserByIdUser(user.getIdUser()).getPasswordUser())) 				
+				if(cryptageService.encrypt(userDto.getPasswordUser()).equals(userDao.findUserByIdUser(userDto.getIdUser()).getPasswordUser())) 				
 				{
-					user.setPasswordUser(cryptageService.encrypt(user.getNewPassword()));
-					u = (User) JTransfo.convert(user);
+					userDto.setPasswordUser(cryptageService.encrypt(userDto.getNewPassword()));
+					user = (User) JTransfo.convert(userDto);
 				}
 				else {
 					return userReturn;
@@ -237,62 +239,62 @@ public class UserController {
 			else {
 
 				//u=userDao.findUserByIdUser(user.getIdUser());
-				user.setPasswordUser(userDao.findUserByIdUser(user.getIdUser()).getPasswordUser());
-				u = (User) JTransfo.convert(user);
+				userDto.setPasswordUser(userDao.findUserByIdUser(userDto.getIdUser()).getPasswordUser());
+				user = (User) JTransfo.convert(userDto);
 				
 			}
 			//prenom
-			if(user.getPrenomUser()==null){
-				u.setPrenomUser(userDb.getPrenomUser());
+			if(userDto.getPrenomUser()==null){
+				user.setPrenomUser(userDb.getPrenomUser());
 			}
 			else 
 			{
-				u.setPrenomUser(user.getPrenomUser());
+				user.setPrenomUser(userDto.getPrenomUser());
 			}
 			//nom
-			if(user.getNomUser()==null){
-				u.setNomUser(userDb.getNomUser());
+			if(userDto.getNomUser()==null){
+				user.setNomUser(userDb.getNomUser());
 			}
 			else 
 			{
-				u.setNomUser(user.getNomUser());
+				user.setNomUser(userDto.getNomUser());
 			}
 			//ville
-			if(user.getVilleUser()==null){
-				u.setVilleUser(userDb.getVilleUser());
+			if(userDto.getVilleUser()==null){
+				user.setVilleUser(userDb.getVilleUser());
 			}
 			else 
 			{
-				u.setVilleUser(user.getVilleUser());
+				user.setVilleUser(userDto.getVilleUser());
 			}
 			//mail
-			if(user.getMailUser()==null){
-				u.setMailUser(userDb.getMailUser());
+			if(userDto.getMailUser()==null){
+				user.setMailUser(userDb.getMailUser());
 			}
 			else 
 			{
-				u.setMailUser(user.getMailUser());
+				user.setMailUser(userDto.getMailUser());
 			}
 			//username
-			if(user.getUsernameUser()==null){
-				u.setUsernameUser(userDb.getUsernameUser());
+			if(userDto.getUsernameUser()==null){
+				user.setUsernameUser(userDb.getUsernameUser());
 			}
 			else 
 			{
-				u.setUsernameUser(user.getUsernameUser());
+				user.setUsernameUser(userDto.getUsernameUser());
 			}
 			
-			u.setDateCreation(userDb.getDateCreation());
+			user.setDateCreation(userDb.getDateCreation());
 			
 		}
-		if(u!= null) {
-			u.setDateModification(new Date());
-			userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
+		if(user!= null) {
+			user.setDateModification(new Date());
+			userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(user));
 			userReturn.setPasswordUser(null);
-			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
-			userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-			userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size()); 
-			userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
+			userReturn.setNbRecetteCreate(recetteDao.findAllByUser(user).size());
+			userReturn.setNbRecetteFav(favorisDao.findAllByUser(user).size());
+			userReturn.setNbAbonnement(relationDao.findAllByFriend(user).size()); 
+			userReturn.setNbAbonnee(relationDao.findAllByUser(user).size());
 			
 		}
 		return userReturn;
@@ -300,39 +302,51 @@ public class UserController {
 	
 	@RequestMapping(value = "/Login", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public UserDto Login(@RequestBody UserDto user)
+	public UserDto Login(@RequestBody UserDto userDto)
 	{
-		User u = null;
+		User userDb = null;
 		UserDto userReturn = new UserDto();
-		
-		if(validator.validateEmail(user.getUsernameUser()))
+		User user=null;
+		if(validator.validateEmail(userDto.getUsernameUser()))
 		{
 			//si c'est un email
-			 if (userDao.findByMailUser(user.getUsernameUser()) != null ) {
-				 u = userDao.findByMailUser(user.getUsernameUser());
+			 if (userDao.findByMailUser(userDto.getUsernameUser()) != null ) {
+				 userDb = userDao.findByMailUser(userDto.getUsernameUser());
 			 	}
 		
 			
 			
 		}else {
 			//si c'est pas un email
-			if( userDao.findByUsernameUser(user.getUsernameUser()) != null ){
-						u = userDao.findByUsernameUser(user.getUsernameUser());
+			if( userDao.findByUsernameUser(userDto.getUsernameUser()) != null ){
+						userDb = userDao.findByUsernameUser(userDto.getUsernameUser());
 				}
 		}
 		
 	
 		
-		if(u!= null) 
+		if(userDb!= null) 
 		{
-			if(u.getPasswordUser().equals(cryptageService.encrypt(user.getPasswordUser()))) 
+			if(userDb.getPasswordUser().equals(cryptageService.encrypt(userDto.getPasswordUser()))) 
 			{
-				userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(u));
+				userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(userDb));
 				userReturn.setPasswordUser(null);
-				userReturn.setNbRecetteCreate(recetteDao.findAllByUser(u).size());
-				userReturn.setNbRecetteFav(favorisDao.findAllByUser(u).size());
-				userReturn.setNbAbonnement(relationDao.findAllByFriend(u).size());
-				userReturn.setNbAbonnee(relationDao.findAllByUser(u).size());
+				userReturn.setNbRecetteCreate(recetteDao.findAllByUser(userDb).size());
+				userReturn.setNbRecetteFav(favorisDao.findAllByUser(userDb).size());
+				userReturn.setNbAbonnement(relationDao.findAllByFriend(userDb).size());
+				userReturn.setNbAbonnee(relationDao.findAllByUser(userDb).size());
+				
+				
+				
+				user=userDb;
+			
+				user.setDateCreation(new Date());
+				user.setCompteActiver(1);
+				userDao.saveAndFlush(user);
+			
+				
+				
+				
 			}
 			else {
 				
@@ -354,5 +368,23 @@ public class UserController {
 		List<User> rec=userDao.findAllByFiltre(filtre);
 		return rec;
 	}
-	
+
+	@RequestMapping(value = "/DeconnectionUser/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Boolean DeconnectionUser(@PathVariable int idUser)
+	{
+		User userDb = userDao.findUserByIdUser(idUser);
+		User user =null;
+		if(userDb!=null)
+		{
+			user=userDb;
+			user.setCompteActiver(0);
+			userDao.saveAndFlush(user);
+			return true;
+			
+		}
+		return false;
+		
+	}
+
 }

@@ -1,4 +1,4 @@
-package com.general.controller;
+package com.general.controller.admin;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -638,5 +638,22 @@ public class AdminController {
 		}
 		return e;
 	}
-    
+ 
+	@RequestMapping(value = "/DeconnectionUser/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Boolean DeconnectionUser(@PathVariable int idUser)
+	{
+		User userDb = userDao.findUserByIdUser(idUser);
+		User user =null;
+		if(userDb!=null)
+		{
+			user=userDb;
+			user.setCompteActiver(0);
+			userDao.saveAndFlush(user);
+			return true;
+			
+		}
+		return false;
+		
+	}
 }
