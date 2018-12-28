@@ -85,7 +85,7 @@ public class CourseController {
 	@SuppressWarnings("unlikely-arg-type")
 	@RequestMapping(value = "/GenerationCourse", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Map<String, Object> GenerationCourse (@RequestBody CourseParamDto course)
+	public Map<String, Object> GenerationCourse (@RequestBody CourseParamDto courseDto)
 	{
 		
 		Map<String, Object> mapReturn = new HashMap<String, Object>();
@@ -94,12 +94,12 @@ public class CourseController {
 		Map<String,List<IngredientCourse>>DicoCourseCategorieDto = new LinkedHashMap<>();
 
 		
-		User u = userDao.findUserByIdUser(course.getIdUser());
+		User u = userDao.findUserByIdUser(courseDto.getIdUser());
 		List<Planning> lstPlanning=null;
 		
 		if(u!=null)
 		{
-			lstPlanning=planningDao.findPlanningByUserAndDate(u, course.getDateDebut(), course.getDateFin());
+			lstPlanning=planningDao.findPlanningByUserAndDate(u, courseDto.getDateDebut(), courseDto.getDateFin());
 		
 			for(Planning unPlanning : lstPlanning)
 			{

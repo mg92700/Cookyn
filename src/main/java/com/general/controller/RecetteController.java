@@ -210,41 +210,41 @@ public class RecetteController {
 	
 	@RequestMapping(value = "/AddRecette", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public RecetteDto AddRecette(@RequestBody RecetteDto rec) throws IOException 
+	public RecetteDto AddRecette(@RequestBody RecetteDto recetteDto) throws IOException 
 	{
 		RecetteDto recDto = new RecetteDto();
 		List<Etape> etapes = new ArrayList<>();
 		List<RecetteIngredient> ingredients = new ArrayList<>();
 		User u = new User();
 		Date d = java.util.Calendar.getInstance().getTime();
-		if(rec!=null)
+		if(recetteDto!=null)
 		{
 			
-			u = userDao.findUserByIdUser(rec.getRecette().getUser().getIdUser());
-			rec.getRecette().setUser(u);
-			rec.getRecette().setDateCreation(d);
-			if(rec.getImageRecette()!=null)
+			u = userDao.findUserByIdUser(recetteDto.getRecette().getUser().getIdUser());
+			recetteDto.getRecette().setUser(u);
+			recetteDto.getRecette().setDateCreation(d);
+			if(recetteDto.getImageRecette()!=null)
 			{
-				byte[] images = Base64.getDecoder().decode(rec.getImageRecette());
-				String url=serviceFtp.resultat(u.getUsernameUser(),rec.getRecette().getLibelleRecette() ,images);
-				rec.getRecette().setUrlRecette(url);
+				byte[] images = Base64.getDecoder().decode(recetteDto.getImageRecette());
+				String url=serviceFtp.resultat(u.getUsernameUser(),recetteDto.getRecette().getLibelleRecette() ,images);
+				recetteDto.getRecette().setUrlRecette(url);
 			}
-			recDto.setRecette(recetteDao.saveAndFlush(rec.getRecette()));
+			recDto.setRecette(recetteDao.saveAndFlush(recetteDto.getRecette()));
 		
-			if(rec.getEtapes()!= null) {				
-				for(int i=0; i<rec.getEtapes().size(); i++) {
-					rec.getEtapes().get(i).setRecette(rec.getRecette());
-					etapes.add(etapeDao.saveAndFlush(rec.getEtapes().get(i)));
+			if(recetteDto.getEtapes()!= null) {				
+				for(int i=0; i<recetteDto.getEtapes().size(); i++) {
+					recetteDto.getEtapes().get(i).setRecette(recetteDto.getRecette());
+					etapes.add(etapeDao.saveAndFlush(recetteDto.getEtapes().get(i)));
 				}
 				recDto.setEtapes(etapes);
 			}
-			if(rec.getIngredients() != null) {		
-				for(int i=0; i< rec.getIngredients().size(); i++) {
+			if(recetteDto.getIngredients() != null) {		
+				for(int i=0; i< recetteDto.getIngredients().size(); i++) {
 					
 					//rec.getIngredients().get(i).setQuantite(convert.Convert(rec.getIngredients().get(i).getUnite().getIdUnite(), rec.getIngredients().get(i).getQuantite()));
-					rec.getIngredients().get(i).setRecette(rec.getRecette());
-					recetteIngredientDao.saveAndFlush(rec.getIngredients().get(i));
-					ingredients.add(rec.getIngredients().get(i));
+					recetteDto.getIngredients().get(i).setRecette(recetteDto.getRecette());
+					recetteIngredientDao.saveAndFlush(recetteDto.getIngredients().get(i));
+					ingredients.add(recetteDto.getIngredients().get(i));
 				}
 				recDto.setIngredients(ingredients);
 			}
