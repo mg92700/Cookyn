@@ -40,7 +40,7 @@ public class User{
 	@Column
 	private Date dateModification;
 	@Column
-	private int compteActiver;
+	private int compteActive;
 	@Column
 	private Date dateDerniereConnection;
 	
@@ -104,11 +104,11 @@ public class User{
 	public void setDateModification(Date dateModification) {
 		this.dateModification = dateModification;
 	}
-	public int getCompteActiver() {
-		return compteActiver;
+	public int getCompteActive() {
+		return compteActive;
 	}
-	public void setCompteActiver(int  compteActiver) {
-		this.compteActiver = compteActiver;
+	public void setCompteActive(int  compteActive) {
+		this.compteActive = compteActive;
 	}
 	public Date getDateDerniereConnection() {
 		return dateDerniereConnection;
@@ -118,7 +118,7 @@ public class User{
 	}
 	public User(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
 			String usernameUser, String villeUser, String role, Date dateCreation, Date dateModification,
-			int compteActiver, Date dateDerniereConnection) {
+			int compteActive, Date dateDerniereConnection) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
@@ -130,7 +130,7 @@ public class User{
 		this.role = role;
 		this.dateCreation = dateCreation;
 		this.dateModification = dateModification;
-		this.compteActiver = compteActiver;
+		this.compteActive = compteActive;
 		this.dateDerniereConnection = dateDerniereConnection;
 	}
 	public User() {

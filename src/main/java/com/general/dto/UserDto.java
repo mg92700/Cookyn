@@ -61,7 +61,7 @@ public class UserDto {
 	private Date dateModification;
 
 	@MappedBy
-	private int compteActiver;
+	private int compteActive;
 	@MappedBy
 	private Date dateDerniereConnection;
 	public Integer getIdUser() {
@@ -178,11 +178,11 @@ public class UserDto {
 	public void setDateModification(Date dateModification) {
 		this.dateModification = dateModification;
 	}
-	public int getCompteActiver() {
-		return compteActiver;
+	public int getCompteActive() {
+		return compteActive;
 	}
-	public void setCompteActiver(int compteActiver) {
-		this.compteActiver = compteActiver;
+	public void setCompteActive(int compteActive) {
+		this.compteActive = compteActive;
 	}
 	public Date getDateDerniereConnection() {
 		return dateDerniereConnection;
@@ -193,7 +193,7 @@ public class UserDto {
 	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
 			String usernameUser, String villeUser, String role, String newPassword, int nbRecetteCreate,
 			int nbRecetteFav, int nbAbonnement, int nbAbonnee, String errortxt, String token, int nbRecetteFavoris,
-			int nbRecetteCree, Date dateCreation, Date dateModification, int compteActiver,
+			int nbRecetteCree, Date dateCreation, Date dateModification, int compteActive,
 			Date dateDerniereConnection) {
 		super();
 		this.idUser = idUser;
@@ -215,7 +215,7 @@ public class UserDto {
 		this.nbRecetteCree = nbRecetteCree;
 		this.dateCreation = dateCreation;
 		this.dateModification = dateModification;
-		this.compteActiver = compteActiver;
+		this.compteActive = compteActive;
 		this.dateDerniereConnection = dateDerniereConnection;
 	}
 	public UserDto() {

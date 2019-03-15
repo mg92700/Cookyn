@@ -200,7 +200,7 @@ public class UserController {
 					userDto.setDateCreation(new Date());
 					userDto.setDateModification(new Date());
 					userDto.setDateDerniereConnection(new Date());
-					userDto.setCompteActiver(0);
+					userDto.setCompteActive(0);
 					user = (User) JTransfo.convert(userDto);
 					
 					userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(user));
@@ -351,7 +351,7 @@ public class UserController {
 				user=userDb;
 			
 				user.setDateCreation(new Date());
-				user.setCompteActiver(1);
+				user.setCompteActive(1);
 				userDao.saveAndFlush(user);
 			
 				
@@ -388,7 +388,7 @@ public class UserController {
 		if(userDb!=null)
 		{
 			user=userDb;
-			user.setCompteActiver(0);
+			user.setCompteActive(0);
 			userDao.saveAndFlush(user);
 			return true;
 			

@@ -648,7 +648,7 @@ public class AdminController {
 		if(userDb!=null)
 		{
 			user=userDb;
-			user.setCompteActiver(0);
+			user.setCompteActive(0);
 			userDao.saveAndFlush(user);
 			return true;
 			
