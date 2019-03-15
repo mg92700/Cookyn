@@ -15,14 +15,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Activiter {
+public class Activite {
 	
 	
 	@Id
 	@GeneratedValue
-	private int idActiviter;
+	private int idActivite;
 	@Column
-	private String typeActiviter;
+	private String typeActivite;
 	@ManyToOne
 	@JoinColumn(name="idUser")
 	private User user;
@@ -31,17 +31,17 @@ public class Activiter {
 	@Column
 	private Date date;
 	
-	public int getIdActiviter() {
-		return idActiviter;
+	public int getIdActivite() {
+		return idActivite;
 	}
-	public void setIdActiviter(int idActiviter) {
-		this.idActiviter = idActiviter;
+	public void setIdActivite(int idActivite) {
+		this.idActivite = idActivite;
 	}
-	public String getTypeActiviter() {
-		return typeActiviter;
+	public String getTypeActivite() {
+		return typeActivite;
 	}
 	public void setTypeActiviter(String typeActiviter) {
-		this.typeActiviter = typeActiviter;
+		this.typeActivite = typeActiviter;
 	}
 	public User getUser() {
 		return user;
@@ -61,14 +61,14 @@ public class Activiter {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public Activiter() {
+	public Activite() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Activiter(int idActiviter, String typeActiviter, User user, int idWhat, Date date) {
+	public Activite(int idActivite, String typeActivite, User user, int idWhat, Date date) {
 		super();
-		this.idActiviter = idActiviter;
-		this.typeActiviter = typeActiviter;
+		this.idActivite = idActivite;
+		this.typeActivite = typeActivite;
 		this.user = user;
 		this.idWhat = idWhat;
 		this.date = date;

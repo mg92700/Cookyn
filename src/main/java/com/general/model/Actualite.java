@@ -13,13 +13,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Actualiter {
+public class Actualite {
 
 	
 	
 	@Id
 	@GeneratedValue
-	private int idActualiter;
+	private int idActualite;
 	@Column
 	private String descriptionEtape;
 	@Column
