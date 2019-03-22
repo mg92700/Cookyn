@@ -47,8 +47,6 @@ public class AdminStatistiqueController {
         int nbUsers = users.size();
 
 		//On divise ensuite le nombre de recettes par le nombre d'utilisateurs
-        float moyenne = (float) nbRecettes / nbUsers;
-
-		return moyenne;
+        return (float) nbRecettes / nbUsers;
 	}
 }
