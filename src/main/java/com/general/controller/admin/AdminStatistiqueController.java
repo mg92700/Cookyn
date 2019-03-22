@@ -37,7 +37,7 @@ public class AdminStatistiqueController {
 	//On fait une moyenne du nombre de recettes par user
 	@RequestMapping(value = "/moyenneRecettesByUser", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public int moyenneRecettesByUser() {
+	public float moyenneRecettesByUser() {
 		//On récupère d'abord le nombre total de recettes
         List<Recette> recettes = recetteDao.findAll();
         int nbRecettes = recettes.size();
@@ -47,7 +47,7 @@ public class AdminStatistiqueController {
         int nbUsers = users.size();
 
 		//On divise ensuite le nombre de recettes par le nombre d'utilisateurs
-        int moyenne = nbRecettes / nbUsers;
+        float moyenne = (float) nbRecettes / nbUsers;
 
 		return moyenne;
 	}
