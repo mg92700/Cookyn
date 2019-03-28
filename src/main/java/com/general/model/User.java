@@ -42,8 +42,9 @@ public class User{
 	@Column
 	private int compteActive;
 	@Column
+	private int mailVerifier;
+	@Column
 	private Date dateDerniereConnection;
-	
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -107,8 +108,14 @@ public class User{
 	public int getCompteActive() {
 		return compteActive;
 	}
-	public void setCompteActive(int  compteActive) {
+	public void setCompteActive(int compteActive) {
 		this.compteActive = compteActive;
+	}
+	public int getMailVerifier() {
+		return mailVerifier;
+	}
+	public void setMailVerifier(int mailVerifier) {
+		this.mailVerifier = mailVerifier;
 	}
 	public Date getDateDerniereConnection() {
 		return dateDerniereConnection;
@@ -118,7 +125,7 @@ public class User{
 	}
 	public User(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
 			String usernameUser, String villeUser, String role, Date dateCreation, Date dateModification,
-			int compteActive, Date dateDerniereConnection) {
+			int compteActive, int mailVerifier, Date dateDerniereConnection) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
@@ -131,12 +138,15 @@ public class User{
 		this.dateCreation = dateCreation;
 		this.dateModification = dateModification;
 		this.compteActive = compteActive;
+		this.mailVerifier = mailVerifier;
 		this.dateDerniereConnection = dateDerniereConnection;
 	}
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+
 
 
 	

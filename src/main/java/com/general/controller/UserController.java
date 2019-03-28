@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,7 @@ import com.general.dao.RecetteDao;
 import com.general.dao.RelationDao;
 import com.general.dao.UserDao;
 import com.general.dto.UserDto;
+import com.general.email.EmailServiceImpl;
 import com.general.model.User;
 import com.general.service.ApiService;
 import com.general.service.CryptageService;
@@ -199,6 +203,7 @@ public class UserController {
 					userDto.setDateModification(new Date());
 					userDto.setDateDerniereConnection(new Date());
 					userDto.setCompteActive(0);
+					userDto.setMailVerifier(0);
 					user = (User) JTransfo.convert(userDto);
 					
 					userReturn =(UserDto)JTransfo.convert(userDao.saveAndFlush(user));
@@ -207,6 +212,18 @@ public class UserController {
 					userReturn.setNbRecetteFav(favorisDao.findAllByUser(user).size());
 					userReturn.setNbAbonnement(relationDao.findAllByFriend(user).size());
 					userReturn.setNbAbonnee(relationDao.findAllByUser(user).size());
+					
+
+					EmailServiceImpl mailService= new EmailServiceImpl();
+					try {
+						mailService.sendSimpleMessage(userDto.getMailUser(), " Verif Mail", user);
+					} catch (AddressException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 				}else {
 					userReturn.setErrortxt("Veuillez renseigner un mot de passe");
@@ -392,6 +409,30 @@ public class UserController {
 			
 		}
 		return false;
+		
+	}
+	
+	
+	
+	@RequestMapping(value = "/VerifUserMail/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public String VerifUserMail(@PathVariable int idUser)
+	{
+		User userDb = userDao.findUserByIdUser(idUser);
+		User user =null;
+		if(userDb!=null)
+		{
+			if(userDb.getMailVerifier()!=1) {
+				user=userDb;
+				user.setMailVerifier(1);
+				userDao.saveAndFlush(user);
+				return "Confirmé";	
+			}
+			else {
+				return "Deja Confirmé";	
+			}
+		}
+		return "Erreur";
 		
 	}
 

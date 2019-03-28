@@ -64,6 +64,9 @@ public class UserDto {
 	private int compteActive;
 	@MappedBy
 	private Date dateDerniereConnection;
+	@MappedBy
+	private int mailVerifier;
+	
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -190,11 +193,17 @@ public class UserDto {
 	public void setDateDerniereConnection(Date dateDerniereConnection) {
 		this.dateDerniereConnection = dateDerniereConnection;
 	}
+	public int getMailVerifier() {
+		return mailVerifier;
+	}
+	public void setMailVerifier(int mailVerifier) {
+		this.mailVerifier = mailVerifier;
+	}
 	public UserDto(Integer idUser, String nomUser, String prenomUser, String mailUser, String passwordUser,
 			String usernameUser, String villeUser, String role, String newPassword, int nbRecetteCreate,
 			int nbRecetteFav, int nbAbonnement, int nbAbonnee, String errortxt, String token, int nbRecetteFavoris,
 			int nbRecetteCree, Date dateCreation, Date dateModification, int compteActive,
-			Date dateDerniereConnection) {
+			Date dateDerniereConnection,int mailVerifier) {
 		super();
 		this.idUser = idUser;
 		this.nomUser = nomUser;
@@ -217,6 +226,7 @@ public class UserDto {
 		this.dateModification = dateModification;
 		this.compteActive = compteActive;
 		this.dateDerniereConnection = dateDerniereConnection;
+		this.mailVerifier=mailVerifier;
 	}
 	public UserDto() {
 		super();

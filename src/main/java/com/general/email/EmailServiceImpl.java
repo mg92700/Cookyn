@@ -18,6 +18,8 @@ import com.general.model.User;
 
 public class EmailServiceImpl   {
   
+   
+
     @Autowired
     public JavaMailSender emailSender;
     
@@ -27,29 +29,22 @@ public class EmailServiceImpl   {
     
     public void sendSimpleMessage(
 
-    	      String to, String subject,int idUser) throws AddressException, MessagingException {{
-
+    	      String to, String subject,User u) throws AddressException, MessagingException {{
     	    	  
-    	    	  User u =userDao.findUserByIdUser(idUser);
     	    	  
     	    	  
     	    	  String text="Bonjour "+u.getNomUser() + u.getPrenomUser() +" veuillez valider votre email:"
-    	    	  		+ "";
-    	    	  		
-
-    	      
-
+    	    	  		+ " http://localhost:8080/General/user/VerifUserMail/"+u.getIdUser();
+    	    	  	
     	    	  JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
     	           mailSender.setHost("smtp.gmail.com");
 
     	           mailSender.setPort(587);
 
-    	           
-
     	           mailSender.setUsername("ycookyn@gmail.com");
 
-    	           mailSender.setPassword("P@sscookyn92");
+    	           mailSender.setPassword("nikt@r@ce9392");
 
     	            
 
