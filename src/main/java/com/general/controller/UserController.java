@@ -361,15 +361,10 @@ public class UserController {
 				userReturn.setNbAbonnement(relationDao.findAllByFriend(userDb).size());
 				userReturn.setNbAbonnee(relationDao.findAllByUser(userDb).size());
 				
-				
-				
 				user=userDb;
-			
 				user.setDateCreation(new Date());
 				user.setCompteActive(1);
 				userDao.saveAndFlush(user);
-			
-				
 				
 				
 			}
@@ -411,8 +406,6 @@ public class UserController {
 		return false;
 		
 	}
-	
-	
 	
 	@RequestMapping(value = "/VerifUserMail/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")

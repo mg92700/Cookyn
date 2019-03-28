@@ -36,6 +36,7 @@ public class EmailServiceImpl   {
     	    	  String text="Bonjour "+u.getNomUser() + u.getPrenomUser() +" veuillez valider votre email:"
     	    	  		+ " http://localhost:8080/General/user/VerifUserMail/"+u.getIdUser();
     	    	  	
+    	    		String url= " http://51.75.22.154:8080/Cookyn3/user/VerifUserMail/";
     	    	  JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
     	           mailSender.setHost("smtp.gmail.com");
