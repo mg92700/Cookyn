@@ -121,7 +121,6 @@ public class UserController {
 		return users;
 	}
 	
-	
 	@RequestMapping(value = "/GetListAll", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public List<User> GetListAll()
@@ -129,7 +128,6 @@ public class UserController {
 		List<User> users = userDao.findAll();
 		return users;
 	}
-	
 	
 	@RequestMapping(value = "GetListUsersByUsername", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")

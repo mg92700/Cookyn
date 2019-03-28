@@ -41,55 +41,13 @@ public class UniteController {
 	CryptageService cryptageService;
 	
 	
-	@RequestMapping(value = "/GetListUnites/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListUnites", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Map<String, Object>  GetListUnites(@PathVariable int offset)
+	public List<Unite>  GetListUnites()
 	{
 		List<Unite> unite = uniteDao.findAll();
-		List<Unite> uniteSub = new ArrayList<>();
-		Map<String, Object> map = new HashMap<>(); 
-		//return recettes;
-		int limite=20;
 		
-		if (offset>0) 
-		{
-			
-	        if (offset >= unite.size()) 
-	        {
-	        	uniteSub= unite.subList(0, 0); //return empty.
-	        }
-	        if(offset>unite.size())
-	        {
-	        	map.put("offset", unite.size());
-	        	map.put("listUnite", uniteSub);
-	        	map.put("limite", limite);
-	        	return map;
-	        	
-	        }
-	        if (2 >-1) 
-	        {
-	            //apply offset and limit
-	        	uniteSub= unite.subList(offset, Math.min(offset+limite, unite.size()));
-	        } 
-	        else 
-	        {
-	            //apply just offset
-	        	uniteSub= unite.subList(offset, unite.size());
-	        }
-	        
-	    } 
-		else if (2 >-1) 
-		{
-	        //apply just limit
-			uniteSub= unite.subList(0, Math.min(limite, unite.size()));
-	    } else 
-	    {
-	    	uniteSub= unite.subList(0, unite.size());
-	    }
-		map.put("listUnite", uniteSub);
-		map.put("offset", offset);
-		map.put("limite", limite);
-		return map;
+		return unite;
 	}
 	
 	@RequestMapping(value = "/UniteByLibelle/{libelleUnite}", method = RequestMethod.GET,headers="Accept=application/json")

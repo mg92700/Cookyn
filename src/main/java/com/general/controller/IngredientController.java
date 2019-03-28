@@ -40,158 +40,30 @@ public class IngredientController {
     @Autowired
     CryptageService cryptageService;
     
-    @RequestMapping(value = "/GetlistIngredientLibelle/{name}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
+    @RequestMapping(value = "/GetlistIngredientLibelle/{name}", method = RequestMethod.GET,headers="Accept=application/json")
     @CrossOrigin(origins = "*")
-    public Map<String, Object> GetlistIngredientLibelle(@PathVariable String name, @PathVariable int offset)
+    public List<Ingredient> GetlistIngredientLibelle(@PathVariable String name)
     {
         List<Ingredient> ingredients = ingredientDao.findAllWhereNom(name);
-        List<Ingredient> ingredientsSub = new ArrayList<>();
-		Map<String, Object> map = new HashMap<>(); 
-		//return recettes;
-		int limite=20;
-		
-		if (offset>0) 
-		{
-			
-	        if (offset >= ingredients.size()) 
-	        {
-	        	ingredientsSub= ingredients.subList(0, 0); //return empty.
-	        }
-	        if(offset>ingredients.size())
-	        {
-	        	map.put("offset", ingredients.size());
-	        	map.put("listIngredients", ingredientsSub);
-	        	map.put("limite", limite);
-	        	return map;
-	        	
-	        }
-	        if (2 >-1) 
-	        {
-	            //apply offset and limit
-	        	ingredientsSub= ingredients.subList(offset, Math.min(offset+limite, ingredients.size()));
-	        } 
-	        else 
-	        {
-	            //apply just offset
-	        	ingredientsSub= ingredients.subList(offset, ingredients.size());
-	        }
-	        
-	    } 
-		else if (2 >-1) 
-		{
-	        //apply just limit
-			ingredientsSub= ingredients.subList(0, Math.min(limite, ingredients.size()));
-	    } else 
-	    {
-	    	ingredientsSub= ingredients.subList(0, ingredients.size());
-	    }
-		map.put("listIngredients", ingredientsSub);
-		map.put("offset", offset);
-		map.put("limite", limite);
-		return map;
+		return ingredients;
     }
     
-    @RequestMapping(value = "/GetListAllIngredient/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
+    @RequestMapping(value = "/GetListAllIngredient", method = RequestMethod.GET,headers="Accept=application/json")
     @CrossOrigin(origins = "*")
-    public Map<String, Object> GetListAllIngredient(@PathVariable int offset)
+    public List<Ingredient> GetListAllIngredient()
     {
     	
     	 List<Ingredient> ingredients = ingredientDao.findAll();
-    	 List<Ingredient> ingredientsSub = new ArrayList<>();
- 		Map<String, Object> map = new HashMap<>(); 
- 		//return recettes;
- 		int limite=20;
- 		
- 		if (offset>0) 
- 		{
- 			
- 	        if (offset >= ingredients.size()) 
- 	        {
- 	        	ingredientsSub= ingredients.subList(0, 0); //return empty.
- 	        }
- 	        if(offset>ingredients.size())
- 	        {
- 	        	map.put("offset", ingredients.size());
- 	        	map.put("listIngredients", ingredientsSub);
- 	        	map.put("limite", limite);
- 	        	return map;
- 	        	
- 	        }
- 	        if (2 >-1) 
- 	        {
- 	            //apply offset and limit
- 	        	ingredientsSub= ingredients.subList(offset, Math.min(offset+limite, ingredients.size()));
- 	        } 
- 	        else 
- 	        {
- 	            //apply just offset
- 	        	ingredientsSub= ingredients.subList(offset, ingredients.size());
- 	        }
- 	        
- 	    } 
- 		else if (2 >-1) 
- 		{
- 	        //apply just limit
- 			ingredientsSub= ingredients.subList(0, Math.min(limite, ingredients.size()));
- 	    } else 
- 	    {
- 	    	ingredientsSub= ingredients.subList(0, ingredients.size());
- 	    }
- 		map.put("listIngredients", ingredientsSub);
- 		map.put("offset", offset);
- 		map.put("limite", limite);
- 		return map;
+    	 return ingredients;
     }
     
-    @RequestMapping(value = "/GetListCatIngredient/{name}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
+    @RequestMapping(value = "/GetListCatIngredient/{name}", method = RequestMethod.GET,headers="Accept=application/json")
     @CrossOrigin(origins = "*")
-    public Map<String, Object> GetListCatIngredient(@PathVariable String name, @PathVariable int offset)
+    public List<Ingredient>  GetListCatIngredient(@PathVariable String name)
     {
         List<Ingredient> ingredients = ingredientDao.findAllWhereCat(name);
-        List<Ingredient> ingredientsSub = new ArrayList<>();
- 		Map<String, Object> map = new HashMap<>(); 
- 		//return recettes;
- 		int limite=20;
- 		
- 		if (offset>0) 
- 		{
- 			
- 	        if (offset >= ingredients.size()) 
- 	        {
- 	        	ingredientsSub= ingredients.subList(0, 0); //return empty.
- 	        }
- 	        if(offset>ingredients.size())
- 	        {
- 	        	map.put("offset", ingredients.size());
- 	        	map.put("listIngredients", ingredientsSub);
- 	        	map.put("limite", limite);
- 	        	return map;
- 	        	
- 	        }
- 	        if (2 >-1) 
- 	        {
- 	            //apply offset and limit
- 	        	ingredientsSub= ingredients.subList(offset, Math.min(offset+limite, ingredients.size()));
- 	        } 
- 	        else 
- 	        {
- 	            //apply just offset
- 	        	ingredientsSub= ingredients.subList(offset, ingredients.size());
- 	        }
- 	        
- 	    } 
- 		else if (2 >-1) 
- 		{
- 	        //apply just limit
- 			ingredientsSub= ingredients.subList(0, Math.min(limite, ingredients.size()));
- 	    } else 
- 	    {
- 	    	ingredientsSub= ingredients.subList(0, ingredients.size());
- 	    }
- 		map.put("listIngredients", ingredientsSub);
- 		map.put("offset", offset);
- 		map.put("limite", limite);
- 		return map;
+       
+ 		return ingredients;
 
     }
     
