@@ -422,7 +422,7 @@ public class UserController {
 				return "Confirmé";	
 			}
 			else {
-				return "Deja Confirmé";	
+				return "Déjà Confirmé";	
 			}
 		}
 		return "Erreur";

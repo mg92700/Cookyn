@@ -22,7 +22,9 @@ public interface PlanningDao extends JpaRepository<Planning, Long> {
     List<Planning> findPlanningByUserAndDate(@Param(value = "user") User user, @Param(value = "dateDebut") Date dateDebut,
             @Param(value = "dateFin") Date dateFin);
 	
-	
+
+	@Query("SELECT p FROM Planning p WHERE p.user = :user AND p.datePlanning = :date")
+    List<Planning> findPlanningByDate(@Param(value = "user") User user, @Param(value = "date") Date date);
 	
 	
 }

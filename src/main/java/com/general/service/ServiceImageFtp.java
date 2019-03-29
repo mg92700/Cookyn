@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +23,13 @@ public class ServiceImageFtp {
 	
 	private static final long TICKS_AT_EPOCH = 621355968000000000L;
     private static final long TICKS_PER_MILLISECOND = 10000;
-   
     
+    @Value("${loginFtpLogin}")
+    private String loginFTP;
+    
+    
+    @Value("${loginFtpPassword}")
+    private String passWordFTP;
 	
     @Async
 	public String resultat(String userName,String libelleRecette,byte[] images)throws IOException
@@ -35,8 +41,9 @@ public class ServiceImageFtp {
 		//BufferedImage img = ImageIO.read(new ByteArrayInputStream(bytes));
 		String server = "ftp.cluster023.hosting.ovh.net";
 		int port = 21;
-		String user = "kaktussaao";
-		String pass = "Cookyn1111";
+		
+		String user = loginFTP;
+		String pass = passWordFTP;
 
         FTPClient ftpClient = new FTPClient();
         try 

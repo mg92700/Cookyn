@@ -1,5 +1,6 @@
 package com.general.controller;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.PlanningDao;
+import com.general.dao.RecetteDao;
+import com.general.dao.UserDao;
+import com.general.dto.PlanningUserDto;
 import com.general.model.Planning;
 import com.general.model.Recette;
 import com.general.model.User;
@@ -40,11 +45,12 @@ public class PlanningController {
 	@Autowired 
 	CryptageService cryptageService;
 	
+	@Autowired
+	UserDao userdao;
 	
-//	public List<Planning> createOffSet(){
-//		
-//	}
-	
+
+	@Autowired
+	RecetteDao recettedao;
 	
 	@RequestMapping(value = "/GetListPlanningsByUserOffset/{idUser}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -176,4 +182,33 @@ public class PlanningController {
 		return planning;
 	}
 	
+	@RequestMapping(value = "/GetListPlanningByUserAndDate", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+
+	public Map<String,Object> GetListPlanningByUserAndDate(@RequestBody PlanningUserDto planningUser)
+	{
+		
+		Map<String, Object> map = new HashMap<>(); 
+		User u = userdao.findUserByIdUser(planningUser.getIdUser());
+		
+		List<Planning> plannings=planningDao.findPlanningByDate(u, planningUser.getDate());
+		List<Recette> lstRecette=  new ArrayList<>();
+		
+		for(Planning p : plannings)
+		{
+			Recette recette=recettedao.findByIdRecette(p.getRecette().getIdRecette());
+			recette.setUser(null);
+			lstRecette.add(recette);
+			
+		}
+		
+		map.put("listPlanningUser", lstRecette);
+		
+		return map;
+		
+		
+		
+		
+	}
+
 }
