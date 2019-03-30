@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -17,19 +18,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import com.general.dto.UserDto;
+
 @Component
 public class ServiceImageFtp {
 	
 	
 	private static final long TICKS_AT_EPOCH = 621355968000000000L;
     private static final long TICKS_PER_MILLISECOND = 10000;
-    
-    @Value("${loginFtpLogin}")
-    private String loginFTP;
-    
-    
-    @Value("${loginFtpPassword}")
-    private String passWordFTP;
+
 	
     @Async
 	public String resultat(String userName,String libelleRecette,byte[] images)throws IOException
@@ -42,8 +39,21 @@ public class ServiceImageFtp {
 		String server = "ftp.cluster023.hosting.ovh.net";
 		int port = 21;
 		
-		String user = loginFTP;
-		String pass = passWordFTP;
+		
+		
+
+		
+		Configuration uneConfig = new Configuration();
+		Map<String, String> mapConfig  = null;
+    	try {
+			mapConfig = uneConfig.GetConfiguration();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	
+		String user = mapConfig.get("loginFtp");
+		String pass = mapConfig.get("PasswordFtp");
 
         FTPClient ftpClient = new FTPClient();
         try 

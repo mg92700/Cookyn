@@ -1,4 +1,5 @@
 package com.general.controller;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +28,7 @@ import com.general.dto.UserDto;
 import com.general.email.EmailServiceImpl;
 import com.general.model.User;
 import com.general.service.ApiService;
+import com.general.service.Configuration;
 import com.general.service.CryptageService;
 import com.general.service.EmailValidator;
 
@@ -186,7 +188,8 @@ public class UserController {
 	public UserDto CreateUser(@RequestBody UserDto userDto)
 	{
 		UserDto userReturn = new UserDto();
-		User user =  null;
+		
+	User user =  null;
 		if(userDto!=null)
 		{
 			System.out.println(userDao.findAllByUsernameUser(userDto.getUsernameUser()).size());
