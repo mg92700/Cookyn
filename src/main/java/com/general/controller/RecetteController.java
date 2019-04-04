@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.general.dao.ActualiteDao;
 import com.general.dao.EtapeDao;
 import com.general.dao.IngredientDao;
 import com.general.dao.RecetteDao;
@@ -25,6 +26,7 @@ import com.general.dao.RecetteIngredientDao;
 import com.general.dao.UniteDao;
 import com.general.dao.UserDao;
 import com.general.dto.RecetteDto;
+import com.general.model.Actualite;
 import com.general.model.Etape;
 import com.general.model.Recette;
 import com.general.model.RecetteIngredient;
@@ -74,6 +76,9 @@ public class RecetteController {
 	
 	@Autowired 
 	ConvertUnite convert;
+	
+	@Autowired
+	ActualiteDao actualiteDao;
 
 	@RequestMapping(value = "/GetListRecette", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -248,6 +253,19 @@ public class RecetteController {
 				}
 				recDto.setIngredients(ingredients);
 			}
+			
+			//Add Actualité
+			
+			Actualite actualite=new Actualite();
+			actualite.setDate(new Date());
+			actualite.setIdWhat(recDto.getRecette().getIdRecette());
+			actualite.setTypeActualite("Create");
+			actualite.setUser(u);
+			
+			actualiteDao.saveAndFlush(actualite);
+			
+			//Add Actualité
+			
 			return recDto;
 		}
 		else

@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.general.dao.ActualiteDao;
 import com.general.dao.FavorisDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.UserDao;
+import com.general.model.Actualite;
 import com.general.model.Favoris;
 import com.general.model.Recette;
 import com.general.model.User;
@@ -46,6 +48,9 @@ public class FavorisController {
 	
 	@Autowired 
 	CryptageService cryptageService;
+	
+	@Autowired
+	ActualiteDao actualiteDao;
 
 	@RequestMapping(value = "/GetlistFavorisByUser/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -153,6 +158,19 @@ public class FavorisController {
 		favoris.setUser(user);
 		favoris.setDateCreation(new Date());
 		favorisDao.saveAndFlush(favoris);
+		
+		//Add Actualité
+		
+		Actualite actualite=new Actualite();
+		actualite.setDate(new Date());
+		actualite.setIdWhat(favoris.getIdFavoris());
+		actualite.setTypeActualite("Favoris");
+		actualite.setUser(user);
+		
+		actualiteDao.saveAndFlush(actualite);
+		
+		//Add Actualité
+		
 		return favoris;
 	}
 	

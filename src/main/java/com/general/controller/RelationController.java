@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.general.dao.ActualiteDao;
 import com.general.dao.FavorisDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.RelationDao;
 import com.general.dao.UserDao;
 import com.general.dto.AmieDto;
 import com.general.dto.RelationDto;
+import com.general.model.Actualite;
 import com.general.model.Recette;
 import com.general.model.Relation;
 import com.general.model.User;
@@ -54,6 +56,9 @@ public class RelationController {
 	
 	@Autowired 
 	CryptageService cryptageService;
+	
+	@Autowired
+	ActualiteDao actualiteDao;
 	
 	
 	
@@ -94,6 +99,18 @@ public class RelationController {
 			r.setDateRelation(date);
 			r = relationDao.saveAndFlush(r);
 			rela = (RelationDto) JTransfo.convert(r);
+			
+			//Add Actualité
+			
+			Actualite actualite=new Actualite();
+			actualite.setDate(date);
+			actualite.setIdWhat(idFriend);
+			actualite.setTypeActualite("Follow");
+			actualite.setUser(user);
+			
+			actualiteDao.saveAndFlush(actualite);
+			
+			//Add Actualité
 
 		}else {
 			rela.setErrorTxt("Un des Users n'existe pas dans la base");
