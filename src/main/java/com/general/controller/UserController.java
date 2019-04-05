@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import com.general.dao.UserDao;
 import com.general.dto.UserDto;
 import com.general.email.EmailServiceImpl;
 import com.general.model.User;
+import com.general.security.TokenSecurity;
 import com.general.service.ApiService;
 import com.general.service.Configuration;
 import com.general.service.CryptageService;
@@ -61,10 +63,46 @@ public class UserController {
 	@Autowired 
 	CryptageService cryptageService;
 	
+
+	@Autowired
+	TokenSecurity t;
+    
 	
 	EmailValidator validator = new EmailValidator();
 
 	
+	@RequestMapping(value = "/LogAdmin", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public Map<String, Object> LogAdmin(@RequestBody UserDto user,HttpServletRequest request)
+	{
+		
+		Map<String, Object> mapReturn = new HashMap<String, Object>();
+		
+		String token=null;
+        
+      
+		Boolean trouver=false;
+		String mdpEncore=cryptageService.encrypt(user.getPasswordUser());
+		User u= userDao.findByMailUser(user.getMailUser());
+		if(u!=null)
+		{
+			if(u.getRole().equals("admin")) 
+			{
+				if(mdpEncore.equals(u.getPasswordUser()))
+				{
+					trouver=true;
+					token=t.getToken();
+					
+				}
+			}
+		}
+		
+		mapReturn.put("EstConnecter", trouver);
+		mapReturn.put("Token", token);
+		
+		return mapReturn;
+		
+	}
 
 	@RequestMapping(value = "/GetlistUsersByOffSet/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")

@@ -8,6 +8,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.Console;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class AuthenticationFilter implements Filter{
 	    //recupere la routes dans la reponse
 
         String path = ((HttpServletRequest) servletRequest).getServletPath();
-        
+      System.out.println(map);
         
 		if(this.GetListAutoriseRoutes().contains(path))
         {
@@ -52,34 +54,38 @@ public class AuthenticationFilter implements Filter{
         }
         //recupere value depuis la clés
         String Token=map.get("authorization");
-	    if (Token != null) 
+	    if (Token == null) 
 	    {
 	    	
+	    	
+	    	if("/admin/LogAdmin".equals(path))
+		    {
+		  	  filterChain.doFilter(servletRequest, servletResponse);
+		    }
+	    	else
 	    //  StringTokenizer st = new StringTokenizer(Token);
-	     
-	              if (t.VerifTokenActif(Token)) 
-	              {
-	            	  filterChain.doFilter(servletRequest, servletResponse);
-	            		
-	            
+	    	{
+			 response.setStatus(HttpServletResponse.SC_FORBIDDEN,"Incorrecte");
+	    	}
+	    }
+	    	
+	    else {
 
-	                   
+		 
+		 if (t.VerifTokenActif(Token)) 
+         {
+       	  filterChain.doFilter(servletRequest, servletResponse);
+       		
+ 
+              //verifier s'il peut ou pas sans connection
 
-	                   //verifier s'il peut ou pas sans connection
+         }
 
-	                  
-	                
-	              }
-
-	             else {
-	            	 response.setStatus(HttpServletResponse.SC_FORBIDDEN,"Incorrecte");
-	            	
-	            
-	            }
-	       
-	    } 
-	 else {
-		 response.setStatus(HttpServletResponse.SC_FORBIDDEN,"Incorrecte");
+        else {
+       	 response.setStatus(HttpServletResponse.SC_FORBIDDEN,"Incorrecte");
+       	
+       
+       }
 	      
 	    }
 	  }
@@ -108,8 +114,6 @@ public class AuthenticationFilter implements Filter{
 	          //Liste des routes accessible
 
 	          List<String> lesRoutesAutorise= new  ArrayList<String>();
-
-	          lesRoutesAutorise.add("/admin/LogAdmin");
 
 	          lesRoutesAutorise.add("/admin/LogAdmin");
 
