@@ -17,21 +17,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.general.dao.ActualiteDao;
 import com.general.dao.EtapeDao;
 import com.general.dao.FavorisDao;
 import com.general.dao.IngredientDao;
 import com.general.dao.NoteDao;
 import com.general.dao.PlanningDao;
 import com.general.dao.RecetteDao;
+import com.general.dao.RelationDao;
 import com.general.dao.UniteDao;
 import com.general.dao.UserDao;
 import com.general.dto.UserDto;
+import com.general.model.Actualite;
 import com.general.model.Etape;
 import com.general.model.Favoris;
 import com.general.model.Ingredient;
 import com.general.model.Note;
 import com.general.model.Planning;
 import com.general.model.Recette;
+import com.general.model.Relation;
 import com.general.model.Unite;
 import com.general.model.User;
 
@@ -67,11 +71,18 @@ public class AdminController {
     @Autowired
     PlanningDao planningDao;
     
+    
+    @Autowired
+    RelationDao relationDao;
+    
     @Autowired
     EtapeDao etapeDao;
     
     @Autowired
     NoteDao noteDao;
+    
+    @Autowired
+    ActualiteDao actualiteDao;
     
 	@RequestMapping(value = "/LogAdmin", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -166,9 +177,47 @@ public class AdminController {
 		User u = userDao.findUserByIdUser(idUser);
 
 		UserDto userReturn = new UserDto();
-		if(u!= null) {
+	
+		if(u!= null) 
+		{
+			int idUserCourant=u.getIdUser();
+			
+			
+			//Relation supprime tous
+			//Actualite supprimer tous
+			//Planning supprimer tous
+			List<Favoris> listFavoris= favorisDao.findAllByUser(u);
+			favorisDao.delete(listFavoris);
+			
+			List<Relation> listRelationUser= relationDao.findAllByUser(u);
+			relationDao.delete(listRelationUser);
+			
+			List<Relation> listRelationUserFriend=relationDao.findAllByFriend(u);
+			relationDao.delete(listRelationUserFriend);
+			
+			List<Actualite> listActulite = actualiteDao.findAllByuser(u);
+			actualiteDao.delete(listActulite);
+			
+			List<Planning> listPlanning= planningDao.findAllByuser(u);
+			planningDao.delete(listPlanning);
+			
+			User userDefault = userDao.findUserByIdUser(99999);
+			List<Recette> listRecette=  recetteDao.findAllByUser(u);
+			for(Recette uneRecette : listRecette)
+			{
+				uneRecette.setUser(userDefault);
+			
+
+			}
+			
+			
+		
 			userDao.delete(u);
-		}else {
+			recetteDao.save(listRecette);
+			
+		}
+		else 
+		{
 		userReturn.setErrortxt("User est inconnue");
 		}
 		return u;
@@ -230,14 +279,21 @@ public class AdminController {
 	@CrossOrigin(origins = "*")
 	public Recette DeleteRecetteById(@PathVariable int idRecette)
 	{
-		Recette r= recetteDao.findByIdRecette(idRecette);
-		if(r!=null) {
-			recetteDao.delete(r);
+		Recette recette= recetteDao.findByIdRecette(idRecette);
+		if(recette!=null) {
+			List<Etape> lstEtape=etapeDao.findAllByrecette(recette);
+			etapeDao.delete(lstEtape);
+			
+			List<Favoris> lstFavoris =favorisDao.findAllByRecette(recette);
+			
+			favorisDao.delete(lstFavoris);
+			recetteDao.delete(recette);
+			
 		}
 		else {
 			System.out.println("Recette inconnue");
 		}
-		return r;
+		return recette;
 	}
 	
     @RequestMapping(value = "/GetListAllIngredient/{offset}", method = RequestMethod.GET,headers="Accept=application/json")

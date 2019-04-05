@@ -15,6 +15,8 @@ public interface FavorisDao extends JpaRepository<Favoris, Long> {
 	
 	List<Favoris> findAllByUser(User user);	
 	
+	List<Favoris> findAllByRecette(Recette recette);	
+	
 	Favoris findByidFavoris(int idFavoris);
 	
 	
