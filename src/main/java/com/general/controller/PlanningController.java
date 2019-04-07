@@ -1,7 +1,10 @@
 package com.general.controller;
 
 import java.io.Console;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +65,7 @@ public class PlanningController {
 		List<Planning> planningSub = new ArrayList<>();
 		Map<String, Object> map = new HashMap<>(); 
 		//return recettes;
-		int limite=20;
+		int limite=200;
 		
 		if (offset>0) 
 		{
@@ -104,7 +107,6 @@ public class PlanningController {
 		map.put("limite", limite);
 		return map;
 	}
-	
 	
 	@RequestMapping(value = "/GetListPlanningsByOffset/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -159,16 +161,22 @@ public class PlanningController {
 		
 	}
 	
-	
 	@RequestMapping(value = "/AddPlanning", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Planning AddIngredient(@RequestBody Planning planning)
+	public Planning AddPlanning(@RequestBody Planning planning)
 	{
-		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		if(planning!=null)
 		{
-			Planning thePlanning = planningDao.saveAndFlush(planning);
-			return thePlanning;
+			String s=dateFormat.format(planning.getDatePlanning());
+			Date d = new Date(s+" 00:00:00");
+			Planning thePlanning = new Planning();
+			thePlanning.setDatePlanning(d);
+			thePlanning.setRecette(planning.getRecette());
+			thePlanning.setUser(planning.getUser());
+			Planning thePlanningCourrant = planningDao.saveAndFlush(thePlanning);
+					System.out.println( "date:" +d);
+			return thePlanningCourrant;
 		}
 		else
 			return null;

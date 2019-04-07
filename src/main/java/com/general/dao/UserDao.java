@@ -35,7 +35,7 @@ public interface UserDao extends JpaRepository<User, Long> {
 	List<User> findAllUserByDate( @Param(value = "date") Date date, @Param(value = "dateNow") Date dateNow);
 	
 	
-	@Query("SELECT u FROM User u WHERE compteActiver=1")
+	@Query("SELECT u FROM User u WHERE compteActive=1")
 	List<User> findAllUserConnecte();
 	
 }

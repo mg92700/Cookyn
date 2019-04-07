@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.general.model.Recette;
+import com.general.model.Statistique;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +23,7 @@ import com.general.dao.UserDao;
 import com.general.model.User;
 
 import com.general.dao.RecetteDao;
+import com.general.dao.StatistiqueDao;
 
 @Controller
 @RestController
@@ -33,20 +36,74 @@ public class AdminStatistiqueController {
 
     @Autowired
     RecetteDao recetteDao;
+
+
+    @Autowired
+    StatistiqueDao statistiqueDao;
 	
-	//On fait une moyenne du nombre de recettes par user
-	@RequestMapping(value = "/moyenneRecettesByUser", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public float moyenneRecettesByUser() {
-		//On récupère d'abord le nombre total de recettes
-        List<Recette> recettes = recetteDao.findAll();
-        int nbRecettes = recettes.size();
+	
+	///renvoie les users cree par date choisie par rapport à la date d'aujourd'hui
+		@RequestMapping(value = "/GetStatistiqueUserByDate/{date}", method = RequestMethod.GET,headers="Accept=application/json")
+		@CrossOrigin(origins = "*")
+		public Map<String, Object> GetlistUsersByOffSet(@PathVariable String date)
+		{
+			
+			Map<String, Object> map = new HashMap<>(); 
+			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+			Date dateParam = null;
+			try {
+				 dateParam=sdf.parse(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			Date dateNow = new Date();
+			
+			
+			List<User> lstUser= userDao.findAllUserByDate(dateNow, dateParam);
+			map.put("UserCountByDate", lstUser.size());
+			
+			return map;
+			
+			
+		}
+		
+		///renvoie les users connecter
+		@RequestMapping(value = "/GetStatistiqueUserByDate", method = RequestMethod.GET,headers="Accept=application/json")
+		@CrossOrigin(origins = "*")
+		public Map<String, Object> GetNombreUserConnecter()
+		{
+			
+			Map<String, Object> map = new HashMap<>(); 
+			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+			Date dateParam = null;
+		
+			
+			
+			List<User> lstUser= userDao.findAllUserConnecte();
+			map.put("UserCountByDate", lstUser.size());
+			
+			return map;
+			
+			
+		}
 
-		//Puis on récupère le nombre total d'utilisateurs
-        List<User> users = userDao.findAll();
-        int nbUsers = users.size();
+		
+		@RequestMapping(value = "/GetlisteStatistique", method = RequestMethod.GET,headers="Accept=application/json")
+		@CrossOrigin(origins = "*")
+		public Map<String, Object> GetlistUsersByOffSet()
+		{
+			List<Statistique> Statistiques = statistiqueDao.findAll();
+			
+			Map<String, Object> map = new HashMap<>(); 
+			
+			map.put("listStatistique", Statistiques);
+	
+			return map;
+			
+			
+		}
+		
 
-		//On divise ensuite le nombre de recettes par le nombre d'utilisateurs
-        return (float) nbRecettes / nbUsers;
-	}
 }
