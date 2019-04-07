@@ -198,8 +198,10 @@ public class PlanningController {
 		
 		Map<String, Object> map = new HashMap<>(); 
 		User u = userdao.findUserByIdUser(planningUser.getIdUser());
+		Date nextDay = new Date();
+		nextDay.setTime((planningUser.getDate().getTime()+86400000));
 		
-		List<Planning> plannings=planningDao.findPlanningByDate(u, planningUser.getDate());
+		List<Planning> plannings=planningDao.findPlanningByUserAndDate(u, planningUser.getDate(), nextDay );
 		List<Recette> lstRecette=  new ArrayList<>();
 		
 		for(Planning p : plannings)
