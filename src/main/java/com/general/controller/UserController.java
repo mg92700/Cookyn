@@ -217,7 +217,7 @@ public class UserController {
 			userReturn.setNbAbonnee(   relationDao.findAllByFriend(user).size());
 			
 		}else {
-		userReturn.setErrortxt("User est inconnue et nike ta race antoine cordialement");}
+		userReturn.setErrortxt("User est inconnu");}
 		return userReturn;
 	}
 
