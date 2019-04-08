@@ -114,7 +114,7 @@ public class CourseController {
 					
 						for(RelationUniteQuantiteDto relation:  DicoCourseDto.get(unIngredient.getIdIngredient()).getLstRelationUniteDto())
 						{
-							if(relation.getUnite().equals(uneRecetteIngredient.getUnite().getIdUnite()))
+							if(relation.getUnite().getIdUnite().equals(uneRecetteIngredient.getUnite().getIdUnite()))
 							{
 								relation.setQuantite((relation.getQuantite() + uneRecetteIngredient.getQuantite()));
 								//DicoCourseDto.get(unIngredient.getIdIngredient()).setQuantite(DicoCourseDto.get(unIngredient.getIdIngredient()).get()+crs.getQuantite());;
