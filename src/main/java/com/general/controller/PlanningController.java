@@ -4,6 +4,7 @@ import java.io.Console;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -202,6 +203,44 @@ public class PlanningController {
 		nextDay.setTime((planningUser.getDate().getTime()+86400000));
 		
 		List<Planning> plannings=planningDao.findPlanningByUserAndDate(u, planningUser.getDate(), nextDay );
+		List<Recette> lstRecette=  new ArrayList<>();
+		
+		for(Planning p : plannings)
+		{
+			Recette recette=recettedao.findByIdRecette(p.getRecette().getIdRecette());
+			recette.setUser(null);
+			lstRecette.add(recette);
+			
+		}
+		
+		map.put("listPlanningUser", lstRecette);
+		
+		return map;
+		
+		
+		
+		
+	}
+	@RequestMapping(value = "/GetListPlanningByUserMonthYear", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+
+	public Map<String,Object> GetListPlanningByUserMonthYear(@RequestBody PlanningUserDto planningUser)
+	{
+		
+		Map<String, Object> map = new HashMap<>(); 
+		User u = userdao.findUserByIdUser(planningUser.getIdUser());
+		
+		SimpleDateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+		SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MM");
+		
+		String strYear=dateFormatYear.format(planningUser.getDate()); 
+		String strMonth= dateFormatMonth.format(planningUser.getDate());
+	
+		int year=Integer.parseInt(strYear);
+		
+		int month=Integer.parseInt(strMonth);
+		
+		List<Planning> plannings=planningDao.findPlanningByMouthYears(u, month,year );
 		List<Recette> lstRecette=  new ArrayList<>();
 		
 		for(Planning p : plannings)
