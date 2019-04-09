@@ -2,8 +2,10 @@ package com.general.service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,14 +44,17 @@ public class ScheduledTasks {
     String d = dateFormat.format(date).toString()*/
 	Date date = new Date();
     
-    @Scheduled(fixedRate = 30000)
+
+    @Scheduled(fixedRate = 60000)
     public void reportCurrentTime() {
         log.info("Début traitement le {}", dateFormat.format(new Date()));
-        
+
 
         NombreUser();
         NombreUserConnecter();
         moyenneRecettesByUser();
+        NombreUserAyantEmailPasVerfier();
+        tempsMoyenMinutesUtilisateur();
         try {
 			Thread.sleep(30);
 		} catch (InterruptedException e) {
@@ -193,6 +198,116 @@ public class ScheduledTasks {
 			
 		}
 
+		private void NombreUserAyantEmailPasVerfier()
+		{
+			Statistique s =statistiqueDao.findByLibelle("Nombre d'utilisateur avec le mail pas vérifier");
+			
+			if(s==null)
+			{
+		    	Statistique uneStatisque = new Statistique();
+		    	String value=null;
+			
+			
+					//Puis on récupère le nombre total d'utilisateurs
+			        List<User> users = userDao.findAllUserMailVerif();
+			        int nbUsers = users.size();
+		
+			        value=String.valueOf(nbUsers);
+		      
+		        
+		        uneStatisque.setLibelleStatistique("Nombre d'utilisateur avec le mail pas vérifier");
+		        uneStatisque.setDateStatistique(date = new Date());
+		        uneStatisque.setValeurStatistique(value);
+		        statistiqueDao.save(uneStatisque);
+			}
+			else {
+				
+				
+			 	String value=null;
+				
+				
+				//Puis on récupère le nombre total d'utilisateurs
+		        List<User> users = userDao.findAllUserMailVerif();
+		        int nbUsers = users.size();
+	
+		        value=String.valueOf(nbUsers);
+			        s.setDateStatistique(date);
+			        s.setValeurStatistique(value);
+			        statistiqueDao.save(s);
+			}
+			
+		}
+		
+		private void tempsMoyenMinutesUtilisateur()
+		{
+			Statistique s =statistiqueDao.findByLibelle("Temps d'utilisation de l'application en moyenne");
+			
+			if(s==null)
+			{
+		    	Statistique uneStatisque = new Statistique();
+		    	String value=null;
+			
+			
+					//Puis on récupère le nombre total d'utilisateurs
+		    		List<Long> listTemps= new ArrayList<Long>();
+			        List<User> users = userDao.findAllUserRole();
+			        
+			        for(User u: users)
+			        {
+			        	Date d= new Date();
+			        	long diff =d.getTime()-u.getDateDerniereConnection().getTime();
+			        	long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+			        	listTemps.add(minutes);
+			        	
+			        }
+			        long moyen = 0;
+		
+			        for(Long l:listTemps)
+			        {
+			        	
+			        	moyen+=l;
+			        }
+			        
+			        value=String.valueOf(moyen);
+		      
+		        
+		        uneStatisque.setLibelleStatistique("Temps d'utilisation de l'application en moyenne");
+		        uneStatisque.setDateStatistique(date = new Date());
+		        uneStatisque.setValeurStatistique(value);
+		        statistiqueDao.save(uneStatisque);
+			}
+			else {
+				
+				String value=null;
+				//Puis on récupère le nombre total d'utilisateurs
+	    		List<Long> listTemps= new ArrayList<Long>();
+		        List<User> users = userDao.findAllUserRole();
+		        
+		        for(User u: users)
+		        {
+		        	Date d= new Date();
+		        	long diff =d.getTime()-u.getDateDerniereConnection().getTime();
+		        	long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+		        	listTemps.add(minutes);
+		        	
+		        }
+		        long moyen = 0;
+	
+		        for(Long l:listTemps)
+		        {
+		        	
+		        	moyen+=l;
+		        }
+		        
+		     
+	
+		        value=String.valueOf(moyen);
+			        s.setDateStatistique(date);
+			        s.setValeurStatistique(value);
+			        statistiqueDao.save(s);
+			}
+			
+		}
 		
 		
 }

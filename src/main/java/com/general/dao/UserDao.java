@@ -19,6 +19,10 @@ public interface UserDao extends JpaRepository<User, Long> {
 	@Query("SELECT u FROM User u WHERE u.mailUser = ?1")
 	List<User> findAllWhereMail(String mail);
 	
+	
+	@Query("SELECT u FROM User u WHERE u.mailUser = ?1")
+	User findWhereMail(String mail);
+	
 	User findByUsernameUser(String usernameUser);
 	
 	List<User> findAllByUsernameUser(String usernameUser);
@@ -37,5 +41,12 @@ public interface UserDao extends JpaRepository<User, Long> {
 	
 	@Query("SELECT u FROM User u WHERE compteActive=1")
 	List<User> findAllUserConnecte();
+	
+	@Query("SELECT u FROM User u WHERE mailVerifier=1")
+	List<User> findAllUserMailVerif();
+	
+	
+	@Query("SELECT u FROM User u WHERE role='user' and compteActive=1")
+	List<User> findAllUserRole();
 	
 }

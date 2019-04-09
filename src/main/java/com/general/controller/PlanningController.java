@@ -54,7 +54,6 @@ public class PlanningController {
 	@Autowired
 	UserDao userdao;
 	
-
 	@Autowired
 	RecetteDao recettedao;
 	

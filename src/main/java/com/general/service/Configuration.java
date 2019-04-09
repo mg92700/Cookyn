@@ -48,5 +48,16 @@ public class Configuration {
 		}
 		return map;
 	}
+	
+	public String generate() {
+	    String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; // Tu supprimes les lettres dont tu ne veux pas
+	    String pass = "";
+	    for(int x=0;x<7;x++)   {
+	       int i = (int)Math.floor(Math.random() * chars.length() -1); // Si tu supprimes des lettres tu diminues ce nb
+	       pass += chars.charAt(i);
+	    }
+	    System.out.println(pass);
+	    return pass;
+}
 
 }

@@ -226,7 +226,7 @@ public class UserController {
 
 					EmailServiceImpl mailService= new EmailServiceImpl();
 					try {
-						mailService.sendSimpleMessage(userDto.getMailUser(), " Verif Mail", user);
+						mailService.sendSimpleMessageVerifMail(userDto.getMailUser(), " Verif Mail", user);
 					} catch (AddressException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -438,5 +438,45 @@ public class UserController {
 		return "Erreur";
 		
 	}
+	
+	@RequestMapping(value = "/PasswordOublier", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public String PasswordOublier(@RequestBody UserDto userDto)
+	{
+		User userDb = userDao.findWhereMail(userDto.getMailUser());
+		User user =null;
+		Configuration config = new Configuration();
+		if(userDb!=null)
+		{
+			if(userDb.getMailVerifier()==1) {
+				user=userDb;
+				String NewPassWord=config.generate();
+				user.setPasswordUser(NewPassWord);
+				
+				userDao.saveAndFlush(user);
+				EmailServiceImpl e= new EmailServiceImpl();
+				try {
+					e.sendSimpleMessagePassWordOublier(user.getMailUser(), " Mot de passe provisoire", user, NewPassWord);
+				} catch (AddressException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (MessagingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				return "Confirmé";	
+	
+			}
+			else {
+				return "Déjà Confirmé";	
+			}
+		}
+		return "Erreur";
+		
+	}
+	
+	
+	
+	
 
 }
