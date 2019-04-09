@@ -24,6 +24,7 @@ import com.general.dao.IngredientDao;
 import com.general.dao.NoteDao;
 import com.general.dao.PlanningDao;
 import com.general.dao.RecetteDao;
+import com.general.dao.RecetteIngredientDao;
 import com.general.dao.RelationDao;
 import com.general.dao.UniteDao;
 import com.general.dao.UserDao;
@@ -35,6 +36,7 @@ import com.general.model.Ingredient;
 import com.general.model.Note;
 import com.general.model.Planning;
 import com.general.model.Recette;
+import com.general.model.RecetteIngredient;
 import com.general.model.Relation;
 import com.general.model.Unite;
 import com.general.model.User;
@@ -84,8 +86,12 @@ public class AdminController {
     @Autowired
     ActualiteDao actualiteDao;
     
+    @Autowired
+    RecetteIngredientDao recetteIngredientDao;
+    
 	@RequestMapping(value = "/LogAdmin", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
+
 	public Map<String, Object> LogAdmin(@RequestBody UserDto user,HttpServletRequest request)
 	{
 		
@@ -282,11 +288,13 @@ public class AdminController {
 		Recette recette= recetteDao.findByIdRecette(idRecette);
 		if(recette!=null) {
 			List<Etape> lstEtape=etapeDao.findAllByrecette(recette);
-			etapeDao.delete(lstEtape);
-			
 			List<Favoris> lstFavoris =favorisDao.findAllByRecette(recette);
-			
+			List<Planning> lstPlanning=planningDao.findPlanningByRecette(recette);
+			List<RecetteIngredient> lstRecetteIngredient=recetteIngredientDao.findAllByrecette(recette);
+			planningDao.delete(lstPlanning);
 			favorisDao.delete(lstFavoris);
+			etapeDao.delete(lstEtape);
+			recetteIngredientDao.delete(lstRecetteIngredient);
 			recetteDao.delete(recette);
 			
 		}

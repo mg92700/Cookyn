@@ -71,38 +71,7 @@ public class UserController {
 	EmailValidator validator = new EmailValidator();
 
 	
-	@RequestMapping(value = "/LogAdmin", method = RequestMethod.POST,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public Map<String, Object> LogAdmin(@RequestBody UserDto user,HttpServletRequest request)
-	{
-		
-		Map<String, Object> mapReturn = new HashMap<String, Object>();
-		
-		String token=null;
-        
-      
-		Boolean trouver=false;
-		String mdpEncore=cryptageService.encrypt(user.getPasswordUser());
-		User u= userDao.findByMailUser(user.getMailUser());
-		if(u!=null)
-		{
-			if(u.getRole().equals("admin")) 
-			{
-				if(mdpEncore.equals(u.getPasswordUser()))
-				{
-					trouver=true;
-					token=t.getToken();
-					
-				}
-			}
-		}
-		
-		mapReturn.put("EstConnecter", trouver);
-		mapReturn.put("Token", token);
-		
-		return mapReturn;
-		
-	}
+	
 
 	@RequestMapping(value = "/GetlistUsersByOffSet/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -430,9 +399,9 @@ public class UserController {
 		return rec;
 	}
 
-	@RequestMapping(value = "/DeconnectionUser/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/DeconnexionUser/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Boolean DeconnectionUser(@PathVariable int idUser)
+	public Boolean DeconnexionUser(@PathVariable int idUser)
 	{
 		User userDb = userDao.findUserByIdUser(idUser);
 		User user =null;

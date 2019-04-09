@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.general.dao.PlanningDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.UserDao;
+
 import com.general.dto.PlanningUserDto;
 import com.general.model.Planning;
 import com.general.model.Recette;
@@ -221,9 +223,10 @@ public class PlanningController {
 		
 		
 	}
+	
+	@SuppressWarnings("null")
 	@RequestMapping(value = "/GetListPlanningByUserMonthYear", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-
 	public Map<String,Object> GetListPlanningByUserMonthYear(@RequestBody PlanningUserDto planningUser)
 	{
 		
@@ -242,16 +245,54 @@ public class PlanningController {
 		
 		List<Planning> plannings=planningDao.findPlanningByMouthYears(u, month,year );
 		List<Recette> lstRecette=  new ArrayList<>();
+		Map<Date,List<Recette>> MapPlanningRecetteDto = new LinkedHashMap<>();
 		
-		for(Planning p : plannings)
+		for(Planning unPlanning : plannings)
 		{
-			Recette recette=recettedao.findByIdRecette(p.getRecette().getIdRecette());
-			recette.setUser(null);
-			lstRecette.add(recette);
+			List<Recette> lstRecetteValue=null;
+			Recette recette=null;
+			if(MapPlanningRecetteDto.size()>0)
+			{
+				if(MapPlanningRecetteDto.containsKey(unPlanning.getDatePlanning()))
+				{
+				
+					
+					
+					recette=recettedao.findByIdRecette(unPlanning.getRecette().getIdRecette());
+					recette.setUser(null);
+					lstRecetteValue=MapPlanningRecetteDto.get(unPlanning.getDatePlanning());
+					lstRecetteValue.add(recette);
+					MapPlanningRecetteDto.put(unPlanning.getDatePlanning(), lstRecetteValue);
+					
+				}
+				else 
+				{
+					lstRecetteValue=  new ArrayList<>();
+					recette=recettedao.findByIdRecette(unPlanning.getRecette().getIdRecette());
+					recette.setUser(null);
+					lstRecetteValue.add(recette);
+					MapPlanningRecetteDto.put(unPlanning.getDatePlanning(), lstRecetteValue);
+					
+					
+				}
+			}
+			else {
+				
+				
+				lstRecetteValue=  new ArrayList<>();
+				recette=recettedao.findByIdRecette(unPlanning.getRecette().getIdRecette());
+				recette.setUser(null);
+				lstRecetteValue.add(recette);
+				MapPlanningRecetteDto.put(unPlanning.getDatePlanning(), lstRecetteValue);
+				
+			}
+				
+				
+			
 			
 		}
 		
-		map.put("listPlanningUser", lstRecette);
+		map.put("listPlanningUser", MapPlanningRecetteDto);
 		
 		return map;
 		

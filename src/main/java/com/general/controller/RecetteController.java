@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,14 +21,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.general.dao.ActualiteDao;
 import com.general.dao.EtapeDao;
+import com.general.dao.FavorisDao;
 import com.general.dao.IngredientDao;
+import com.general.dao.PlanningDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.RecetteIngredientDao;
 import com.general.dao.UniteDao;
 import com.general.dao.UserDao;
 import com.general.dto.RecetteDto;
+import com.general.dto.UserRecetteDeleteDto;
 import com.general.model.Actualite;
 import com.general.model.Etape;
+import com.general.model.Favoris;
+import com.general.model.Planning;
 import com.general.model.Recette;
 import com.general.model.RecetteIngredient;
 import com.general.model.Unite;
@@ -79,6 +85,15 @@ public class RecetteController {
 	
 	@Autowired
 	ActualiteDao actualiteDao;
+	@Autowired
+	PlanningDao planningDao;
+	
+	@Autowired
+	FavorisDao favorisDao;
+	
+	
+
+	private String stats= new String();
 
 	@RequestMapping(value = "/GetListRecette", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -141,6 +156,53 @@ public class RecetteController {
 		map.put("limite", limite);
 		return map;
 		
+	}
+	
+	@RequestMapping(value = "/DeleteRecetteById", method = RequestMethod.POST,headers="Accept=application/json")
+	@CrossOrigin(origins = "*")
+	public String DeleteRecetteById(@RequestBody UserRecetteDeleteDto userRecetteDeleteDto)
+	{
+		
+		Recette recette= recetteDao.findByIdRecette(userRecetteDeleteDto.getIdRecette());
+		User  u = userDao.findUserByIdUser(userRecetteDeleteDto.getIdUser());
+		
+		if(u!=null)
+		{
+			if(u.getPasswordUser().equals(cryptageService.encrypt(userRecetteDeleteDto.getPassword()))) 
+			{
+			
+					if(recette!=null) {
+						List<Etape> lstEtape=etapeDao.findAllByrecette(recette);
+						List<Favoris> lstFavoris =favorisDao.findAllByRecette(recette);
+						List<Planning> lstPlanning=planningDao.findPlanningByRecette(recette);
+						List<RecetteIngredient> lstRecetteIngredient=recetteIngredientDao.findAllByrecette(recette);
+						planningDao.delete(lstPlanning);
+						favorisDao.delete(lstFavoris);
+						etapeDao.delete(lstEtape);
+						recetteIngredientDao.delete(lstRecetteIngredient);
+						recetteDao.delete(recette);
+						stats="Ok";
+					}
+					else {
+						System.out.println(stats);
+						stats="Recette inconnue";
+						
+					}
+			}
+			else 
+			{
+				
+				stats="Mauvais mot de passe";
+				System.out.println(stats);
+			}
+		}
+		else
+		{
+			stats="Utilisateur inconnue";
+			System.out.println(stats);
+			
+		}
+		return stats;
 	}
 	
 	@RequestMapping(value = "/GetListByRecette/{libelleRecette}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")

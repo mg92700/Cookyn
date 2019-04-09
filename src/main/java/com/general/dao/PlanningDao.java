@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.general.model.Planning;
+import com.general.model.Recette;
 import com.general.model.User;
 
 public interface PlanningDao extends JpaRepository<Planning, Long> {
@@ -30,6 +31,8 @@ public interface PlanningDao extends JpaRepository<Planning, Long> {
     List<Planning> findPlanningByMouthYears(@Param(value = "user") User user, @Param(value = "Month") int Month,@Param(value = "YEAR") int YEAR);
 	
 	
+	@Query("SELECT p FROM Planning p WHERE p.recette = :recette ")
+    List<Planning> findPlanningByRecette(@Param(value = "recette") Recette recette);
 	
 	
 	
