@@ -51,6 +51,7 @@ import com.general.model.RecetteIngredient;
 import com.general.model.User;
 import com.general.security.TokenSecurity;
 import com.general.service.CryptageService;
+import com.google.api.client.json.Json;
 
 @Controller
 @RestController
@@ -67,132 +68,120 @@ public class ActualiteController {
 	RecetteDao recetteDao;
 	    
 	
-	/*
-	@RequestMapping(value = "/GetActualiteByUser/{idUser}/{dateStart}/{dateEnd}", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public List<Actualite> GetActualiteByUser(@PathVariable int idUser, @PathVariable String dateStart,@PathVariable String dateEnd) throws ParseException
-	{
-		SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy"); 
-		User user=new User();
-		user.setIdUser(idUser);
-		@SuppressWarnings("deprecation")
-		List<Actualite> actualites = actualiteDao.findAllByuserAndPeriod(user, formatter.parse(dateStart), formatter.parse(dateEnd));
-		return actualites;
-	}
-	*/
+
 	
-	
+	@RequestMapping(value = "/GetActualiteByUser/{idUser}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GetActualiteByUser(@PathVariable int idUser,@PathVariable int offset)
 	{
 		Map<String, Object> map = new HashMap<>(); 
-		User user=new User();
-		user.setIdUser(idUser);
-		List<Actualite> actulalites = actualiteDao.findAllByuser(user);
-		List<Actualite> actulalitesSub=  new ArrayList<>();
+		List<ActualiteDto> actulalitesSub=  new ArrayList<>();
 		List<ActualiteDto> actualitesDto = new ArrayList<>();
-		
-		
-		for(Actualite uneActualite :actulalites)
+		User user=userDao.findUserByIdUser(idUser);
+		if(user!=null) 
 		{
-			User unUserAction =userDao.findUserByIdUser(idUser);
-			if (unUserAction!=null)
-			{
-				unUserAction.setPasswordUser("");
-				unUserAction.setRole("");
 		
-				
-				ActualiteDto uneActualiteDto = new ActualiteDto();
-				uneActualiteDto.setIdActualite(uneActualite.getIdActualite());
-				uneActualiteDto.setDate(uneActualite.getDate());
-				uneActualiteDto.setUser(unUserAction);
-				uneActualiteDto.setTypeActuailite(uneActualite.getTypeActualite());
-				
-				WhoDto whoDto = new WhoDto();
-				if(uneActualite.getTypeActualite()=="Create")
+			List<Actualite> actulalites = actualiteDao.findAllByuser(user);
+			for(Actualite uneActualite :actulalites)
+			{
+				User unUserAction =userDao.findUserByIdUser(idUser);
+				if (unUserAction!=null)
 				{
-					Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
-					if(r==null)
+					unUserAction.setPasswordUser("");
+					unUserAction.setRole("");
+			
+					
+					ActualiteDto uneActualiteDto = new ActualiteDto();
+					uneActualiteDto.setIdActualite(uneActualite.getIdActualite());
+					uneActualiteDto.setDate(uneActualite.getDate());
+					uneActualiteDto.setUser(unUserAction);
+					uneActualiteDto.setTypeActuailite(uneActualite.getTypeActualite());
+					uneActualiteDto.setWho(uneActualite.getIdWhat());
+					WhoDto whoDto = new WhoDto();
+					String getActu=uneActualite.getTypeActualite();
+					if(getActu.equals("Create"))
 					{
-						whoDto.setId(r.getIdRecette());
-						whoDto.setName(r.getLibelleRecette());
-						whoDto.setType("recette");
+						Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
+						if(r!=null)
+						{
+							whoDto.setId(r.getIdRecette());
+							whoDto.setName(r.getLibelleRecette());
+							whoDto.setType("recette");
+						}
+						
 					}
+					if(getActu.equals("Favoris"))
+					{
+						Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
+						if(r!=null)
+						{
+							whoDto.setId(r.getIdRecette());
+							whoDto.setName(r.getLibelleRecette());
+							whoDto.setType("recette");
+						}
+						
+					}
+					if(getActu.equals("Follow"))
+					{
+						User u=userDao.findUserByIdUser(uneActualite.getIdWhat());
+						if(u!=null)
+						{
+							whoDto.setId(u.getIdUser());
+							whoDto.setName(u.getUsernameUser());
+							whoDto.setType("user");
+						}
+						
+					}
+					uneActualiteDto.setWhoDto(whoDto);
+					
+					actualitesDto.add(uneActualiteDto);
 					
 				}
-				if(uneActualite.getTypeActualite()=="Favoris")
-				{
-					Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
-					if(r==null)
-					{
-						whoDto.setId(r.getIdRecette());
-						whoDto.setName(r.getLibelleRecette());
-						whoDto.setType("recette");
-					}
-					
-				}
-				if(uneActualite.getTypeActualite()=="Follow")
-				{
-					User u=userDao.findUserByIdUser(uneActualite.getIdWhat());
-					if(u==null)
-					{
-						whoDto.setId(u.getIdUser());
-						whoDto.setName(u.getUsernameUser());
-						whoDto.setType("user");
-					}
-					
-				}
-				
-				
-				actualitesDto.add(uneActualiteDto);
 				
 			}
-			
 		}
-		
-		int limite=20;
-		
-		if (offset>0) 
-		{
+	
+			int limite=20;
 			
-	        if (offset >= actulalites.size()) 
-	        {
-	        	actulalitesSub= actulalites.subList(0, 0); //return empty.
-	        }
-	        if(offset>actulalites.size())
-	        {
-	        	map.put("offset", actulalites.size());
-	        	map.put("listActulalites", actulalitesSub);
-	        	map.put("limite", limite);
-	        	return map;
-	        	
-	        }
-	        if (2 >-1) 
-	        {
-	            //apply offset and limit
-	        	actulalitesSub= actulalites.subList(offset, Math.min(offset+limite, actulalites.size()));
-	        } 
-	        else 
-	        {
-	            //apply just offset
-	        	actulalitesSub= actulalites.subList(offset, actulalites.size());
-	        }
-	        
-	    } 
-		else if (2 >-1) 
-		{
-	        //apply just limit
-			actulalitesSub= actulalites.subList(0, Math.min(limite, actulalites.size()));
-	    } else 
-	    {
-	    	actulalitesSub= actulalites.subList(0, actulalites.size());
-	    }
-		map.put("listActulalites", actulalitesSub);
-		map.put("offset", offset);
-		map.put("limite", limite);
-		
-		
-		return map;
+			if (offset>0) 
+			{
+				
+		        if (offset >= actualitesDto.size()) 
+		        {
+		        	actulalitesSub= actualitesDto.subList(0, 0); //return empty.
+		        }
+		        if(offset>actualitesDto.size())
+		        {
+		        	map.put("offset", actualitesDto.size());
+		        	map.put("listActu", actualitesDto);
+		        	map.put("limite", limite);
+		        	return map;
+		        	
+		        }
+		        if (2 >-1) 
+		        {
+		            //apply offset and limit
+		        	actulalitesSub= actualitesDto.subList(offset, Math.min(offset+limite, actualitesDto.size()));
+		        } 
+		        else 
+		        {
+		            //apply just offset
+		        	actulalitesSub= actualitesDto.subList(offset, actualitesDto.size());
+		        }
+		        
+		    } 
+			else if (2 >-1) 
+			{
+		        //apply just limit
+				actulalitesSub= actualitesDto.subList(0, Math.min(limite, actualitesDto.size()));
+		    } else 
+		    {
+		    	actulalitesSub= actualitesDto.subList(0, actualitesDto.size());
+		    }
+			map.put("listActu", actualitesDto);
+			map.put("offset", offset);
+			map.put("limite", limite);
+			return map;
 	}
 	
 

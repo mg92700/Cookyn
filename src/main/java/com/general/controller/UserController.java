@@ -460,9 +460,9 @@ public class UserController {
 		
 	}
 	
-	@RequestMapping(value = "/PasswordOublier", method = RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value = "/ForgotPassword", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public String PasswordOublier(@RequestBody UserDto userDto)
+	public Integer ForgotPassword(@RequestBody UserDto userDto)
 	{
 		User userDb = userDao.findWhereMail(userDto.getMailUser());
 		User user =null;
@@ -485,14 +485,14 @@ public class UserController {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				return "Confirmé";	
+				return 1;	
 	
 			}
 			else {
-				return "Déjà Confirmé";	
+				return 2;	
 			}
 		}
-		return "Erreur";
+		return 3;
 		
 	}
 	
