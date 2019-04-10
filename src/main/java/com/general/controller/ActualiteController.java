@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.relation.Relation;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -33,6 +34,7 @@ import com.general.dao.NoteDao;
 import com.general.dao.PlanningDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.RecetteIngredientDao;
+import com.general.dao.RelationDao;
 import com.general.dao.UniteDao;
 import com.general.dao.UserDao;
 import com.general.dto.ActualiteDto;
@@ -66,6 +68,10 @@ public class ActualiteController {
 	
 	@Autowired
 	RecetteDao recetteDao;
+	
+	@Autowired
+	RelationDao relationDao;
+	
 	    
 	
 
@@ -78,68 +84,76 @@ public class ActualiteController {
 		List<ActualiteDto> actulalitesSub=  new ArrayList<>();
 		List<ActualiteDto> actualitesDto = new ArrayList<>();
 		User user=userDao.findUserByIdUser(idUser);
-		if(user!=null) 
-		{
-		
-			List<Actualite> actulalites = actualiteDao.findAllByuser(user);
-			for(Actualite uneActualite :actulalites)
+			if(user!=null) 
 			{
-				User unUserAction =userDao.findUserByIdUser(idUser);
-				if (unUserAction!=null)
+				List<com.general.model.Relation> lstRelationUser=relationDao.findAllById(user);
+				List<User> lstuserFriend=  new ArrayList<>();
+				for(com.general.model.Relation r:lstRelationUser)
 				{
-					unUserAction.setPasswordUser("");
-					unUserAction.setRole("");
-			
 					
-					ActualiteDto uneActualiteDto = new ActualiteDto();
-					uneActualiteDto.setIdActualite(uneActualite.getIdActualite());
-					uneActualiteDto.setDate(uneActualite.getDate());
-					uneActualiteDto.setUser(unUserAction);
-					uneActualiteDto.setTypeActuailite(uneActualite.getTypeActualite());
-					uneActualiteDto.setWho(uneActualite.getIdWhat());
-					WhoDto whoDto = new WhoDto();
-					String getActu=uneActualite.getTypeActualite();
-					if(getActu.equals("Create"))
-					{
-						Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
-						if(r!=null)
-						{
-							whoDto.setId(r.getIdRecette());
-							whoDto.setName(r.getLibelleRecette());
-							whoDto.setType("recette");
-						}
-						
-					}
-					if(getActu.equals("Favoris"))
-					{
-						Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
-						if(r!=null)
-						{
-							whoDto.setId(r.getIdRecette());
-							whoDto.setName(r.getLibelleRecette());
-							whoDto.setType("recette");
-						}
-						
-					}
-					if(getActu.equals("Follow"))
-					{
-						User u=userDao.findUserByIdUser(uneActualite.getIdWhat());
-						if(u!=null)
-						{
-							whoDto.setId(u.getIdUser());
-							whoDto.setName(u.getUsernameUser());
-							whoDto.setType("user");
-						}
-						
-					}
-					uneActualiteDto.setWhoDto(whoDto);
-					
-					actualitesDto.add(uneActualiteDto);
+					lstuserFriend.add(r.getFriend());
 					
 				}
+			
+				List<Actualite> actulalites = actualiteDao.findAllByFriend(lstuserFriend);
+				for(Actualite uneActualite :actulalites)
+				{
+					User unUserAction =userDao.findUserByIdUser(idUser);
+					if (unUserAction!=null)
+					{
+						unUserAction.setPasswordUser("");
+						unUserAction.setRole("");
 				
+						
+						ActualiteDto uneActualiteDto = new ActualiteDto();
+						uneActualiteDto.setIdActualite(uneActualite.getIdActualite());
+						uneActualiteDto.setDate(uneActualite.getDate());
+						uneActualiteDto.setUser(unUserAction);
+						uneActualiteDto.setTypeActuailite(uneActualite.getTypeActualite());
+						uneActualiteDto.setWho(uneActualite.getIdWhat());
+						WhoDto whoDto = new WhoDto();
+						String getActu=uneActualite.getTypeActualite();
+						if(getActu.equals("Create"))
+						{
+							Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
+							if(r!=null)
+							{
+								whoDto.setId(r.getIdRecette());
+								whoDto.setName(r.getLibelleRecette());
+								whoDto.setType("recette");
+							}
+							
+						}
+						if(getActu.equals("Favoris"))
+						{
+							Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
+							if(r!=null)
+							{
+								whoDto.setId(r.getIdRecette());
+								whoDto.setName(r.getLibelleRecette());
+								whoDto.setType("recette");
+							}
+							
+						}
+						if(getActu.equals("Follow"))
+						{
+							User u=userDao.findUserByIdUser(uneActualite.getIdWhat());
+							if(u!=null)
+							{
+								whoDto.setId(u.getIdUser());
+								whoDto.setName(u.getUsernameUser());
+								whoDto.setType("user");
+							}
+							
+						}
+						uneActualiteDto.setWhoDto(whoDto);
+						
+						actualitesDto.add(uneActualiteDto);
+						
+					}
+					
+				}
 			}
-		}
 	
 			int limite=20;
 			
@@ -153,7 +167,7 @@ public class ActualiteController {
 		        if(offset>actualitesDto.size())
 		        {
 		        	map.put("offset", actualitesDto.size());
-		        	map.put("listActu", actualitesDto);
+		        	map.put("listActu", actulalitesSub);
 		        	map.put("limite", limite);
 		        	return map;
 		        	
@@ -178,7 +192,7 @@ public class ActualiteController {
 		    {
 		    	actulalitesSub= actualitesDto.subList(0, actualitesDto.size());
 		    }
-			map.put("listActu", actualitesDto);
+			map.put("listActu", actulalitesSub);
 			map.put("offset", offset);
 			map.put("limite", limite);
 			return map;

@@ -19,4 +19,8 @@ public interface RelationDao extends JpaRepository<Relation, Long> {
 	
 	@Query("SELECT r FROM Relation r WHERE r.user = :user and r.friend=:friend")
 	List<Relation> findAllByIdUserAndIdFriend(@Param(value = "user") User user, @Param(value = "friend")User friend);
+	
+	
+	@Query("SELECT r FROM Relation r WHERE  r.user=:user")
+	List<Relation> findAllById(@Param(value = "user")  User user);
 }
