@@ -109,8 +109,8 @@ public class ActualiteController {
 						uneActualiteDto.setIdActualite(uneActualite.getIdActualite());
 						uneActualiteDto.setDate(uneActualite.getDate());
 						uneActualiteDto.setUser(unUserAction);
-						uneActualiteDto.setTypeActuailite(uneActualite.getTypeActualite());
-						uneActualiteDto.setWho(uneActualite.getIdWhat());
+						uneActualiteDto.setTypeActualite(uneActualite.getTypeActualite());
+						uneActualiteDto.setIdWho(uneActualite.getIdWhat());
 						WhoDto whoDto = new WhoDto();
 						String getActu=uneActualite.getTypeActualite();
 						if(getActu.equals("Create"))

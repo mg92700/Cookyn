@@ -462,14 +462,15 @@ public class UserController {
 	
 	@RequestMapping(value = "/ForgotPassword", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public Integer ForgotPassword(@RequestBody UserDto userDto)
+	public String ForgotPassword(@RequestBody UserDto userDto)
 	{
 		User userDb = userDao.findWhereMail(userDto.getMailUser());
 		User user =null;
 		Configuration config = new Configuration();
 		if(userDb!=null)
 		{
-			if(userDb.getMailVerifier()==1) {
+			if(userDb.getMailVerifier()==1)
+			{
 				user=userDb;
 				String NewPassWord=config.generate();
 				user.setPasswordUser(NewPassWord);
@@ -481,21 +482,24 @@ public class UserController {
 				} catch (AddressException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+					return "Une erreur c'est produite lors de l'envoie de l'email";	
+					
 				} catch (MessagingException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+					return "Une erreur c'est produite lors de l'envoie de l'email";	
+					
 				}
-				return 1;	
+				return "Email envoyer";	
 	
 			}
 			else {
-				return 2;	
+				return "L'email n'est pas vérifier";	
 			}
 		}
-		return 3;
+		return "Utilisateur introuvable";
 		
 	}
-	
 	
 	
 	

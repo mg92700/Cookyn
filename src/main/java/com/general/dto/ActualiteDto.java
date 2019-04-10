@@ -11,11 +11,11 @@ public class ActualiteDto {
 	@MappedBy
 	private int idActualite;
 	@MappedBy
-	private String typeActuailite;
+	private String typeActualite;
 	@MappedBy
 	private User user;
 	@MappedBy
-	private int who;
+	private int idWho;
 	@MappedBy
 	private Date date;
 	@MappedBy
@@ -26,11 +26,11 @@ public class ActualiteDto {
 	public void setIdActualite(int idActualite) {
 		this.idActualite = idActualite;
 	}
-	public String getTypeActuailite() {
-		return typeActuailite;
+	public String getTypeActualite() {
+		return typeActualite;
 	}
-	public void setTypeActuailite(String typeActuailite) {
-		this.typeActuailite = typeActuailite;
+	public void setTypeActualite(String typeActualite) {
+		this.typeActualite = typeActualite;
 	}
 	public User getUser() {
 		return user;
@@ -38,11 +38,11 @@ public class ActualiteDto {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public int getWho() {
-		return who;
+	public int getIdWho() {
+		return idWho;
 	}
-	public void setWho(int who) {
-		this.who = who;
+	public void setIdWho(int idWho) {
+		this.idWho = idWho;
 	}
 	public Date getDate() {
 		return date;
@@ -56,12 +56,12 @@ public class ActualiteDto {
 	public void setWhoDto(WhoDto whoDto) {
 		this.whoDto = whoDto;
 	}
-	public ActualiteDto(int idActualite, String typeActuailite, User user, int who, Date date, WhoDto whoDto) {
+	public ActualiteDto(int idActualite, String typeActualite, User user, int idWho, Date date, WhoDto whoDto) {
 		super();
 		this.idActualite = idActualite;
-		this.typeActuailite = typeActuailite;
+		this.typeActualite = typeActualite;
 		this.user = user;
-		this.who = who;
+		this.idWho = idWho;
 		this.date = date;
 		this.whoDto = whoDto;
 	}
@@ -70,6 +70,6 @@ public class ActualiteDto {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
+
 
 }
