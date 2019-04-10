@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.general.dao.FavorisDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.StatistiqueDao;
 import com.general.dao.UserDao;
+import com.general.model.Favoris;
 import com.general.model.Recette;
 import com.general.model.Statistique;
 import com.general.model.User;
@@ -39,6 +41,9 @@ public class ScheduledTasks {
     @Autowired
     StatistiqueDao statistiqueDao;
     
+    @Autowired
+    FavorisDao favorisDao;
+    
     /*DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	Date date = new Date();
     String d = dateFormat.format(date).toString()*/
@@ -55,6 +60,8 @@ public class ScheduledTasks {
         moyenneRecettesByUser();
         NombreUserAyantEmailPasVerfier();
         tempsMoyenMinutesUtilisateur();
+        NombreRecette();
+        RecetteLaPlusFavorite();
         try {
 			Thread.sleep(30);
 		} catch (InterruptedException e) {
@@ -309,5 +316,126 @@ public class ScheduledTasks {
 			
 		}
 		
+		private void NombreRecette() {
+	    	
+	    	
+			Statistique s =statistiqueDao.findByLibelle("Nombre de recette");
+			
+			if(s==null)
+			{
+		    	Statistique uneStatisque = new Statistique();
+		    	String value=null;
+			
+			
+					//Puis on récupère le nombre total d'utilisateurs
+			        List<Recette> recettes = recetteDao.findAll();
+			        int nbRecette = recettes.size();
 		
+			        value=String.valueOf(nbRecette);
+		      
+		        
+		        uneStatisque.setLibelleStatistique("Nombre de recette");
+		        uneStatisque.setDateStatistique(date);
+		        uneStatisque.setValeurStatistique(value);
+		        statistiqueDao.save(uneStatisque);
+			}
+			else {
+				
+				
+			 	String value=null;
+				
+				
+				//Puis on récupère le nombre total d'utilisateurs
+			 	List<Recette> recettes = recetteDao.findAll();
+		        int nbRecette = recettes.size();
+	
+		        value=String.valueOf(nbRecette);
+			        s.setDateStatistique(date = new Date());
+			        s.setValeurStatistique(value);
+			        statistiqueDao.save(s);
+			}
+			
+		}
+		
+		
+
+		private void RecetteLaPlusFavorite() {
+	    	
+	    	
+			Statistique s =statistiqueDao.findByLibelle("Recette du moment");
+			
+			if(s==null)
+			{
+		    	Statistique uneStatisque = new Statistique();
+		    	String value=null;
+			
+		    		Recette recetteMax=null;
+					//Puis on récupère le nombre total d'utilisateurs
+			        List<Recette> recettes = recetteDao.findAll();
+			        int nombreElement=0;
+			        int nombreMax=0;
+			        for(Recette recette:recettes)
+			        {
+			        	List<Favoris> favoris = favorisDao.findAllByRecette(recette);
+			        	nombreElement=favoris.size();
+			        	if(nombreElement > nombreMax)
+			        	{
+			        		recetteMax=null;
+			        		nombreElement=nombreMax;
+			        		recetteMax=recette;
+			        		
+			        	}
+			        
+			        }
+			       
+			        if(recetteMax==null) {
+			        	value=String.valueOf("Aucune recette pour le moment");
+			        }else {
+			        value=String.valueOf(recetteMax.getLibelleRecette());
+			        }
+		        
+		        uneStatisque.setLibelleStatistique("Recette du moment");
+		        uneStatisque.setDateStatistique(date);
+		        uneStatisque.setValeurStatistique(value);
+		        statistiqueDao.save(uneStatisque);
+			}
+			else {
+				
+				
+				String value=null;
+				
+	    		Recette recetteMax=null;
+				//Puis on récupère le nombre total d'utilisateurs
+		        List<Recette> recettes = recetteDao.findAll();
+		        int nombreElement=0;
+		        int nombreMax=0;
+		        for(Recette recette:recettes)
+		        {
+		        	List<Favoris> favoris = favorisDao.findAllByRecette(recette);
+		        	nombreElement=favoris.size();
+		        	if(nombreElement > nombreMax)
+		        	{
+		        		recetteMax=null;
+		        		nombreElement=nombreMax;
+		        		recetteMax=recette;
+		        		
+		        	}
+		        
+		        }
+		       
+		        if(recetteMax==null) {
+		        	value=String.valueOf("Aucune recette pour le moment");
+		        }else {
+		        value=String.valueOf(recetteMax.getLibelleRecette());
+		        }
+	        
+	        s.setLibelleStatistique("Recette du moment");
+	        s.setDateStatistique(date);
+	        s.setValeurStatistique(value);
+	        statistiqueDao.save(s);
+			}
+			
+		}
+		
+
 }

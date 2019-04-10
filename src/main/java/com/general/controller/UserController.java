@@ -126,30 +126,6 @@ public class UserController {
 		
 	}
 	
-	@RequestMapping(value = "/GetListByNom", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public List<User> GetListByNom()
-	{
-		List<User> users = userDao.findAllWhereNom("elberkaouinajib");
-		return users;
-	}
-	
-	@RequestMapping(value = "/GetListAll", method = RequestMethod.GET,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public List<User> GetListAll()
-	{
-		List<User> users = userDao.findAll();
-		return users;
-	}
-	
-	@RequestMapping(value = "GetListUsersByUsername", method = RequestMethod.POST,headers="Accept=application/json")
-	@CrossOrigin(origins = "*")
-	public List<User> GetListUsersByUsername(String username)
-	{
-		List<User> users = userDao.findAllWhereNom(username);
-		return users;
-	}
-	
 	@RequestMapping(value = "/GetUsersByUserName", method = RequestMethod.POST,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public UserDto GetUsersByUserName(String username)
@@ -390,13 +366,58 @@ public class UserController {
 		return userReturn;
 	}
 
-	@RequestMapping(value = "/GetListUserByFiltre/{filtre}", method = RequestMethod.GET,headers="Accept=application/json")
+	@RequestMapping(value = "/GetListUserByFiltre/{filtre}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public List<User> GetListUserByFiltre(@PathVariable String filtre)
+	public Map<String, Object>  GetListUserByFiltre(@PathVariable String filtre,@PathVariable int offset)
 	{
-
-		List<User> rec=userDao.findAllByFiltre(filtre);
-		return rec;
+		
+		List<User> users = userDao.findAllByFiltre(filtre);
+		List<User> userSub = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>(); 
+		//return recettes;
+		int limite=20;
+		
+		if (offset>0) 
+		{
+			
+	        if (offset >= users.size()) 
+	        {
+	        	userSub= users.subList(0, 0); //return empty.
+	        }
+	        if(offset>users.size())
+	        {
+	        	map.put("offset", users.size());
+	        	map.put("listUser", userSub);
+	        	map.put("limite", limite);
+	        	return map;
+	        	
+	        }
+	        if (2 >-1) 
+	        {
+	            //apply offset and limit
+	        	userSub= users.subList(offset, Math.min(offset+limite, users.size()));
+	        } 
+	        else 
+	        {
+	            //apply just offset
+	        	userSub= users.subList(offset, users.size());
+	        }
+	        
+	    } 
+		else if (2 >-1) 
+		{
+	        //apply just limit
+	    	userSub= users.subList(0, Math.min(limite, users.size()));
+	    } else 
+	    {
+	    	userSub= users.subList(0, users.size());
+	    }
+		map.put("listUser", userSub);
+		map.put("offset", offset);
+		map.put("limite", limite);
+		return map;
+		
+		
 	}
 
 	@RequestMapping(value = "/DeconnexionUser/{idUser}", method = RequestMethod.GET,headers="Accept=application/json")

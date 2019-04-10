@@ -42,7 +42,7 @@ public interface UserDao extends JpaRepository<User, Long> {
 	@Query("SELECT u FROM User u WHERE compteActive=1")
 	List<User> findAllUserConnecte();
 	
-	@Query("SELECT u FROM User u WHERE mailVerifier=1")
+	@Query("SELECT u FROM User u WHERE mailVerifier=0")
 	List<User> findAllUserMailVerif();
 	
 	

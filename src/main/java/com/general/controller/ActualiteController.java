@@ -35,11 +35,13 @@ import com.general.dao.RecetteDao;
 import com.general.dao.RecetteIngredientDao;
 import com.general.dao.UniteDao;
 import com.general.dao.UserDao;
+import com.general.dto.ActualiteDto;
 import com.general.dto.CourseCategorieDto;
 import com.general.dto.IngredientCourse;
 import com.general.dto.CourseParamDto;
 import com.general.dto.RelationUniteQuantiteDto;
 import com.general.dto.UserDto;
+import com.general.dto.WhoDto;
 import com.general.model.Actualite;
 import com.general.model.Favoris;
 import com.general.model.Ingredient;
@@ -57,7 +59,14 @@ public class ActualiteController {
 	
 	@Autowired
 	ActualiteDao actualiteDao;
+	 
+	@Autowired
+	UserDao userDao;
+	
+	@Autowired
+	RecetteDao recetteDao;
 	    
+	
 	/*
 	@RequestMapping(value = "/GetActualiteByUser/{idUser}/{dateStart}/{dateEnd}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
@@ -73,7 +82,6 @@ public class ActualiteController {
 	*/
 	
 	
-	@RequestMapping(value = "/GetActualiteByUser/{idUser}/{offset}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GetActualiteByUser(@PathVariable int idUser,@PathVariable int offset)
 	{
@@ -82,6 +90,65 @@ public class ActualiteController {
 		user.setIdUser(idUser);
 		List<Actualite> actulalites = actualiteDao.findAllByuser(user);
 		List<Actualite> actulalitesSub=  new ArrayList<>();
+		List<ActualiteDto> actualitesDto = new ArrayList<>();
+		
+		
+		for(Actualite uneActualite :actulalites)
+		{
+			User unUserAction =userDao.findUserByIdUser(idUser);
+			if (unUserAction!=null)
+			{
+				unUserAction.setPasswordUser("");
+				unUserAction.setRole("");
+		
+				
+				ActualiteDto uneActualiteDto = new ActualiteDto();
+				uneActualiteDto.setIdActualite(uneActualite.getIdActualite());
+				uneActualiteDto.setDate(uneActualite.getDate());
+				uneActualiteDto.setUser(unUserAction);
+				uneActualiteDto.setTypeActuailite(uneActualite.getTypeActualite());
+				
+				WhoDto whoDto = new WhoDto();
+				if(uneActualite.getTypeActualite()=="Create")
+				{
+					Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
+					if(r==null)
+					{
+						whoDto.setId(r.getIdRecette());
+						whoDto.setName(r.getLibelleRecette());
+						whoDto.setType("recette");
+					}
+					
+				}
+				if(uneActualite.getTypeActualite()=="Favoris")
+				{
+					Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
+					if(r==null)
+					{
+						whoDto.setId(r.getIdRecette());
+						whoDto.setName(r.getLibelleRecette());
+						whoDto.setType("recette");
+					}
+					
+				}
+				if(uneActualite.getTypeActualite()=="Follow")
+				{
+					User u=userDao.findUserByIdUser(uneActualite.getIdWhat());
+					if(u==null)
+					{
+						whoDto.setId(u.getIdUser());
+						whoDto.setName(u.getUsernameUser());
+						whoDto.setType("user");
+					}
+					
+				}
+				
+				
+				actualitesDto.add(uneActualiteDto);
+				
+			}
+			
+		}
 		
 		int limite=20;
 		
