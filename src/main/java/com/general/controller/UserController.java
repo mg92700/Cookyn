@@ -77,7 +77,8 @@ public class UserController {
 	@CrossOrigin(origins = "*")
 	public Map<String, Object> GetlistUsersByOffSet(@PathVariable int offset)
 	{
-		List<User> users = userDao.findAll();
+		//List<User> users = userDao.findAll();
+		List<User> users = userDao.findAllByCompteActive(1);
 		List<User> userSub = new ArrayList<>();
 		Map<String, Object> map = new HashMap<>(); 
 		//return recettes;
@@ -147,7 +148,7 @@ public class UserController {
 	@CrossOrigin(origins = "*")
 	public UserDto GetUserById(@PathVariable int idUser)
 	{
-		User user = userDao.findUserByIdUser(idUser);
+		User user = userDao.findUserByIdUserAndCompteActive(idUser,1);
 		String format = "dd/MM/yy H:mm:ss"; 
 		SimpleDateFormat formater = new SimpleDateFormat( format ); 
  
@@ -228,7 +229,7 @@ public class UserController {
 	{
 		UserDto userReturn = null;
 		User user = null;
-		User userDb = userDao.findUserByIdUser(userDto.getIdUser());
+		User userDb = userDao.findUserByIdUserAndCompteActive(userDto.getIdUser(),1);
 		
 		
 		if(userDto!=null)
@@ -236,7 +237,7 @@ public class UserController {
 			
 			if(userDto.getNewPassword() != null) 
 			{
-				if(cryptageService.encrypt(userDto.getPasswordUser()).equals(userDao.findUserByIdUser(userDto.getIdUser()).getPasswordUser())) 				
+				if(cryptageService.encrypt(userDto.getPasswordUser()).equals(userDao.findUserByIdUserAndCompteActive(userDto.getIdUser(),1).getPasswordUser())) 				
 				{
 					userDto.setPasswordUser(cryptageService.encrypt(userDto.getNewPassword()));
 					user = (User) JTransfo.convert(userDto);
@@ -250,7 +251,7 @@ public class UserController {
 			else {
 
 				//u=userDao.findUserByIdUser(user.getIdUser());
-				userDto.setPasswordUser(userDao.findUserByIdUser(userDto.getIdUser()).getPasswordUser());
+				userDto.setPasswordUser(userDao.findUserByIdUserAndCompteActive(userDto.getIdUser(),1).getPasswordUser());
 				user = (User) JTransfo.convert(userDto);
 				
 			}
