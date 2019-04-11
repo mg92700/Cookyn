@@ -163,7 +163,7 @@ public class FavorisController {
 		
 		Actualite actualite=new Actualite();
 		actualite.setDate(new Date());
-		actualite.setIdWhat(favoris.getIdFavoris());
+		actualite.setIdWhat(recette.getIdRecette());
 		actualite.setTypeActualite("Favoris");
 		actualite.setUser(user);
 		
@@ -185,6 +185,8 @@ public class FavorisController {
 		
 		Favoris favoris = favorisDao.findByUserAndRecette(user, recette);
 		favorisDao.delete(favoris);
+		Actualite actuFavoris=actualiteDao.findFavorisByUser(user, recette.getIdRecette());
+		actualiteDao.delete(actuFavoris);
 		return favoris;
 	}
 

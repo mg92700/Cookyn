@@ -85,7 +85,7 @@ public class RelationController {
 	
 	@RequestMapping(value = "/CreateRelation/{idUser}/{idFriend}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
-	public RelationDto CreateRelation(@PathVariable Integer idUser, @PathVariable Integer idFriend)
+	public RelationDto CreateRelation(@PathVariable Integer idUser,@PathVariable Integer idFriend)
 	{
 		Date date = new Date(System.currentTimeMillis());
 		User user = userDao.findUserByIdUser(idUser);
@@ -275,6 +275,9 @@ public class RelationController {
 //				relationDao.delete(r.get(i));
 //			}
 			relationDao.delete(r);
+			
+			Actualite actu = actualiteDao.findFollowByUser(user, idFriend);
+			actualiteDao.delete(actu);
 			
 			response = true;
 		}

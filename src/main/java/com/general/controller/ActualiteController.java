@@ -94,64 +94,70 @@ public class ActualiteController {
 					lstuserFriend.add(r.getFriend());
 					
 				}
-			
-				List<Actualite> actulalites = actualiteDao.findAllByFriend(lstuserFriend);
-				for(Actualite uneActualite :actulalites)
-				{
-					User unUserAction =userDao.findUserByIdUser(idUser);
-					if (unUserAction!=null)
+			if(lstuserFriend.size()>0)
+			{
+					List<Actualite> actulalites = actualiteDao.findAllByFriend(lstuserFriend);
+					for(Actualite uneActualite :actulalites)
 					{
-						unUserAction.setPasswordUser("");
-						unUserAction.setRole("");
-				
-						
-						ActualiteDto uneActualiteDto = new ActualiteDto();
-						uneActualiteDto.setIdActualite(uneActualite.getIdActualite());
-						uneActualiteDto.setDate(uneActualite.getDate());
-						uneActualiteDto.setUser(unUserAction);
-						uneActualiteDto.setTypeActualite(uneActualite.getTypeActualite());
-						uneActualiteDto.setIdWho(uneActualite.getIdWhat());
-						WhoDto whoDto = new WhoDto();
-						String getActu=uneActualite.getTypeActualite();
-						if(getActu.equals("Create"))
+						User unUserAction =userDao.findUserByIdUser(idUser);
+						if (unUserAction!=null)
 						{
-							Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
-							if(r!=null)
+							unUserAction.setPasswordUser("");
+							unUserAction.setRole("");
+					
+							
+							ActualiteDto uneActualiteDto = new ActualiteDto();
+							uneActualiteDto.setIdActualite(uneActualite.getIdActualite());
+							uneActualiteDto.setDate(uneActualite.getDate());
+							
+							User unUserAmies=userDao.findUserByIdUser(uneActualite.getUser().getIdUser());
+							
+							uneActualiteDto.setWhat(unUserAmies);
+							
+							uneActualiteDto.setTypeActualite(uneActualite.getTypeActualite());
+							
+							WhoDto whoDto = new WhoDto();
+							String getActu=uneActualite.getTypeActualite();
+							if(getActu.equals("Create"))
 							{
-								whoDto.setId(r.getIdRecette());
-								whoDto.setName(r.getLibelleRecette());
-								whoDto.setType("recette");
+								Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
+								if(r!=null)
+								{
+									whoDto.setId(r.getIdRecette());
+									whoDto.setName(r.getLibelleRecette());
+									whoDto.setType("recette");
+								}
+								
 							}
+							if(getActu.equals("Favoris"))
+							{
+								Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
+								if(r!=null)
+								{
+									whoDto.setId(r.getIdRecette());
+									whoDto.setName(r.getLibelleRecette());
+									whoDto.setType("recette");
+								}
+								
+							}
+							if(getActu.equals("Follow"))
+							{
+								User u=userDao.findUserByIdUser(uneActualite.getIdWhat());
+								if(u!=null)
+								{
+									whoDto.setId(u.getIdUser());
+									whoDto.setName(u.getUsernameUser());
+									whoDto.setType("user");
+								}
+								
+							}
+							uneActualiteDto.setWhoDto(whoDto);
+							
+							actualitesDto.add(uneActualiteDto);
 							
 						}
-						if(getActu.equals("Favoris"))
-						{
-							Recette r=recetteDao.findByIdRecette(uneActualite.getIdWhat());
-							if(r!=null)
-							{
-								whoDto.setId(r.getIdRecette());
-								whoDto.setName(r.getLibelleRecette());
-								whoDto.setType("recette");
-							}
-							
-						}
-						if(getActu.equals("Follow"))
-						{
-							User u=userDao.findUserByIdUser(uneActualite.getIdWhat());
-							if(u!=null)
-							{
-								whoDto.setId(u.getIdUser());
-								whoDto.setName(u.getUsernameUser());
-								whoDto.setType("user");
-							}
-							
-						}
-						uneActualiteDto.setWhoDto(whoDto);
-						
-						actualitesDto.add(uneActualiteDto);
 						
 					}
-					
 				}
 			}
 	

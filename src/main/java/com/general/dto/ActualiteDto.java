@@ -13,9 +13,7 @@ public class ActualiteDto {
 	@MappedBy
 	private String typeActualite;
 	@MappedBy
-	private User user;
-	@MappedBy
-	private int idWho;
+	private User what;
 	@MappedBy
 	private Date date;
 	@MappedBy
@@ -32,17 +30,11 @@ public class ActualiteDto {
 	public void setTypeActualite(String typeActualite) {
 		this.typeActualite = typeActualite;
 	}
-	public User getUser() {
-		return user;
+	public User getWhat() {
+		return what;
 	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public int getIdWho() {
-		return idWho;
-	}
-	public void setIdWho(int idWho) {
-		this.idWho = idWho;
+	public void setWhat(User what) {
+		this.what = what;
 	}
 	public Date getDate() {
 		return date;
@@ -56,12 +48,11 @@ public class ActualiteDto {
 	public void setWhoDto(WhoDto whoDto) {
 		this.whoDto = whoDto;
 	}
-	public ActualiteDto(int idActualite, String typeActualite, User user, int idWho, Date date, WhoDto whoDto) {
+	public ActualiteDto(int idActualite, String typeActualite, User what, Date date, WhoDto whoDto) {
 		super();
 		this.idActualite = idActualite;
 		this.typeActualite = typeActualite;
-		this.user = user;
-		this.idWho = idWho;
+		this.what = what;
 		this.date = date;
 		this.whoDto = whoDto;
 	}
@@ -70,6 +61,6 @@ public class ActualiteDto {
 		// TODO Auto-generated constructor stub
 	}
 	
-
+	
 
 }

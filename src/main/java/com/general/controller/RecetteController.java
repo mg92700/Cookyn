@@ -26,6 +26,7 @@ import com.general.dao.IngredientDao;
 import com.general.dao.PlanningDao;
 import com.general.dao.RecetteDao;
 import com.general.dao.RecetteIngredientDao;
+import com.general.dao.RelationDao;
 import com.general.dao.UniteDao;
 import com.general.dao.UserDao;
 import com.general.dto.RecetteDto;
@@ -85,12 +86,17 @@ public class RecetteController {
 	
 	@Autowired
 	ActualiteDao actualiteDao;
+	
 	@Autowired
 	PlanningDao planningDao;
 	
 	@Autowired
 	FavorisDao favorisDao;
 	
+	
+	
+	@Autowired
+	RelationDao relationDao;
 	
 
 	private String stats= new String();
@@ -172,6 +178,16 @@ public class RecetteController {
 			{
 			
 					if(recette!=null) {
+						
+						
+						
+						Actualite actuCreate=actualiteDao.findCreateByUser(u, userRecetteDeleteDto.getIdRecette());
+						actualiteDao.delete(actuCreate);
+						
+						
+						Actualite actuFavoris=actualiteDao.findFavorisByUser(u, userRecetteDeleteDto.getIdRecette());
+						actualiteDao.delete(actuFavoris);
+						
 						List<Etape> lstEtape=etapeDao.findAllByrecette(recette);
 						List<Favoris> lstFavoris =favorisDao.findAllByRecette(recette);
 						List<Planning> lstPlanning=planningDao.findPlanningByRecette(recette);
@@ -182,6 +198,8 @@ public class RecetteController {
 						recetteIngredientDao.delete(lstRecetteIngredient);
 						recetteDao.delete(recette);
 						stats="Ok";
+						
+						
 					}
 					else {
 						System.out.println(stats);

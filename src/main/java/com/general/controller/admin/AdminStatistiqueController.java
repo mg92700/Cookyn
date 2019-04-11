@@ -2,7 +2,9 @@ package com.general.controller.admin;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -106,4 +108,35 @@ public class AdminStatistiqueController {
 		}
 		
 
+		@RequestMapping(value = "/GetSubUserByMonth", method = RequestMethod.GET,headers="Accept=application/json")
+		@CrossOrigin(origins = "*")
+		public List<String> GetSubUserByMonth()
+		{
+			Date endDate = new Date();
+			Date startDate = null;
+			Calendar c;
+			//c.add(Calendar.MONTH, -5);
+			//startDate = c.getTime();
+			
+			
+			List<String> test=new ArrayList();
+			for (int i=5;i>=0;i--) {
+				c = Calendar.getInstance();
+				c.setTime(endDate); 
+				if(i!=0)
+					c.add(Calendar.MONTH, -i);
+				c.set(Calendar.DAY_OF_MONTH, 1);
+				startDate = c.getTime();
+				c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));
+				Date tempEndDate=c.getTime();
+				
+				System.out.println("startDate : "+startDate.toString());
+				System.out.println("tempEndDate : "+tempEndDate.toString()+"\n");
+				
+				Integer Statistiques = statistiqueDao.countUserByMonth(startDate,tempEndDate);
+				
+				test.add(startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonth()+ "/"+startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear()+","+Statistiques);
+			}
+			return test;
+		}
 }
