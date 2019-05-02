@@ -71,7 +71,7 @@ public class IngredientCourse {
 		this.categorie = categorie;
 		this.lstRelationUniteDto = lstRelationUniteDto;
 	}
-
+//ok
 	public IngredientCourse() {
 		super();
 		// TODO Auto-generated constructor stub
