@@ -173,7 +173,7 @@ public class FavorisController {
 		
 		return favoris;
 	}
-	
+	//correction de la route
 	@RequestMapping(value = "/RemoveFavoris/{idUser}/{idRecette}", method = RequestMethod.GET,headers="Accept=application/json")
 	@CrossOrigin(origins = "*")
 	public Favoris RemoveFavoris(@PathVariable int idUser, @PathVariable int idRecette)
